@@ -184,7 +184,7 @@ bool OpenALAudio::resume()
 	return createContext();
 }
 
-void OpenALAudio::setVolume(float vol)
+void OpenALAudio::setVolume( float vol )
 {
 }
 
