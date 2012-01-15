@@ -8,7 +8,7 @@
 #ifndef GLFWVIDEO_HPP_
 #define GLFWVIDEO_HPP_
 
-#include "../video.hpp"
+#include <system/video.hpp>
 #include "glfwscreenrendertarget.hpp"
 
 namespace bolt

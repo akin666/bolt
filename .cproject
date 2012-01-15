@@ -33,14 +33,14 @@
 									<listOptionValue builtIn="false" value="&quot;E:\cpp-libs\boost_1_47_0&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/glew/include}&quot;"/>
 								</option>
-								<option id="gnu.cpp.compiler.option.include.files.943318154" name="Include files (-include)" superClass="gnu.cpp.compiler.option.include.files" valueType="includeFiles"/>
+								<option id="gnu.cpp.compiler.option.include.files.943318154" name="Include files (-include)" superClass="gnu.cpp.compiler.option.include.files"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.218325197" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.compiler.mingw.exe.debug.242362719" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.mingw.exe.debug">
 								<option defaultValue="gnu.c.optimization.level.none" id="gnu.c.compiler.mingw.exe.debug.option.optimization.level.2017176102" name="Optimization Level" superClass="gnu.c.compiler.mingw.exe.debug.option.optimization.level" valueType="enumerated"/>
 								<option id="gnu.c.compiler.mingw.exe.debug.option.debugging.level.861480438" name="Debug Level" superClass="gnu.c.compiler.mingw.exe.debug.option.debugging.level" value="gnu.c.debugging.level.max" valueType="enumerated"/>
-								<option id="gnu.c.compiler.option.include.paths.393139377" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath"/>
-								<option id="gnu.c.compiler.option.include.files.1563126770" name="Include files (-include)" superClass="gnu.c.compiler.option.include.files" valueType="includeFiles"/>
+								<option id="gnu.c.compiler.option.include.paths.393139377" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths"/>
+								<option id="gnu.c.compiler.option.include.files.1563126770" name="Include files (-include)" superClass="gnu.c.compiler.option.include.files"/>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.1151870876" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.linker.mingw.exe.debug.1622763703" name="MinGW C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.mingw.exe.debug"/>
@@ -54,7 +54,6 @@
 									<listOptionValue builtIn="false" value="glew32"/>
 									<listOptionValue builtIn="false" value="glfw"/>
 									<listOptionValue builtIn="false" value="opengl32"/>
-									<listOptionValue builtIn="false" value="glu32"/>
 									<listOptionValue builtIn="false" value="glew32.dll"/>
 									<listOptionValue builtIn="false" value="boost_thread-mgw45-mt-1_47"/>
 								</option>
@@ -99,14 +98,14 @@
 									<listOptionValue builtIn="false" value="&quot;E:\cpp-libs\boost_1_47_0&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/glew/include}&quot;"/>
 								</option>
-								<option id="gnu.cpp.compiler.option.include.files.1466866830" name="Include files (-include)" superClass="gnu.cpp.compiler.option.include.files" valueType="includeFiles"/>
+								<option id="gnu.cpp.compiler.option.include.files.1466866830" name="Include files (-include)" superClass="gnu.cpp.compiler.option.include.files"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.795602713" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.compiler.mingw.exe.release.936662456" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.mingw.exe.release">
 								<option defaultValue="gnu.c.optimization.level.most" id="gnu.c.compiler.mingw.exe.release.option.optimization.level.93663439" name="Optimization Level" superClass="gnu.c.compiler.mingw.exe.release.option.optimization.level" valueType="enumerated"/>
 								<option id="gnu.c.compiler.mingw.exe.release.option.debugging.level.92732707" name="Debug Level" superClass="gnu.c.compiler.mingw.exe.release.option.debugging.level" value="gnu.c.debugging.level.none" valueType="enumerated"/>
-								<option id="gnu.c.compiler.option.include.paths.1657153370" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath"/>
-								<option id="gnu.c.compiler.option.include.files.661132127" name="Include files (-include)" superClass="gnu.c.compiler.option.include.files" valueType="includeFiles"/>
+								<option id="gnu.c.compiler.option.include.paths.1657153370" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths"/>
+								<option id="gnu.c.compiler.option.include.files.661132127" name="Include files (-include)" superClass="gnu.c.compiler.option.include.files"/>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.1601487945" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.linker.mingw.exe.release.1434562649" name="MinGW C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.mingw.exe.release"/>
@@ -120,7 +119,6 @@
 									<listOptionValue builtIn="false" value="glew32"/>
 									<listOptionValue builtIn="false" value="glfw"/>
 									<listOptionValue builtIn="false" value="opengl32"/>
-									<listOptionValue builtIn="false" value="glu32"/>
 									<listOptionValue builtIn="false" value="glew32.dll"/>
 									<listOptionValue builtIn="false" value="boost_thread-mgw45-mt-1_47"/>
 								</option>

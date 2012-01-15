@@ -1,0 +1,6 @@
+Common or odd errors:
+
+GDB does not even want to start the program, it says in log something like:
+During startup program exited with code 0xc0000139.
+139 hexa refers to that it cannot load some dll or something, make sure that all dll's are accessible to the executable.
+
