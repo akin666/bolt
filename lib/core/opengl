@@ -42,12 +42,8 @@
 #define _OPENGL_4_1_
 #endif
 
-#if not defined(NO_LOGGER) and defined(LOG_ERROR)
-#define LOG_SYSTEM_ERROR LOG_ERROR
-#endif
-
 #if not defined(LOG_SYSTEM_ERROR)
-#define LOG_SYSTEM_ERROR std::cout
+ #define LOG_SYSTEM_ERROR std::cout
 #endif
 
 #define GL_FLUSH_ERRORS() while( glGetError() != GL_NO_ERROR )

@@ -1,0 +1,40 @@
+
+#ifndef _OPENAL_HEAD_
+#define _OPENAL_HEAD_
+
+#include <iostream>
+#include <log>
+
+#include <al.h>
+#include <alc.h>
+
+#define AL_NULL 0
+
+#ifndef AL_INITIALIZATION
+	#define AL_INITIALIZATION true
+#endif
+
+#if not defined(LOG_SYSTEM_ERROR)
+ #define LOG_SYSTEM_ERROR std::cout
+#endif
+
+#define AL_FLUSH_ERRORS() while( alGetError() != AL_NO_ERROR )
+
+#ifndef _RELEASE
+ #define AL_TEST_ERROR(txt) { \
+  int gl_error_var; \
+  while( ( gl_error_var = glGetError() ) != AL_NO_ERROR ) { \
+  switch( gl_error_var ) { \
+	case AL_NO_ERROR : break; \
+	case AL_INVALID_NAME : { LOG_SYSTEM_ERROR << __FILE__ << ":" << __LINE__ <<  "AL_INVALID_NAME " << txt << std::endl; break; } \
+	case AL_INVALID_ENUM : { LOG_SYSTEM_ERROR << __FILE__ << ":" << __LINE__ << " AL_INVALID_ENUM " << txt << std::endl; break; } \
+	case AL_INVALID_VALUE : { LOG_SYSTEM_ERROR << __FILE__ << ":" << __LINE__ << " AL_INVALID_VALUE " << txt << std::endl; break; } \
+	case AL_INVALID_OPERATION : { LOG_SYSTEM_ERROR << __FILE__ << ":" << __LINE__ << " AL_INVALID_OPERATION " << txt << std::endl; break; } \
+	case AL_OUT_OF_MEMORY : { LOG_SYSTEM_ERROR << __FILE__ << ":" << __LINE__ << " AL_OUT_OF_MEMORY " << txt << std::endl; break; } \
+ 	default : { LOG_SYSTEM_ERROR << __FILE__ << ":" << __LINE__ << " AL WTF! " << txt << std::endl; break; } \
+  } } }
+#else
+ #define AL_TEST_ERROR(txt)
+#endif
+
+#endif /* ICE_OPENAL_H_ */

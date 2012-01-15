@@ -9,6 +9,8 @@
 #define LOG_LOG 	if( bolt::Singleton<bolt::Log>::get() ) bolt::Singleton<bolt::Log>::get()->log()
 #define LOG_OUT 	if( bolt::Singleton<bolt::Log>::get() ) bolt::Singleton<bolt::Log>::get()->out()
 
+#define LOG_SYSTEM_ERROR LOG_ERROR
+
 // LOG_ERROR << "Head exploded" << std::endl;
 
 #endif // _LOG_HEAD_
