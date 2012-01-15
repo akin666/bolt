@@ -8,13 +8,18 @@
 #ifndef OPENALAUDIO_HPP_
 #define OPENALAUDIO_HPP_
 
-#include "../audio.hpp"
+#include <system/audio.hpp>
+#include <openal>
 
 namespace bolt
 {
 
 class OpenALAudio : public Audio
 {
+protected:
+	ALCdevice *device;
+	ALCcontext *context;
+	bool eax2;
 public:
 	OpenALAudio();
 	virtual ~OpenALAudio();

@@ -50,7 +50,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/glew/usr/lib}&quot;"/>
 									<listOptionValue builtIn="false" value="E:\cpp-libs\glfw.bin.WIN32\lib-mingw"/>
 									<listOptionValue builtIn="false" value="&quot;E:\cpp-libs\boost_1_47_0\stage\lib&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/openal/libs/Win64}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/openal/libs/Win32}&quot;"/>
 								</option>
 								<option id="gnu.cpp.link.option.libs.1524667395" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
 									<listOptionValue builtIn="false" value="glew32"/>
@@ -118,7 +118,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/glew/usr/lib}&quot;"/>
 									<listOptionValue builtIn="false" value="E:\cpp-libs\glfw.bin.WIN32\lib-mingw"/>
 									<listOptionValue builtIn="false" value="&quot;E:\cpp-libs\boost_1_47_0\stage\lib&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/openal/libs/Win64}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/openal/libs/Win32}&quot;"/>
 								</option>
 								<option id="gnu.cpp.link.option.libs.1569029432" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
 									<listOptionValue builtIn="false" value="glew32"/>

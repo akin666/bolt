@@ -22,9 +22,9 @@
 
 #ifndef _RELEASE
  #define AL_TEST_ERROR(txt) { \
-  int gl_error_var; \
-  while( ( gl_error_var = glGetError() ) != AL_NO_ERROR ) { \
-  switch( gl_error_var ) { \
+  int al_error_var; \
+  while( ( al_error_var = alGetError() ) != AL_NO_ERROR ) { \
+  switch( al_error_var ) { \
 	case AL_NO_ERROR : break; \
 	case AL_INVALID_NAME : { LOG_SYSTEM_ERROR << __FILE__ << ":" << __LINE__ <<  "AL_INVALID_NAME " << txt << std::endl; break; } \
 	case AL_INVALID_ENUM : { LOG_SYSTEM_ERROR << __FILE__ << ":" << __LINE__ << " AL_INVALID_ENUM " << txt << std::endl; break; } \
