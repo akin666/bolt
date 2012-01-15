@@ -1,0 +1,52 @@
+/*
+ * singleton
+ *
+ *  Created on: 9.1.2012
+ *      Author: akin
+ */
+
+#ifndef SINGLETON_HPP_
+#define SINGLETON_HPP_
+
+#include <iostream>
+
+namespace bolt
+{
+template <class CType>
+class Singleton
+{
+protected:
+	static CType *singleton;
+public:
+	static bool isSet()
+	{
+		return singleton != NULL;
+	}
+
+	static void unset()
+	{
+		singleton = NULL;
+	}
+
+	static bool set( CType *ct )
+	{
+		if ( !isSet() )
+		{
+			singleton = ct;
+			return true;
+		}
+		return false;
+	}
+
+	static CType *get()
+	{
+		return singleton;
+	}
+};
+
+template <class CType>
+CType *Singleton<CType>::singleton = NULL;
+
+}
+
+#endif /* SINGLETON_HPP_ */

@@ -1,0 +1,4 @@
+
+#ifndef WORK_H_
+#include "tpool/work.hpp"
+#endif
