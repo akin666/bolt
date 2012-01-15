@@ -5,7 +5,7 @@
  */
 
 #include "bufferobject.hpp"
-#include <opengl.hpp>
+#include <opengl>
 
 namespace bolt
 {

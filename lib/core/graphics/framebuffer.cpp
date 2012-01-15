@@ -6,7 +6,7 @@
  */
 
 #include "framebuffer.hpp"
-#include <opengl.hpp>
+#include <opengl>
 #include "texture/gtexture.hpp"
 
 namespace bolt

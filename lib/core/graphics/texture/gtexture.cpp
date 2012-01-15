@@ -7,7 +7,7 @@
 
 #include "gtexture.hpp"
 #include <iostream>
-#include <opengl.hpp>
+#include <opengl>
 
 namespace bolt
 {

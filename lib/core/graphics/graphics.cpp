@@ -6,7 +6,7 @@
  */
 
 #include "graphics.hpp"
-#include <opengl.hpp>
+#include <opengl>
 
 namespace bolt
 {

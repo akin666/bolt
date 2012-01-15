@@ -7,7 +7,7 @@
 
 #include "glfwvideo.hpp"
 #include <log>
-#include <opengl.hpp>
+#include <opengl>
 
 namespace bolt
 {
