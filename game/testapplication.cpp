@@ -24,7 +24,7 @@ void TestApplication::processArg( int index , std::string argument )
 
 bool TestApplication::initialize()
 {
-	times = 1000;
+	times = 100;
 
 	return true;
 }
@@ -66,7 +66,7 @@ void TestApplication::saveState()
 
 void TestApplication::run()
 {
-	LOG_OUT << "Hi!\nTestApp. At: " << times << std::endl;
+//	LOG_OUT << "Hi!\nTestApp. At: " << times << std::endl;
 	--times;
 
 	// Bind default screen

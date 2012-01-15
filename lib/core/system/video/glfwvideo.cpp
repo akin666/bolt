@@ -193,7 +193,7 @@ bool GLFWVideo::initialize()
 	}
 
 	// GL Data List logging.
-	LOG_OUT << "Renderer Data: " << std::endl;
+	LOG_OUT << "Video renderer Data: " << std::endl;
 	LOG_OUT << " Vendor:" << glGetString(GL_VENDOR) << std::endl;
 	LOG_OUT << " Renderer:" << glGetString(GL_RENDERER) << std::endl;
 	LOG_OUT << " Version:" << glGetString(GL_VERSION) << std::endl;

@@ -6,6 +6,7 @@
  */
 
 #include "openalaudio.hpp"
+#include <cstdio>
 
 namespace bolt
 {
@@ -67,15 +68,39 @@ bool OpenALAudio::initialize()
 	// At this point context is not null.
 	alcMakeContextCurrent(context);
 
-	// Check for EAX 2.0 support
-	eax2 = alIsExtensionPresent("EAX2.0");
-	if( eax2 )
+	// GL Data List logging.
+	LOG_OUT << "Audio renderer Data: " << std::endl;
+	LOG_OUT << " Vendor:" << alGetString(AL_VENDOR) << std::endl;
+	LOG_OUT << " Renderer:" << alGetString(AL_RENDERER) << std::endl;
+	LOG_OUT << " Version:" << alGetString(AL_VERSION) << std::endl;
+	LOG_OUT << " Extensions:" << alGetString(AL_EXTENSIONS ) << std::endl;
+
+	// Check for EAX n support
+	// Extensions:EAX EAX2.0 EAX3.0 EAX4.0 EAX5.0 EAX3.0EMULATED EAX4.0EMULATED AL_EXT_OFFSET AL_EXT_LINEAR_DISTANCE AL_EXT_EXPONENT_DISTANCE
+	char eaxTmp[32];
+
+	eax = 0;
+	if( alIsExtensionPresent( "EAX" ) )
 	{
-		LOG_OUT << "EAX2 OpenAL available." << std::endl;
-	}
-	else
-	{
-		LOG_OUT << "EAX2 OpenAL not available." << std::endl;
+		eax = 1;
+		for( int i = 2 ; i < 10 ; ++i )
+		{
+			sprintf( eaxTmp , "EAX%i.0" , i );
+			if( alIsExtensionPresent( eaxTmp ) )
+			{
+				if( i > eax ) eax = i;
+			}
+		}
+
+		eaxEmulated = 1;
+		for( int i = 2 ; i < 10 ; ++i )
+		{
+			sprintf( eaxTmp , "EAX%i.0EMULATED" , i );
+			if( alIsExtensionPresent( eaxTmp ) )
+			{
+				if( i > eaxEmulated ) eaxEmulated = i;
+			}
+		}
 	}
 
 	// Generate Buffers

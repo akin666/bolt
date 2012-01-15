@@ -19,7 +19,8 @@ class OpenALAudio : public Audio
 protected:
 	ALCdevice *device;
 	ALCcontext *context;
-	bool eax2;
+	int eax;
+	int eaxEmulated;
 public:
 	OpenALAudio();
 	virtual ~OpenALAudio();
