@@ -21,6 +21,12 @@ protected:
 	ALCcontext *context;
 	int eax;
 	int eaxEmulated;
+	bool contextResumeSupported;
+
+	void killContext();
+	void killDevice();
+	bool createContext();
+	bool createDevice();
 public:
 	OpenALAudio();
 	virtual ~OpenALAudio();

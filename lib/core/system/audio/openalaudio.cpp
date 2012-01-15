@@ -19,6 +19,12 @@ OpenALAudio::OpenALAudio()
 
 OpenALAudio::~OpenALAudio()
 {
+	killContext();
+	killDevice();
+}
+
+void OpenALAudio::killContext()
+{
 	AL_TEST_ERROR("begin");
 	if( context != NULL )
 	{
@@ -26,34 +32,24 @@ OpenALAudio::~OpenALAudio()
 		alcDestroyContext( context );
 		context = NULL;
 	}
+	AL_TEST_ERROR("end");
+}
+
+void OpenALAudio::killDevice()
+{
+	AL_TEST_ERROR("begin");
 	if( device != NULL )
 	{
 		alcCloseDevice( device );
 		device = NULL;
 	}
-	AL_TEST_ERROR("begin");
+	AL_TEST_ERROR("end");
 }
 
-bool OpenALAudio::initialize()
+bool OpenALAudio::createContext()
 {
-	if( device != NULL && context != NULL )
-	{
-		return true;
-	}
+	if( context != NULL ) return true;
 
-	// Device Initialization
-	if( device == NULL )
-	{
-		device = alcOpenDevice( NULL ); // select the "preferred device"
-
-		if( device == NULL )
-		{
-			LOG_ERROR << "Could not open OpenAL device." << std::endl;
-			return false;
-		}
-	}
-
-	// At this point device is not null
 	if( context == NULL )
 	{
 		context = alcCreateContext( device , NULL );
@@ -64,8 +60,43 @@ bool OpenALAudio::initialize()
 			return false;
 		}
 	}
+	return true;
+}
 
-	// At this point context is not null.
+bool OpenALAudio::createDevice()
+{
+	if( device != NULL ) return true;
+
+	if( device == NULL )
+	{
+		device = alcOpenDevice( NULL ); // select the "preferred device"
+
+		if( device == NULL )
+		{
+			LOG_ERROR << "Could not open OpenAL device." << std::endl;
+			return false;
+		}
+	}
+	return true;
+}
+
+bool OpenALAudio::initialize()
+{
+	if( device != NULL && context != NULL )
+	{
+		return true;
+	}
+
+	if( !createDevice() )
+	{
+		return false;
+	}
+	if( !createContext() )
+	{
+		return false;
+	}
+
+	// At this point context and device exists.
 	alcMakeContextCurrent(context);
 
 	// GL Data List logging.
@@ -103,20 +134,54 @@ bool OpenALAudio::initialize()
 		}
 	}
 
-	// Generate Buffers
-	AL_TEST_ERROR("initialize end");
+	contextResumeSupported = true;
+
+	AL_TEST_ERROR("end");
 
 	return true;
 }
 
 bool OpenALAudio::suspend()
 {
+	if( device == NULL || context == NULL )
+	{
+		return true;
+	}
+
+	if( contextResumeSupported )
+	{
+		AL_TEST_ERROR("start");
+		alcSuspendContext( context );
+		AL_TEST_ERROR("end");
+
+		return true;
+	}
+
+	// Suspending not supported, KILL context.
+	killContext();
+
 	return true;
 }
 
 bool OpenALAudio::resume()
 {
-	return true;
+
+	if( contextResumeSupported )
+	{
+		if( device == NULL || context == NULL )
+		{
+			return true;
+		}
+
+		AL_TEST_ERROR("start");
+		alcProcessContext( context );
+		AL_TEST_ERROR("end");
+
+		return true;
+	}
+
+	// Suspending not supported, create context.
+	return createContext();
 }
 
 void OpenALAudio::setVolume(float vol)
