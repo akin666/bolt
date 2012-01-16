@@ -6,7 +6,6 @@
  */
 
 #include "component.hpp"
-#include "componentwork.hpp"
 
 namespace bolt
 {

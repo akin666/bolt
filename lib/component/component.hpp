@@ -30,17 +30,9 @@ public:
 	bool isConcurrent();
 protected:
 	// Concurrency functionality
-	int concurrent_reference_counting;
 public:
 	unsigned int getPriority();
 	void setPriority( unsigned int prio );
-
-public:
-	void addReference();
-	void releaseReference();
-
-	void schedule( ComponentWork& work );
-	void finished( ComponentWork& work );
 public:
 	Component( bool concurrent = false);
 	virtual ~Component();
@@ -52,7 +44,7 @@ public:
 	virtual void attach( Entity& entity ) = 0;
 	virtual void detach( Entity& entity ) = 0;
 
-	// Start can be blocking, if the component wants to go singlethreaded.
+	// Start can be blocking, if the component wants to do singlethreaded.
 	// on multithreaded situation, it should start work on packages.
 	virtual void start( ComponentNode& node ) = 0;
 };

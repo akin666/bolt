@@ -7,6 +7,7 @@
 
 #include "componentnode.hpp"
 #include <threadpool>
+#include "componentwork.hpp"
 
 namespace bolt
 {

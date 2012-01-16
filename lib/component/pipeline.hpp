@@ -32,8 +32,6 @@ public:
 	virtual ~Pipeline();
 
 	void attach( Component *component ) throw (std::exception);
-	void attachNoSort( Component *component ) throw (std::exception);
-	void sort( ) throw (std::exception);
 
 	// Run is the heart of the pipeline, it is essentially the main-loop.
 	void run() throw (std::exception);
