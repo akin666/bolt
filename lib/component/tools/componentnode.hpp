@@ -12,6 +12,7 @@ namespace bolt
 {
 
 class Component;
+class ComponentWork;
 class ComponentNode
 {
 protected:
