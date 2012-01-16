@@ -24,6 +24,8 @@ public:
 	ComponentWork();
 	virtual ~ComponentWork();
 
+	// Inheriting classes are responsible to produce exact same
+	// action as begin and end are doing in this class.
 	virtual bool begin();
 	virtual void run() = 0;
 	virtual void end();

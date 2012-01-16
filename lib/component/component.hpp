@@ -14,6 +14,7 @@ namespace bolt
 {
 
 class ComponentWork;
+class ComponentNode;
 class Component
 {
 protected:
@@ -53,7 +54,7 @@ public:
 
 	// Start can be blocking, if the component wants to go singlethreaded.
 	// on multithreaded situation, it should start work on packages.
-	virtual void start() = 0;
+	virtual void start( ComponentNode& node ) = 0;
 };
 
 } /* namespace bolt */
