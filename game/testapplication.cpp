@@ -75,7 +75,10 @@ void TestApplication::run()
 		return;
 	}
 
-	// flup teh screen..
+	// Run the currently attached pipeline
+	pipeline.run();
+
+	// flip the screen..
 	bolt::Singleton<bolt::Video>::get()->flip();
 }
 

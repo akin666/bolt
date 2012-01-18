@@ -9,12 +9,14 @@
 #define TESTAPPLICATION_HPP_
 
 #include <application/application.hpp>
+#include <component/pipeline.hpp>
 
 class TestApplication: public bolt::Application
 {
 protected:
 	int times;
 
+	bolt::Pipeline pipeline;
 
 	virtual void processArg( int index , std::string argument );
 public:
