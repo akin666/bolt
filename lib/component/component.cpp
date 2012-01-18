@@ -54,7 +54,7 @@ void Component::setPriority( unsigned int prio )
 	priority = prio;
 }
 
-void Component::dependencies( StringSet& dep )
+void Component::getDependencies( StringSet& dep )
 {
 }
 

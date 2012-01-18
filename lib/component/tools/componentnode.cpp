@@ -13,7 +13,8 @@ namespace bolt
 {
 
 ComponentNode::ComponentNode( Component& component )
-: concurrent_reference_counting( 0 )
+: concurrent_reference_counting( 0 ),
+  time( 0 )
 {
 }
 

@@ -58,57 +58,57 @@ void ComponentTree::add( Component *component )
 	}
 
 	// already has it
-	if( components.find( component ) != components.end() )
+	if( componentNameMap.find( component->getName() ) != componentNameMap.end() )
 	{
 		return;
 	}
 
-	ComponentNode *node = new ComponentNode( component );
-	node->time = NODE_NULL;
+	ComponentNode *node = new ComponentNode( *component );
 
-	std::set<std::string> list;
-	component->getDependencyList( list );
+	StringSet dependencies;
+	component->getDependencies( dependencies );
 
 	// Seek Parent dependencies.
 	// If found, link em.
 	std::map<std::string , ComponentNode*>::iterator citer;
-	for( std::set<std::string>::iterator iter = list.begin() ; iter != list.end() ; ++iter )
+	for( StringSet::iterator iter = dependencies.begin() ; iter != dependencies.end() ; ++iter )
 	{
-		citer = nodes_str.find( *iter );
+		citer = componentNameMap.find( *iter );
 
-		if( citer != nodes_str.end() )
+		if( citer != componentNameMap.end() )
 		{
 			// found!
-			node->dependencies.push_back( citer->second );
-			citer->second->childs.push_back( node );
+			ComponentNode *dependencyNode = citer->second;
+
+			node->getDependencies().push_back( dependencyNode );
+			dependencyNode->getChilds().push_back( node );
 		}
 	}
 
 	// Seek child dependencies.
 	// If found, link em.
 	std::string name = component->getName();
-	ComponentNode *current;
 	for( std::deque<ComponentNode*>::iterator iter = nodes.begin() ; iter != nodes.end() ; ++iter )
 	{
-		current = *iter;
+		ComponentNode *dependencyNode = *iter;
 
 		// Reuse list..
-		current->getComponent().getDependencyList( list );
+		dependencyNode->getComponent().getDependencies( dependencies );
 
 		// No dependency?
-		if( list.find( name ) == list.end() )
+		if( dependencies.find( name ) == dependencies.end() )
 		{
 			continue;
 		}
 
 		// Dependency, link em.
-		current->dependencies.push_back( node );
-		node->childs.push_back( current );
+		dependencyNode->getDependencies().push_back( node );
+		node->getChilds().push_back( dependencyNode );
 
-		if( current->dependencies.size() == 1 )
+		if( dependencyNode->getDependencies().size() == 1 )
 		{
 			// First parent! Remove from root!
-			removeFromRoot( current );
+			removeFromRoot( dependencyNode );
 		}
 	}
 
@@ -120,7 +120,7 @@ void ComponentTree::add( Component *component )
 	resetTime( 0 );
 }
 
-void ComponentTree::getRoot( std::deque<ComponentNode*>& root )
+void ComponentTree::getRoots( std::deque<ComponentNode*>& root )
 {
 	root = roots;
 }

@@ -45,7 +45,7 @@ public:
 	virtual ~Component();
 
 	// Figure out what components should be before this component.
-	virtual void dependencies( StringSet& dep );
+	virtual void getDependencies( StringSet& dep );
 
 	// Attach / Detach an entity to the component.
 	virtual void attach( Entity& entity ) = 0;

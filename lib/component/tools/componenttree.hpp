@@ -11,6 +11,7 @@
 #include <deque>
 #include <set>
 #include "componentnode.hpp"
+#include <map>
 
 namespace bolt
 {
@@ -22,8 +23,8 @@ public:
 	unsigned int time;
 protected:
 	TreeNodeSet roots;
-	std::deque<ComponentNode> nodes;
-	std::set<Component*> components;
+	TreeNodeSet nodes;
+	std::map<std::string,Component*> componentNameMap;
 
 	void removeFromRoot( ComponentNode *node );
 	void addToRoot( ComponentNode *node );
