@@ -10,21 +10,22 @@
 
 #include <deque>
 #include <set>
-#include "componentnode.hpp"
 #include <map>
+#include <string>
+#include <common>
 
 namespace bolt
 {
 
+class ComponentNode;
+class Component;
 typedef std::deque<ComponentNode*> TreeNodeSet;
 class ComponentTree
 {
-public:
-	unsigned int time;
 protected:
 	TreeNodeSet roots;
 	TreeNodeSet nodes;
-	std::map<std::string,Component*> componentNameMap;
+	std::map<std::string,ComponentNode*> nodeNameMap;
 
 	void removeFromRoot( ComponentNode *node );
 	void addToRoot( ComponentNode *node );
@@ -34,8 +35,7 @@ public:
 
 	void add( Component *component );
 
-	void resetTime( Time time );
-
+	void resetCycle( uint val );
 	void getRoots( TreeNodeSet& roots );
 };
 

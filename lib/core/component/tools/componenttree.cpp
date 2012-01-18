@@ -6,9 +6,9 @@
  */
 
 #include "componenttree.hpp"
-#include <component/component.hpp>
 #include "componentnode.hpp"
 #include <iostream>
+#include <component/component.hpp>
 
 namespace bolt
 {
@@ -35,18 +35,18 @@ void ComponentTree::removeFromRoot( ComponentNode *node )
 
 void ComponentTree::addToRoot( ComponentNode *node )
 {
-	if( node->dependencies.size() == 0 )
+	if( node != NULL && node->getDependencies().size() == 0 )
 	{
 		// no parent.
 		roots.push_back( node );
 	}
 }
 
-void ComponentTree::resetTime( Time time )
+void ComponentTree::resetCycle( uint val )
 {
 	for( std::deque<ComponentNode*>::iterator iter = nodes.begin() ; iter != nodes.end() ; ++iter )
 	{
-		(*iter)->time = time;
+		(*iter)->setCycle( val );
 	}
 }
 
@@ -58,7 +58,7 @@ void ComponentTree::add( Component *component )
 	}
 
 	// already has it
-	if( componentNameMap.find( component->getName() ) != componentNameMap.end() )
+	if( nodeNameMap.find( component->getName() ) != nodeNameMap.end() )
 	{
 		return;
 	}
@@ -73,9 +73,9 @@ void ComponentTree::add( Component *component )
 	std::map<std::string , ComponentNode*>::iterator citer;
 	for( StringSet::iterator iter = dependencies.begin() ; iter != dependencies.end() ; ++iter )
 	{
-		citer = componentNameMap.find( *iter );
+		citer = nodeNameMap.find( *iter );
 
-		if( citer != componentNameMap.end() )
+		if( citer != nodeNameMap.end() )
 		{
 			// found!
 			ComponentNode *dependencyNode = citer->second;
@@ -117,7 +117,7 @@ void ComponentTree::add( Component *component )
 	// try to add as root element..
 	addToRoot( node );
 
-	resetTime( 0 );
+	resetCycle( 0 );
 }
 
 void ComponentTree::getRoots( std::deque<ComponentNode*>& root )

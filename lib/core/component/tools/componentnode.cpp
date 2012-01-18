@@ -8,17 +8,22 @@
 #include "componentnode.hpp"
 #include <threadpool>
 #include "componentwork.hpp"
+#include <component/component.hpp>
 
 namespace bolt
 {
 
 ComponentNode::ComponentNode( Component& component )
-: concurrent_reference_counting( 0 ),
-  time( 0 )
+: component( component ),
+  concurrent_reference_counting( 0 ),
+  cycle( 0 )
 {
 }
 
 ComponentNode::ComponentNode( ComponentNode& other )
+: component( other.component ),
+  concurrent_reference_counting( other.concurrent_reference_counting ),
+  cycle( other.cycle )
 {
 }
 
@@ -51,12 +56,11 @@ bool ComponentNode::isRunning()
 	return concurrent_reference_counting <= 0;
 }
 
-void ComponentNode::start( unsigned int start , unsigned int end )
+void ComponentNode::start( uint end )
 {
 	addReference();
-	time = start;
 	component.start( *this );
-	time = end;
+	cycle = end;
 	releaseReference();
 }
 
@@ -81,9 +85,14 @@ Component& ComponentNode::getComponent()
 	return component;
 }
 
-unsigned int ComponentNode::getTime()
+uint ComponentNode::getCycle()
 {
-	return time;
+	return cycle;
+}
+
+void ComponentNode::setCycle( uint val )
+{
+	cycle = val;
 }
 
 void ComponentNode::finished( ComponentWork& work )

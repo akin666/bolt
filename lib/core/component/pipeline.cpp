@@ -6,16 +6,29 @@
  */
 
 #include "pipeline.hpp"
+#include "component.hpp"
+#include "tools/componentnode.hpp"
 
 namespace bolt
 {
 
 Pipeline::Pipeline()
+: cycle( 0 )
 {
 }
 
 Pipeline::~Pipeline()
 {
+}
+
+void Pipeline::setCycle( uint val )
+{
+	cycle = val;
+}
+
+uint Pipeline::getCycle()
+{
+	return cycle;
 }
 
 void Pipeline::attach( Component *component ) throw (std::exception)
@@ -30,15 +43,14 @@ void Pipeline::run() throw (std::exception)
 	// Launch each component,
 	std::lock_guard<std::mutex> lock( mutex );
 
-	tree.getRoot( temp );
+	tree.getRoots( temp );
 
 	if( temp.size() < 1 )
 	{
 		return;
 	}
 
-	unsigned int previousTime = temp.front()->time;
-	unsigned int currentTime = previousTime + 1;
+	uint currentCycle = cycle + 1;
 
 	ComponentNode *current;
 	ComponentNode *child;
@@ -72,12 +84,12 @@ void Pipeline::run() throw (std::exception)
 			current = concurrent.at(i);
 
 			// already running or finished, do not run again.
-			if( current->time >= currentTime || current->isRunning() )
+			if( current->getCycle() >= currentCycle || current->isRunning() )
 			{
 				continue;
 			}
 
-			current->componentStart( waitingQue , previousTime , currentTime );
+			current->start( currentCycle );
 			++running;
 		}
 		// run all single threaded, non-concurrent components.
@@ -86,12 +98,12 @@ void Pipeline::run() throw (std::exception)
 			current = nonConcurrent.at(i);
 
 			// already running or finished, do not run again.
-			if( current->time >= currentTime || current->isRunning() )
+			if( current->getCycle() >= currentCycle || current->isRunning() )
 			{
 				continue;
 			}
 
-			current->componentStart( waitingQue , previousTime , currentTime );
+			current->start( currentCycle );
 			++running;
 		}
 
@@ -105,18 +117,18 @@ void Pipeline::run() throw (std::exception)
 		if( current != NULL )
 		{
 			// Get child list..
-			for( int i = current->childs.size() - 1 ; i >= 0 ; --i )
+			for( int i = current->getChilds().size() - 1 ; i >= 0 ; --i )
 			{
 				// Check if child is qualified.
-				child = current->childs.at( i );
+				child = current->getChilds().at( i );
 
 				// Are all parents in currentTime & running is off?
 				qualified = true;
-				for( int j = child->dependencies.size() - 1 ; j >= 0 ; --j )
+				for( int j = child->getDependencies().size() - 1 ; j >= 0 ; --j )
 				{
-					parent = child->dependencies.at( j );
+					parent = child->getDependencies().at( j );
 
-					if( parent->time != currentTime || parent->isRunning() )
+					if( parent->getCycle() != currentCycle || parent->isRunning() )
 					{
 						qualified = false;
 						break;

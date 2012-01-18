@@ -8,6 +8,9 @@
 #ifndef COMPONENTNODE_HPP_
 #define COMPONENTNODE_HPP_
 
+#include <common>
+#include <deque>
+
 namespace bolt
 {
 
@@ -19,7 +22,7 @@ protected:
 	Component& component;
 	int concurrent_reference_counting;
 
-	unsigned int time;
+	uint cycle;
 
 	std::deque<ComponentNode *> dependencies;
 	std::deque<ComponentNode *> childs;
@@ -36,10 +39,11 @@ public:
 	std::deque<ComponentNode *>& getChilds();
 
 	Component& getComponent();
-	unsigned int getTime();
+	uint getCycle();
+	void setCycle( uint val );
 	bool isRunning();
 
-	void start( unsigned int start , unsigned int end );
+	void start( uint end );
 
 	// Component should use these to run stuff.
 	void schedule( ComponentWork& work );

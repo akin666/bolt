@@ -1,4 +1,0 @@
-
-#ifndef TQUE_H_
-#include "tque.hpp"
-#endif

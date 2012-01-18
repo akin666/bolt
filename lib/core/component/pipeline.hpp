@@ -11,6 +11,7 @@
 #include <deque>
 #include <exception>
 #include <thread>
+#include <tque>
 #include "tools/componenttree.hpp"
 
 namespace bolt
@@ -20,6 +21,8 @@ class ComponentNode;
 class Pipeline
 {
 private:
+	unsigned int cycle;
+
 	ComponentTree tree;
 	std::mutex mutex;
 
@@ -30,6 +33,9 @@ private:
 public:
 	Pipeline();
 	virtual ~Pipeline();
+
+	void setCycle( uint val );
+	uint getCycle();
 
 	void attach( Component *component ) throw (std::exception);
 

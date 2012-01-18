@@ -22,18 +22,18 @@ public:
 	virtual ~TQue(){}
 
 	// blocking, but pushes as fast as possible
-	void push( tclass work );
+	void push( tclass package );
 
 	// blocking.
 	tclass pop();
 };
 
 template <class tclass>
-void TQue<tclass>::push( tclass work )
+void TQue<tclass>::push( tclass package )
 {
 	std::lock_guard<std::mutex> lock(mutex);
 
-	data.push_back( work );
+	data.push_back( package );
 	++data_count;
 
 	condition.notify_one();

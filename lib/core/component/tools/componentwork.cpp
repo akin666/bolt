@@ -23,7 +23,7 @@ ComponentWork::~ComponentWork()
 
 void ComponentWork::setComponent( ComponentNode *componentnode )
 {
-	parent = ComponentNode;
+	parent = componentnode;
 }
 
 bool ComponentWork::begin()

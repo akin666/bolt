@@ -44,6 +44,8 @@ public:
 	Component( std::string name = "" , bool concurrent = false);
 	virtual ~Component();
 
+	virtual bool initialize();
+
 	// Figure out what components should be before this component.
 	virtual void getDependencies( StringSet& dep );
 
