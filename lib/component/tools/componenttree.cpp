@@ -1,11 +1,11 @@
 /*
- * componentnet.cpp
+ * componenttree.cpp
  *
  *  Created on: 16.1.2012
  *      Author: akin
  */
 
-#include "componentnet.hpp"
+#include "componenttree.hpp"
 #include <component/component.hpp>
 #include "componentnode.hpp"
 #include <iostream>
@@ -13,15 +13,15 @@
 namespace bolt
 {
 
-ComponentNet::ComponentNet()
+ComponentTree::ComponentTree()
 {
 }
 
-ComponentNet::~ComponentNet()
+ComponentTree::~ComponentTree()
 {
 }
 
-void ComponentNet::removeFromRoot( ComponentNode *node )
+void ComponentTree::removeFromRoot( ComponentNode *node )
 {
 	for( std::deque<ComponentNode*>::iterator iter = roots.begin() ; iter != roots.end() ; ++iter )
 	{
@@ -33,7 +33,7 @@ void ComponentNet::removeFromRoot( ComponentNode *node )
 	}
 }
 
-void ComponentNet::addToRoot( ComponentNode *node )
+void ComponentTree::addToRoot( ComponentNode *node )
 {
 	if( node->dependencies.size() == 0 )
 	{
@@ -42,7 +42,7 @@ void ComponentNet::addToRoot( ComponentNode *node )
 	}
 }
 
-void ComponentNet::resetTime( Time time )
+void ComponentTree::resetTime( Time time )
 {
 	for( std::deque<ComponentNode*>::iterator iter = nodes.begin() ; iter != nodes.end() ; ++iter )
 	{
@@ -50,7 +50,7 @@ void ComponentNet::resetTime( Time time )
 	}
 }
 
-void ComponentNet::add( Component *component )
+void ComponentTree::add( Component *component )
 {
 	if( component == NULL )
 	{
@@ -120,7 +120,7 @@ void ComponentNet::add( Component *component )
 	resetTime( 0 );
 }
 
-void ComponentNet::getRoot( std::deque<ComponentNode*>& root )
+void ComponentTree::getRoot( std::deque<ComponentNode*>& root )
 {
 	root = roots;
 }

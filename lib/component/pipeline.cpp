@@ -22,7 +22,7 @@ void Pipeline::attach( Component *component ) throw (std::exception)
 {
 	std::lock_guard<std::mutex> lock( mutex );
 
-	net.add( component );
+	tree.add( component );
 }
 
 void Pipeline::run() throw (std::exception)
@@ -30,7 +30,7 @@ void Pipeline::run() throw (std::exception)
 	// Launch each component,
 	std::lock_guard<std::mutex> lock( mutex );
 
-	net.getRoot( temp );
+	tree.getRoot( temp );
 
 	if( temp.size() < 1 )
 	{

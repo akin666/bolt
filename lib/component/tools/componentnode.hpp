@@ -20,23 +20,26 @@ protected:
 	int concurrent_reference_counting;
 
 	unsigned int time;
+
+	std::deque<ComponentNode *> dependencies;
+	std::deque<ComponentNode *> childs;
+
+	// reference counting:
+	void addReference();
+	void releaseReference();
 public:
 	ComponentNode( Component& component );
 	ComponentNode( ComponentNode& other );
 	virtual ~ComponentNode();
 
-	std::deque<ComponentNode *> dependencies;
-	std::deque<ComponentNode *> childs;
+	std::deque<ComponentNode *>& getDependencies();
+	std::deque<ComponentNode *>& getChilds();
 
 	Component& getComponent();
+	unsigned int getTime();
 	bool isRunning();
 
-	void componentStart( TQue<ComponentNode*>& target , unsigned int start , unsigned int end );
-	void componentFinished();
-
-	// reference counting:
-	void addReference();
-	void releaseReference();
+	void start( unsigned int start , unsigned int end );
 
 	// Component should use these to run stuff.
 	void schedule( ComponentWork& work );

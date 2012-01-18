@@ -9,9 +9,13 @@
 #define COMPONENT_HPP_
 
 #include "entity.hpp"
+#include <set>
+#include <string>
 
 namespace bolt
 {
+
+typedef std::set<std::string> StringSet;
 
 class ComponentWork;
 class ComponentNode;
@@ -24,21 +28,24 @@ protected:
 
 	unsigned int id;
 	unsigned int priority;
+	std::string name;
 	bool concurrent;
 public:
 	unsigned int getId() const;
-	bool isConcurrent();
-protected:
-	// Concurrency functionality
-public:
-	unsigned int getPriority();
+	bool isConcurrent() const;
+	std::string getName() const;
+
+	unsigned int getPriority() const;
 	void setPriority( unsigned int prio );
 public:
-	Component( bool concurrent = false);
+	/////
+	// Following functions create the interface.
+	/////
+	Component( std::string name = "" , bool concurrent = false);
 	virtual ~Component();
 
-	// Figure out if this component can be before the linked component
-	virtual bool before( Component& component );
+	// Figure out what components should be before this component.
+	virtual void dependencies( StringSet& dep );
 
 	// Attach / Detach an entity to the component.
 	virtual void attach( Entity& entity ) = 0;
@@ -46,6 +53,7 @@ public:
 
 	// Start can be blocking, if the component wants to do singlethreaded.
 	// on multithreaded situation, it should start work on packages.
+	// Use ComponentNode to start all sort of crazy work tasks etc.
 	virtual void start( ComponentNode& node ) = 0;
 };
 

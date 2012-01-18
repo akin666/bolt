@@ -11,7 +11,7 @@
 #include <deque>
 #include <exception>
 #include <thread>
-#include "tools/componentnet.hpp"
+#include "tools/componenttree.hpp"
 
 namespace bolt
 {
@@ -20,7 +20,7 @@ class ComponentNode;
 class Pipeline
 {
 private:
-	ComponentNet net;
+	ComponentTree tree;
 	std::mutex mutex;
 
 	std::deque<ComponentNode*> temp;

@@ -1,12 +1,12 @@
 /*
- * componentnet.hpp
+ * componenttree.hpp
  *
  *  Created on: 16.1.2012
  *      Author: akin
  */
 
-#ifndef COMPONENTNET_HPP_
-#define COMPONENTNET_HPP_
+#ifndef COMPONENTTREE_HPP_
+#define COMPONENTTREE_HPP_
 
 #include <deque>
 #include <set>
@@ -15,27 +15,28 @@
 namespace bolt
 {
 
-class ComponentNet
+typedef std::deque<ComponentNode*> TreeNodeSet;
+class ComponentTree
 {
 public:
 	unsigned int time;
 protected:
-	std::deque<ComponentNode*> roots;
+	TreeNodeSet roots;
 	std::deque<ComponentNode> nodes;
-	std::set<Component&> components;
+	std::set<Component*> components;
 
 	void removeFromRoot( ComponentNode *node );
 	void addToRoot( ComponentNode *node );
 public:
-	ComponentNet();
-	virtual ~ComponentNet();
+	ComponentTree();
+	virtual ~ComponentTree();
 
-	void add( Component& component );
+	void add( Component *component );
 
 	void resetTime( Time time );
 
-	void getRoot( std::deque<ComponentNode*>& root );
+	void getRoots( TreeNodeSet& roots );
 };
 
 } /* namespace bolt */
-#endif /* COMPONENTNET_HPP_ */
+#endif /* COMPONENTTREE_HPP_ */

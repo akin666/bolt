@@ -23,8 +23,9 @@ unsigned int Component::getId() const
 }
 // /SM_ID
 
-Component::Component( bool concurrent )
+Component::Component( std::string name , bool concurrent )
 : id( getNewId() ),
+  name( name ),
   concurrent( concurrent )
 {
 }
@@ -33,14 +34,19 @@ Component::~Component()
 {
 }
 
-bool Component::isConcurrent()
+bool Component::isConcurrent() const
 {
 	return concurrent;
 }
 
-unsigned int Component::getPriority()
+unsigned int Component::getPriority() const
 {
 	return priority;
+}
+
+std::string Component::getName() const
+{
+	return name;
 }
 
 void Component::setPriority( unsigned int prio )
@@ -48,9 +54,8 @@ void Component::setPriority( unsigned int prio )
 	priority = prio;
 }
 
-bool Component::before(Component & component)
+void Component::dependencies( StringSet& dep )
 {
-	return false;
 }
 
 } /* namespace bolt */
