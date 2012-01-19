@@ -9,11 +9,10 @@
 #define COMPONENT_PROPERTY_HPP_
 
 #include <string>
+#include "entity.hpp"
 
 namespace bolt
 {
-	class Entity;
-
 	class Property
 	{
 	protected:

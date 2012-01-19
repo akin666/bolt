@@ -8,13 +8,11 @@
 #ifndef ENTITY_HPP_
 #define ENTITY_HPP_
 
+#include <common>
+
 namespace bolt
 {
-class Entity
-{
-public:
-	unsigned int id;
-};
+	typedef uint Entity;
 }
 
 #endif /* ENTITY_HPP_ */

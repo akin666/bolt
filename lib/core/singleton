@@ -42,6 +42,15 @@ public:
 	{
 		return singleton;
 	}
+	
+	static CType *create()
+	{
+		if( singleton == NULL ) 
+		{
+			singleton = new CType();
+		}
+		return singleton;
+	}
 };
 
 template <class CType>

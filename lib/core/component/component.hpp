@@ -41,9 +41,10 @@ public:
 	/////
 	// Following functions create the interface.
 	/////
-	Component( std::string name = "" , bool concurrent = false);
+	Component( std::string name , bool concurrent = false);
 	virtual ~Component();
 
+	// Create or initialize also the components Property'es
 	virtual bool initialize();
 
 	// Figure out what components should be before this component.
