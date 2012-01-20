@@ -13,7 +13,7 @@
 const std::string SimpleRendererComponent::KEY("simplerenderer");
 
 SimpleRendererComponent::SimpleRendererComponent()
-: bolt::Component( KEY ),
+: bolt::Component( KEY , false ),
   initialized( false )
 {
 }
@@ -52,6 +52,7 @@ void SimpleRendererComponent::detach(bolt::Entity & entity)
 
 void SimpleRendererComponent::start(bolt::ComponentNode & node)
 {
+	// do the rendering here.
 }
 
 

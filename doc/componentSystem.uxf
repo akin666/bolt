@@ -30,7 +30,7 @@ bg=green</panel_attributes>
       <x>0</x>
       <y>160</y>
       <w>310</w>
-      <h>140</h>
+      <h>160</h>
     </coordinates>
     <panel_attributes>Pipeline
 --
@@ -40,6 +40,7 @@ uint cycle
 void setCycle( uint cycle )
 uint getCycle()
 void attach( Component *component );
+void detach( Component *component );
 void run();
 bg=green</panel_attributes>
     <additional_attributes/>
@@ -124,25 +125,26 @@ bg=green</panel_attributes>
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>280</x>
+      <x>300</x>
       <y>0</y>
-      <w>110</w>
+      <w>90</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>30;30;90;30</additional_attributes>
+    <additional_attributes>30;30;70;30</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
       <x>0</x>
       <y>20</y>
-      <w>310</w>
-      <h>90</h>
+      <w>330</w>
+      <h>100</h>
     </coordinates>
     <panel_attributes>ComponentTree
 --
 void add( Component *c )
+void remove( Component *c )
 void resetCycle( uint cycle )
 void getRoots( deque&lt;ComponentNode*&gt;&amp; roots )
 bg=green</panel_attributes>
@@ -152,12 +154,12 @@ bg=green</panel_attributes>
     <type>com.umlet.element.Relation</type>
     <coordinates>
       <x>70</x>
-      <y>80</y>
+      <y>90</y>
       <w>50</w>
-      <h>100</h>
+      <h>90</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>30;80;30;30</additional_attributes>
+    <additional_attributes>30;70;30;30</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Relation</type>
@@ -418,22 +420,22 @@ bg=green</panel_attributes>
     <coordinates>
       <x>220</x>
       <y>790</y>
-      <w>550</w>
+      <w>700</w>
       <h>130</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
-    <additional_attributes>80;30;30;30;30;110;530;110;530;50;490;50</additional_attributes>
+    <additional_attributes>80;30;30;30;30;110;680;110;680;50;640;50</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
       <x>220</x>
       <y>810</y>
-      <w>550</w>
+      <w>700</w>
       <h>110</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
-    <additional_attributes>80;50;30;50;30;90;530;90;530;30;490;30</additional_attributes>
+    <additional_attributes>80;50;30;50;30;90;680;90;680;30;640;30</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Class</type>
@@ -443,19 +445,7 @@ bg=green</panel_attributes>
       <w>160</w>
       <h>30</h>
     </coordinates>
-    <panel_attributes>NameComponent
-bg=green</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <type>com.umlet.element.Class</type>
-    <coordinates>
-      <x>830</x>
-      <y>730</y>
-      <w>160</w>
-      <h>30</h>
-    </coordinates>
-    <panel_attributes>PositionComponent
+    <panel_attributes>FenceComponent
 bg=green</panel_attributes>
     <additional_attributes/>
   </element>
@@ -486,28 +476,6 @@ bg=green</panel_attributes>
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>960</x>
-      <y>670</y>
-      <w>110</w>
-      <h>50</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>30;30;90;30</additional_attributes>
-  </element>
-  <element>
-    <type>com.umlet.element.Relation</type>
-    <coordinates>
-      <x>960</x>
-      <y>710</y>
-      <w>110</w>
-      <h>50</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>30;30;90;30</additional_attributes>
-  </element>
-  <element>
-    <type>com.umlet.element.Relation</type>
-    <coordinates>
       <x>760</x>
       <y>510</y>
       <w>90</w>
@@ -515,17 +483,6 @@ bg=green</panel_attributes>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>30;30;30;190;70;190</additional_attributes>
-  </element>
-  <element>
-    <type>com.umlet.element.Relation</type>
-    <coordinates>
-      <x>760</x>
-      <y>510</y>
-      <w>90</w>
-      <h>250</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>30;30;30;230;70;230</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Relation</type>
@@ -548,5 +505,76 @@ bg=green</panel_attributes>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>70;30;70;230;30;230</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>750</x>
+      <y>830</y>
+      <w>110</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>POSTPROCESS
+bg=green</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>680</x>
+      <y>810</y>
+      <w>90</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>70;30;30;30</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>980</x>
+      <y>800</y>
+      <w>160</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>JoystickComponent
+bg=green</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>980</x>
+      <y>840</y>
+      <w>160</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>KeyboardComponent
+bg=green</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>980</x>
+      <y>880</y>
+      <w>160</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>MouseComponent
+bg=green</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>980</x>
+      <y>920</y>
+      <w>160</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>TouchComponent
+bg=green</panel_attributes>
+    <additional_attributes/>
   </element>
 </diagram>
