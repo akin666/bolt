@@ -18,6 +18,8 @@ protected:
 
 	bolt::Pipeline pipeline;
 
+	bool initialized;
+
 	virtual void processArg( int index , std::string argument );
 public:
 	TestApplication();

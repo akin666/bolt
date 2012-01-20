@@ -9,8 +9,11 @@
 #include <log>
 #include <singleton>
 #include <system/video.hpp>
+#include "pipeline/simplerenderercomponent.hpp"
+#include "pipeline/namecomponent.hpp"
 
 TestApplication::TestApplication()
+: initialized( false )
 {
 }
 
@@ -24,7 +27,19 @@ void TestApplication::processArg( int index , std::string argument )
 
 bool TestApplication::initialize()
 {
+	if( initialized )
+	{
+		return true;
+	}
+
 	times = 100;
+
+	bolt::Singleton<SimpleRendererComponent>::create()->initialize();
+	bolt::Singleton<NameComponent>::create()->initialize();
+
+	pipeline.attach( bolt::Singleton<SimpleRendererComponent>::get() );
+
+	initialized = true;
 
 	return true;
 }
