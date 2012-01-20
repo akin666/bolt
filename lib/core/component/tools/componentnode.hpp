@@ -14,6 +14,7 @@
 namespace bolt
 {
 
+class Work;
 class Component;
 class ComponentWork;
 class ComponentNode
@@ -48,6 +49,8 @@ public:
 	// Component should use these to run stuff.
 	void schedule( ComponentWork& work );
 	void finished( ComponentWork& work );
+
+	void scheduleWork( Work& work );
 };
 
 } /* namespace bolt */

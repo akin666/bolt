@@ -80,6 +80,19 @@ void ComponentNode::schedule( ComponentWork& work )
 	}
 }
 
+void ComponentNode::scheduleWork( Work& work )
+{
+	if( bolt::Singleton<bolt::ThreadPool>::get() != NULL )
+	{
+		bolt::Singleton<bolt::ThreadPool>::get()->schedule( &work );
+	}
+	else if( work.begin() )
+	{
+		work.run();
+		work.end();
+	}
+}
+
 Component& ComponentNode::getComponent()
 {
 	return component;
