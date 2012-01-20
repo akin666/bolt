@@ -13,18 +13,17 @@
 #include <map>
 #include <string>
 #include <common>
+#include "componentnode.hpp"
 
 namespace bolt
 {
 
-class ComponentNode;
 class Component;
-typedef std::deque<ComponentNode*> TreeNodeSet;
+
 class ComponentTree
 {
 protected:
-	TreeNodeSet roots;
-	TreeNodeSet nodes;
+	NodeSet roots;
 	std::map<std::string,ComponentNode*> nodeNameMap;
 
 	void removeFromRoot( ComponentNode *node );
@@ -34,9 +33,10 @@ public:
 	virtual ~ComponentTree();
 
 	void add( Component *component );
+	void remove( Component *component );
 
 	void resetCycle( uint val );
-	void getRoots( TreeNodeSet& roots );
+	void getRoots( NodeSet& roots );
 };
 
 } /* namespace bolt */

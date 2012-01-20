@@ -14,6 +14,7 @@ const std::string FenceComponent::INPUT("input");
 const std::string FenceComponent::SIMULATION("simulation");
 const std::string FenceComponent::LOGIC("logic");
 const std::string FenceComponent::RENDER("render");
+const std::string FenceComponent::POSTPROCESS("postprocess");
 
 FenceComponent::FenceComponent( std::string fencename , bolt::StringSet& dependencies )
 : bolt::Component( fencename ),

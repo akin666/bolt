@@ -13,6 +13,7 @@
 #include <thread>
 #include <tque>
 #include "tools/componenttree.hpp"
+#include "tools/componentnode.hpp"
 
 namespace bolt
 {
@@ -26,9 +27,9 @@ private:
 	ComponentTree tree;
 	std::mutex mutex;
 
-	std::deque<ComponentNode*> temp;
-	std::deque<ComponentNode*> nonConcurrent;
-	std::deque<ComponentNode*> concurrent;
+	NodeSet temp;
+	NodeSet nonConcurrent;
+	NodeSet concurrent;
 	TQue<ComponentNode*> waitingQue;
 public:
 	Pipeline();
@@ -38,6 +39,7 @@ public:
 	uint getCycle();
 
 	void attach( Component *component ) throw (std::exception);
+	void detach( Component *component ) throw (std::exception);
 
 	// Run is the heart of the pipeline, it is essentially the main-loop.
 	void run() throw (std::exception);

@@ -38,6 +38,13 @@ void Pipeline::attach( Component *component ) throw (std::exception)
 	tree.add( component );
 }
 
+void Pipeline::detach( Component *component ) throw (std::exception)
+{
+	std::lock_guard<std::mutex> lock( mutex );
+
+	tree.remove( component );
+}
+
 void Pipeline::run() throw (std::exception)
 {
 	// Launch each component,
@@ -60,17 +67,17 @@ void Pipeline::run() throw (std::exception)
 	// Sort concurrent and nonconcurrent components.
 	concurrent.clear();
 	nonConcurrent.clear();
-	for( int i = temp.size() - 1 ; i >= 0 ; --i )
+	for( NodeSet::iterator iter = temp.begin() ; iter != temp.end() ; ++iter )
 	{
-		current = temp.at(i);
+		current = *iter;
 
 		if( current->getComponent().isConcurrent() )
 		{
-			concurrent.push_back( current );
+			concurrent.insert( current );
 		}
 		else
 		{
-			nonConcurrent.push_back( current );
+			nonConcurrent.insert( current );
 		}
 	}
 
@@ -79,9 +86,9 @@ void Pipeline::run() throw (std::exception)
 	{
 		// foreach
 		// run all concurrent components first.
-		for( int i = concurrent.size() - 1 ; i >= 0 ; --i )
+		for( NodeSet::iterator iter = concurrent.begin() ; iter != concurrent.end() ; ++iter )
 		{
-			current = concurrent.at(i);
+			current = *iter;
 
 			// already running or finished, do not run again.
 			if( current->getCycle() >= currentCycle || current->isRunning() )
@@ -93,9 +100,9 @@ void Pipeline::run() throw (std::exception)
 			++running;
 		}
 		// run all single threaded, non-concurrent components.
-		for( int i = nonConcurrent.size() - 1 ; i >= 0 ; --i )
+		for( NodeSet::iterator iter = nonConcurrent.begin() ; iter != nonConcurrent.end() ; ++iter )
 		{
-			current = nonConcurrent.at(i);
+			current = *iter;
 
 			// already running or finished, do not run again.
 			if( current->getCycle() >= currentCycle || current->isRunning() )
@@ -117,16 +124,16 @@ void Pipeline::run() throw (std::exception)
 		if( current != NULL )
 		{
 			// Get child list..
-			for( int i = current->getChilds().size() - 1 ; i >= 0 ; --i )
+			for( NodeSet::iterator iter = current->getChilds().begin() ; iter != current->getChilds().end() ; ++iter )
 			{
 				// Check if child is qualified.
-				child = current->getChilds().at( i );
+				child = *iter;
 
 				// Are all parents in currentTime & running is off?
 				qualified = true;
-				for( int j = child->getDependencies().size() - 1 ; j >= 0 ; --j )
+				for( NodeSet::iterator parentIter = child->getDependencies().begin() ; parentIter != child->getDependencies().end() ; ++parentIter )
 				{
-					parent = child->getDependencies().at( j );
+					parent = *parentIter;
 
 					if( parent->getCycle() != currentCycle || parent->isRunning() )
 					{
@@ -143,11 +150,11 @@ void Pipeline::run() throw (std::exception)
 				// Sort childs to correct places.
 				if( child->getComponent().isConcurrent() )
 				{
-					concurrent.push_back( child );
+					concurrent.insert( child );
 				}
 				else
 				{
-					nonConcurrent.push_back( child );
+					nonConcurrent.insert( child );
 				}
 			}
 		}

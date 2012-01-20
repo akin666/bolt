@@ -23,14 +23,7 @@ ComponentTree::~ComponentTree()
 
 void ComponentTree::removeFromRoot( ComponentNode *node )
 {
-	for( std::deque<ComponentNode*>::iterator iter = roots.begin() ; iter != roots.end() ; ++iter )
-	{
-		if( *iter == node )
-		{
-			roots.erase( iter );
-			return;
-		}
-	}
+	roots.erase( node );
 }
 
 void ComponentTree::addToRoot( ComponentNode *node )
@@ -38,15 +31,15 @@ void ComponentTree::addToRoot( ComponentNode *node )
 	if( node != NULL && node->getDependencies().size() == 0 )
 	{
 		// no parent.
-		roots.push_back( node );
+		roots.insert( node );
 	}
 }
 
 void ComponentTree::resetCycle( uint val )
 {
-	for( std::deque<ComponentNode*>::iterator iter = nodes.begin() ; iter != nodes.end() ; ++iter )
+	for( std::map<std::string , ComponentNode*>::iterator iter = nodeNameMap.begin() ; iter != nodeNameMap.end() ; ++iter )
 	{
-		(*iter)->setCycle( val );
+		iter->second->setCycle( val );
 	}
 }
 
@@ -80,17 +73,17 @@ void ComponentTree::add( Component *component )
 			// found!
 			ComponentNode *dependencyNode = citer->second;
 
-			node->getDependencies().push_back( dependencyNode );
-			dependencyNode->getChilds().push_back( node );
+			node->getDependencies().insert( dependencyNode );
+			dependencyNode->getChilds().insert( node );
 		}
 	}
 
 	// Seek child dependencies.
 	// If found, link em.
 	std::string name = component->getName();
-	for( std::deque<ComponentNode*>::iterator iter = nodes.begin() ; iter != nodes.end() ; ++iter )
+	for( std::map<std::string , ComponentNode*>::iterator iter = nodeNameMap.begin() ; iter != nodeNameMap.end() ; ++iter )
 	{
-		ComponentNode *dependencyNode = *iter;
+		ComponentNode *dependencyNode = iter->second;
 
 		// Reuse list..
 		dependencyNode->getComponent().getDependencies( dependencies );
@@ -102,8 +95,8 @@ void ComponentTree::add( Component *component )
 		}
 
 		// Dependency, link em.
-		dependencyNode->getDependencies().push_back( node );
-		node->getChilds().push_back( dependencyNode );
+		dependencyNode->getDependencies().insert( node );
+		node->getChilds().insert( dependencyNode );
 
 		if( dependencyNode->getDependencies().size() == 1 )
 		{
@@ -112,15 +105,65 @@ void ComponentTree::add( Component *component )
 		}
 	}
 
-	nodes.push_back( node );
-
 	// try to add as root element..
 	addToRoot( node );
 
 	resetCycle( 0 );
 }
 
-void ComponentTree::getRoots( std::deque<ComponentNode*>& root )
+void ComponentTree::remove( Component *component )
+{
+	if( component == NULL )
+	{
+		return;
+	}
+
+	std::map<std::string , ComponentNode*>::iterator iter = nodeNameMap.find( component->getName() );
+
+	// does not have it..
+	if( iter == nodeNameMap.end() )
+	{
+		return;
+	}
+
+	ComponentNode *node = iter->second;
+
+	// remove from namemap.
+	nodeNameMap.erase( iter );
+
+	if( node == NULL )
+	{
+		return;
+	}
+
+	// remove node from the lists.
+	if( roots.find( node ) != roots.end() )
+	{
+		roots.erase( node );
+	}
+
+	// remove parent from childs
+	// and link new child parent relation
+	// or add to roots.
+	bool root = node->getDependencies().size() > 0;
+	for( NodeSet::iterator iter = node->getChilds().begin() ; iter != node->getChilds().end() ; ++iter )
+	{
+		(*iter)->getDependencies().erase( node );
+
+		for( NodeSet::iterator piter = node->getDependencies().begin() ; piter != node->getDependencies().end() ; ++piter )
+		{
+			(*iter)->getDependencies().insert( *piter );
+			(*piter)->getChilds().insert( *iter );
+		}
+
+		if( !root )
+		{
+			addToRoot( *iter );
+		}
+	}
+}
+
+void ComponentTree::getRoots( NodeSet& root )
 {
 	root = roots;
 }

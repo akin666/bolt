@@ -31,12 +31,12 @@ ComponentNode::~ComponentNode()
 {
 }
 
-std::deque<ComponentNode *>& ComponentNode::getDependencies()
+NodeSet& ComponentNode::getDependencies()
 {
 	return dependencies;
 }
 
-std::deque<ComponentNode *>& ComponentNode::getChilds()
+NodeSet& ComponentNode::getChilds()
 {
 	return childs;
 }

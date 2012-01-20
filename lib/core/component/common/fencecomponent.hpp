@@ -19,6 +19,7 @@ public:
 	const static std::string SIMULATION;
 	const static std::string LOGIC;
 	const static std::string RENDER;
+	const static std::string POSTPROCESS;
 protected:
 	bolt::StringSet& dependencies;
 public:

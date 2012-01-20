@@ -9,7 +9,7 @@
 #define COMPONENTNODE_HPP_
 
 #include <common>
-#include <deque>
+#include <set>
 
 namespace bolt
 {
@@ -17,6 +17,11 @@ namespace bolt
 class Work;
 class Component;
 class ComponentWork;
+
+class ComponentNode;
+
+typedef std::set<ComponentNode *> NodeSet;
+
 class ComponentNode
 {
 protected:
@@ -25,8 +30,8 @@ protected:
 
 	uint cycle;
 
-	std::deque<ComponentNode *> dependencies;
-	std::deque<ComponentNode *> childs;
+	NodeSet dependencies;
+	NodeSet childs;
 
 	// reference counting:
 	void addReference();
@@ -36,8 +41,8 @@ public:
 	ComponentNode( ComponentNode& other );
 	virtual ~ComponentNode();
 
-	std::deque<ComponentNode *>& getDependencies();
-	std::deque<ComponentNode *>& getChilds();
+	NodeSet& getDependencies();
+	NodeSet& getChilds();
 
 	Component& getComponent();
 	uint getCycle();
