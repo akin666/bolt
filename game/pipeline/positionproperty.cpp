@@ -36,9 +36,10 @@ void PositionProperty::attach( bolt::Entity& entity )
 
 void PositionProperty::detach( bolt::Entity& entity )
 {
+	// This property is not really detachable. once it has been attached, it cannot be detached.
 	if( data.find( entity ) != data.end() )
 	{
-		data.erase( entity );
+	//	data.erase( entity );
 	}
 }
 
