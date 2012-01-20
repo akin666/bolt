@@ -38,5 +38,10 @@ void KeyboardComponent::start(bolt::ComponentNode & node)
 {
 }
 
+void KeyboardComponent::handleKeyboard(unsigned int key, float state)
+{
+}
 
-
+void KeyboardComponent::handleKeyboardCharacter(unsigned int key, float state)
+{
+}

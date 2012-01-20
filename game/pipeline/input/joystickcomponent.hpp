@@ -9,6 +9,7 @@
 #define JOYSTICKCOMPONENT_HPP_
 
 #include <component/component.hpp>
+#include <common>
 
 class JoystickComponent: public bolt::Component
 {
@@ -26,6 +27,9 @@ public:
 	virtual void detach( bolt::Entity& entity );
 
 	virtual void start( bolt::ComponentNode& node );
+
+	virtual void handleJoystickMove( int devicenum , int joynum , float x , float y );
+	virtual void handleJoystickButton( int devicenum , bolt::Button button , float state );
 };
 
 #endif /* JOYSTICKCOMPONENT_HPP_ */

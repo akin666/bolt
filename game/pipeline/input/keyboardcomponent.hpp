@@ -26,6 +26,9 @@ public:
 	virtual void detach( bolt::Entity& entity );
 
 	virtual void start( bolt::ComponentNode& node );
+
+	virtual void handleKeyboard( unsigned int key , float state );
+	virtual void handleKeyboardCharacter( unsigned int key , float state );
 };
 
 #endif /* KEYBOARDCOMPONENT_HPP_ */

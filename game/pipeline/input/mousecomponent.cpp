@@ -38,3 +38,27 @@ void NameComponent::start(bolt::ComponentNode & node)
 {
 }
 
+void MouseComponent::detach(bolt::Entity & entity)
+{
+}
+
+void MouseComponent::start(bolt::ComponentNode & node)
+{
+}
+
+void MouseComponent::handleMouseMove(float x, float y)
+{
+}
+
+void MouseComponent::handleMouseButton(bolt::Button button, float state)
+{
+}
+
+void MouseComponent::handleMouseButtonAction(bolt::Button button)
+{
+}
+
+void MouseComponent::handleMouseWheel(float val)
+{
+}
+

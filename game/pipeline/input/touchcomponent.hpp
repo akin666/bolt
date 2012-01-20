@@ -26,6 +26,10 @@ public:
 	virtual void detach( bolt::Entity& entity );
 
 	virtual void start( bolt::ComponentNode& node );
+
+	virtual void startTouch( int id , float x , float y );
+	virtual void continueTouch( int id , float x , float y );
+	virtual void endTouch( int id , float x , float y );
 };
 
 #endif /* TOUCHCOMPONENT_HPP_ */

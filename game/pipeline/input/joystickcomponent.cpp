@@ -38,5 +38,10 @@ void JoystickComponent::start(bolt::ComponentNode & node)
 {
 }
 
+void JoystickComponent::handleJoystickMove(int devicenum, int joynum, float x, float y)
+{
+}
 
-
+void JoystickComponent::handleJoystickButton(int devicenum, bolt::Button button, float state)
+{
+}

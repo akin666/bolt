@@ -38,4 +38,14 @@ void TouchComponent::start(bolt::ComponentNode & node)
 {
 }
 
+void TouchComponent::startTouch(int id, float x, float y)
+{
+}
 
+void TouchComponent::continueTouch(int id, float x, float y)
+{
+}
+
+void TouchComponent::endTouch(int id, float x, float y)
+{
+}

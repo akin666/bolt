@@ -9,6 +9,7 @@
 #define MOUSECOMPONENT_HPP_
 
 #include <component/component.hpp>
+#include <common>
 
 class MouseComponent: public bolt::Component
 {
@@ -26,6 +27,11 @@ public:
 	virtual void detach( bolt::Entity& entity );
 
 	virtual void start( bolt::ComponentNode& node );
+
+	virtual void handleMouseMove( float x , float y );
+	virtual void handleMouseButton( bolt::Button button , float state );
+	virtual void handleMouseButtonAction( bolt::Button button );
+	virtual void handleMouseWheel( float val );
 };
 
 #endif /* MOUSECOMPONENT_HPP_ */
