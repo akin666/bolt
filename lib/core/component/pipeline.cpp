@@ -19,6 +19,21 @@ Pipeline::Pipeline()
 
 Pipeline::~Pipeline()
 {
+	clear();
+}
+
+void Pipeline::clear()
+{
+	for( std::map<std::string , ComponentNode*>::iterator iter = nodeNameMap.begin() ; iter != nodeNameMap.end() ; ++iter )
+	{
+		delete iter->second;
+	}
+
+	nodeNameMap.clear();
+	roots.clear();
+	nonConcurrent.clear();
+	concurrent.clear();
+	cycle = 0;
 }
 
 void Pipeline::setCycle( uint val )
