@@ -6,7 +6,7 @@
     <coordinates>
       <x>740</x>
       <y>320</y>
-      <w>240</w>
+      <w>270</w>
       <h>220</h>
     </coordinates>
     <panel_attributes>Component
@@ -107,10 +107,11 @@ bg=green</panel_attributes>
     </coordinates>
     <panel_attributes>ComponentNode
 --
+typedef std::set&lt;ComponentNode *&gt; NodeSet;
 ComponentNode( Component&amp; parent )
 ComponentNode( ComponentNode&amp; o )
-deque&lt;ComponentNode*&gt; getDependencies()
-deque&lt;ComponentNode*&gt; getChilds()
+NodeSet&amp; getDependencies()
+NodeSet&amp; getChilds()
 Component&amp; getComponent()
 uint getCycle()
 void setCycle( uint c )
@@ -146,7 +147,7 @@ bg=green</panel_attributes>
 void add( Component *c )
 void remove( Component *c )
 void resetCycle( uint cycle )
-void getRoots( deque&lt;ComponentNode*&gt;&amp; roots )
+void getRoots( NodeSet&amp; roots )
 bg=green</panel_attributes>
     <additional_attributes/>
   </element>
@@ -574,6 +575,18 @@ bg=green</panel_attributes>
       <h>30</h>
     </coordinates>
     <panel_attributes>TouchComponent
+bg=green</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>980</x>
+      <y>960</y>
+      <w>230</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>SimpleRendererComponent
 bg=green</panel_attributes>
     <additional_attributes/>
   </element>
