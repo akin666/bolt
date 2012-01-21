@@ -1,22 +1,24 @@
 /*
- * touchcomponent.hpp
+ * keyboardcomponent.hpp
  *
  *  Created on: 20.1.2012
  *      Author: akin
  */
 
-#ifndef TOUCHCOMPONENT_HPP_
-#define TOUCHCOMPONENT_HPP_
+#ifndef KEYBOARDCOMPONENT_HPP_
+#define KEYBOARDCOMPONENT_HPP_
 
 #include <component/component.hpp>
 
-class TouchComponent: public bolt::Component
+namespace bolt
+{
+class KeyboardComponent: public bolt::Component
 {
 public:
 	const static std::string KEY;
 public:
-	TouchComponent();
-	virtual ~TouchComponent();
+	KeyboardComponent();
+	virtual ~KeyboardComponent();
 
 	virtual bool initialize();
 
@@ -27,9 +29,9 @@ public:
 
 	virtual void start( bolt::ComponentNode& node );
 
-	virtual void startTouch( int id , float x , float y );
-	virtual void continueTouch( int id , float x , float y );
-	virtual void endTouch( int id , float x , float y );
+	virtual void handleKeyboard( unsigned int key , float state );
+	virtual void handleKeyboardCharacter( unsigned int key , float state );
 };
+}
 
-#endif /* TOUCHCOMPONENT_HPP_ */
+#endif /* KEYBOARDCOMPONENT_HPP_ */

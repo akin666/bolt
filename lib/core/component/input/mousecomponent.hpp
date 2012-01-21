@@ -11,6 +11,8 @@
 #include <component/component.hpp>
 #include <common>
 
+namespace bolt
+{
 class MouseComponent: public bolt::Component
 {
 public:
@@ -33,5 +35,6 @@ public:
 	virtual void handleMouseButtonAction( bolt::Button button );
 	virtual void handleMouseWheel( float val );
 };
+}
 
 #endif /* MOUSECOMPONENT_HPP_ */

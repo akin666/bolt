@@ -7,6 +7,8 @@
 
 #include "joystickcomponent.hpp"
 
+namespace bolt
+{
 const std::string JoystickComponent::KEY("joystick");
 
 JoystickComponent::JoystickComponent()
@@ -44,4 +46,5 @@ void JoystickComponent::handleJoystickMove(int devicenum, int joynum, float x, f
 
 void JoystickComponent::handleJoystickButton(int devicenum, bolt::Button button, float state)
 {
+}
 }

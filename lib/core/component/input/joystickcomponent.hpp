@@ -11,6 +11,8 @@
 #include <component/component.hpp>
 #include <common>
 
+namespace bolt
+{
 class JoystickComponent: public bolt::Component
 {
 public:
@@ -31,5 +33,6 @@ public:
 	virtual void handleJoystickMove( int devicenum , int joynum , float x , float y );
 	virtual void handleJoystickButton( int devicenum , bolt::Button button , float state );
 };
+}
 
 #endif /* JOYSTICKCOMPONENT_HPP_ */

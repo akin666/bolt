@@ -7,6 +7,8 @@
 
 #include "touchcomponent.hpp"
 
+namespace bolt
+{
 const std::string TouchComponent::KEY("touch");
 
 TouchComponent::TouchComponent()
@@ -48,4 +50,5 @@ void TouchComponent::continueTouch(int id, float x, float y)
 
 void TouchComponent::endTouch(int id, float x, float y)
 {
+}
 }

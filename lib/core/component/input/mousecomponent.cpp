@@ -7,6 +7,8 @@
 
 #include "mousecomponent.hpp"
 
+namespace bolt
+{
 const std::string MouseComponent::KEY("mouse");
 
 MouseComponent::MouseComponent()
@@ -60,5 +62,6 @@ void MouseComponent::handleMouseButtonAction(bolt::Button button)
 
 void MouseComponent::handleMouseWheel(float val)
 {
+}
 }
 
