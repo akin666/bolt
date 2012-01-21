@@ -8,7 +8,6 @@
 #ifndef PIPELINE_HPP_
 #define PIPELINE_HPP_
 
-#include <deque>
 #include <exception>
 #include <thread>
 #include <tque>

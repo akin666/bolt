@@ -9,6 +9,7 @@
 #define COMPONENT_PROPERTY_HPP_
 
 #include <string>
+#include <common>
 #include "entity.hpp"
 
 namespace bolt
@@ -16,10 +17,10 @@ namespace bolt
 	class Property
 	{
 	protected:
-		static unsigned int sm_id;
-		static unsigned int getNewId();
+		static uint sm_id;
+		static uint getNewId();
 
-		unsigned int id;
+		uint id;
 		std::string name;
 	public:
 		Property( std::string name );
@@ -28,7 +29,7 @@ namespace bolt
 		virtual bool initialize();
 
 		std::string getName() const;
-		unsigned int getId() const;
+		uint getId() const;
 
 		virtual void attach( Entity& entity ) = 0;
 		virtual void detach( Entity& entity ) = 0;

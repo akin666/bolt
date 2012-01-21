@@ -23,20 +23,20 @@ class Component
 {
 protected:
 	// SM_ID functionality
-	static unsigned int sm_id;
-	static unsigned int getNewId();
+	static uint sm_id;
+	static uint getNewId();
 
-	unsigned int id;
-	unsigned int priority;
+	uint id;
+	uint priority;
 	std::string name;
 	bool concurrent;
 public:
-	unsigned int getId() const;
+	uint getId() const;
 	bool isConcurrent() const;
 	std::string getName() const;
 
-	unsigned int getPriority() const;
-	void setPriority( unsigned int prio );
+	uint getPriority() const;
+	void setPriority( uint prio );
 public:
 	/////
 	// Following functions create the interface.

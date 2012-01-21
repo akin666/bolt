@@ -10,9 +10,9 @@
 namespace bolt
 {
 
-unsigned int Property::sm_id = 0xFF;
+uint Property::sm_id = 0xFF;
 
-unsigned int Property::getNewId()
+uint Property::getNewId()
 {
 	return sm_id++;
 }

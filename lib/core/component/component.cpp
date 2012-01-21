@@ -11,13 +11,13 @@ namespace bolt
 {
 
 // SM_ID functionality
-unsigned int Component::sm_id = 0xFF;
-unsigned int Component::getNewId()
+uint Component::sm_id = 0xFF;
+uint Component::getNewId()
 {
 	return ++sm_id;
 }
 
-unsigned int Component::getId() const
+uint Component::getId() const
 {
 	return id;
 }
@@ -25,6 +25,7 @@ unsigned int Component::getId() const
 
 Component::Component( std::string name , bool concurrent )
 : id( getNewId() ),
+  priority( 0xFF ),
   name( name ),
   concurrent( concurrent )
 {
@@ -39,7 +40,7 @@ bool Component::isConcurrent() const
 	return concurrent;
 }
 
-unsigned int Component::getPriority() const
+uint Component::getPriority() const
 {
 	return priority;
 }
@@ -49,7 +50,7 @@ std::string Component::getName() const
 	return name;
 }
 
-void Component::setPriority( unsigned int prio )
+void Component::setPriority( uint prio )
 {
 	priority = prio;
 }
