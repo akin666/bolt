@@ -9,102 +9,120 @@
 #include <log>
 #include <opengl>
 
+// if components are not initialized/set, SET EM!
+#include <singleton>
+#include <component/input/touchcomponent.hpp>
+#include <component/input/keyboardcomponent.hpp>
+#include <component/input/mousecomponent.hpp>
+#include <component/input/joystickcomponent.hpp>
+
 namespace bolt
 {
 
 // GLFW INPUT HANDLING
 namespace GLFWInputHandling
 {
+	TouchComponent *touch = NULL;
+	KeyboardComponent *keyboard = NULL;
+	MouseComponent *mouse = NULL;
+	JoystickComponent *joystick = NULL;
+
 	int mouseX = 0;
 	int mouseY = 0;
 	int mouseWheel = 0;
 
 	void setup()
 	{
-		 glfwGetMousePos( &mouseX , &mouseY );
-		 mouseWheel = glfwGetMouseWheel();
+		// Setup components, IF needed.
+		touch = Singleton<TouchComponent>::get();
+		keyboard = Singleton<KeyboardComponent>::get();
+		mouse = Singleton<MouseComponent>::get();
+		joystick = Singleton<JoystickComponent>::get();
+
+		// Setup input components
+		if( touch == NULL )
+		{
+			touch = new TouchComponent();
+			Singleton<TouchComponent>::set(touch);
+		}
+		if( keyboard == NULL )
+		{
+			keyboard = new KeyboardComponent();
+			Singleton<KeyboardComponent>::set(keyboard);
+		}
+		if( mouse == NULL )
+		{
+			mouse = new MouseComponent();
+			Singleton<MouseComponent>::set(mouse);
+		}
+		if( joystick == NULL )
+		{
+			joystick = new JoystickComponent();
+			Singleton<JoystickComponent>::set(joystick);
+		}
+
+		glfwGetMousePos( &mouseX , &mouseY );
+		mouseWheel = glfwGetMouseWheel();
 	}
 
 	void keyboardCharCallback(int key, int action)
 	{
-//		InputListener *listener = UIFrame::getCurrent();
-//		if( listener != NULL )
-//		{
-//			listener->handleKeyboardCharacter( (unsigned int)key , (action == GLFW_PRESS ? 1.0f : 0.0f ) );
-//		}
+		keyboard->handleKeyboardCharacter( (unsigned int)key , (action == GLFW_PRESS ? 1.0f : 0.0f ) );
 	}
 
 	void keyboardCallback(int key, int action)
 	{
-//		InputListener *listener = UIFrame::getCurrent();
-//		if( listener != NULL )
-//		{
-//			listener->handleKeyboard( (unsigned int)key , (action == GLFW_PRESS ? 1.0f : 0.0f ) );
-//		}
+		keyboard->handleKeyboard( (unsigned int)key , (action == GLFW_PRESS ? 1.0f : 0.0f ) );
 	}
 
 	void mouseWheelCallback(int wheel)
 	{
-//		InputListener *listener = UIFrame::getCurrent();
-//		if( listener != NULL )
-//		{
-//			listener->handleMouseWheel( wheel - mouseWheel );
-//			mouseWheel = wheel;
-//		}
+		mouse->handleMouseWheel( wheel - mouseWheel );
 	}
 
 	void mouseButtonCallback(int button, int action)
 	{
-//		InputListener *listener = UIFrame::getCurrent();
-//		if( listener != NULL )
-//		{
-//			InputListener::Button resolver;
-//			switch( button )
-//			{
-//				case GLFW_MOUSE_BUTTON_LEFT :
-//					resolver = InputListener::LEFT;
-//					break;
-//				case GLFW_MOUSE_BUTTON_RIGHT :
-//					resolver = InputListener::RIGHT;
-//					break;
-//				case GLFW_MOUSE_BUTTON_MIDDLE :
-//					resolver = InputListener::MIDDLE;
-//					break;
-//				case GLFW_MOUSE_BUTTON_4 :
-//					resolver = InputListener::ADDON_1;
-//					break;
-//				case GLFW_MOUSE_BUTTON_5 :
-//					resolver = InputListener::ADDON_2;
-//					break;
-//				case GLFW_MOUSE_BUTTON_6 :
-//					resolver = InputListener::ADDON_3;
-//					break;
-//				case GLFW_MOUSE_BUTTON_7 :
-//					resolver = InputListener::ADDON_4;
-//					break;
-//				case GLFW_MOUSE_BUTTON_8 :
-//					resolver = InputListener::ADDON_5;
-//					break;
-//				default:
-//					resolver = InputListener::ADDON_6;
-//					break;
-//			}
-//
-//			listener->handleMouseButton( resolver , (action == GLFW_PRESS ? 1.0f : 0.0f ) );
-//			listener->handleMouseButtonAction( resolver );
-//		}
+		Button resolver;
+		switch( button )
+		{
+			case GLFW_MOUSE_BUTTON_LEFT :
+				resolver = LEFT;
+				break;
+			case GLFW_MOUSE_BUTTON_RIGHT :
+				resolver = RIGHT;
+				break;
+			case GLFW_MOUSE_BUTTON_MIDDLE :
+				resolver = MIDDLE;
+				break;
+			case GLFW_MOUSE_BUTTON_4 :
+				resolver = ADDON_1;
+				break;
+			case GLFW_MOUSE_BUTTON_5 :
+				resolver = ADDON_2;
+				break;
+			case GLFW_MOUSE_BUTTON_6 :
+				resolver = ADDON_3;
+				break;
+			case GLFW_MOUSE_BUTTON_7 :
+				resolver = ADDON_4;
+				break;
+			case GLFW_MOUSE_BUTTON_8 :
+				resolver = ADDON_5;
+				break;
+			default:
+				resolver = ADDON_6;
+				break;
+		}
+
+		mouse->handleMouseButton( resolver , (action == GLFW_PRESS ? 1.0f : 0.0f ) );
 	}
 
 	void mouseMoveCallback(int x, int y)
 	{
-//		InputListener *listener = UIFrame::getCurrent();
-//		if( listener != NULL )
-//		{
-//			listener->handleMouseMove( x - mouseX , y - mouseY );
-//
-//			mouseX = x;
-//			mouseY = y;
-//		}
+		mouse->handleMouseMove( x - mouseX , y - mouseY );
+
+		mouseX = x;
+		mouseY = y;
 	}
 }
 // GLFW INPUT HANDLING

@@ -13,7 +13,8 @@
 namespace bolt
 {
 
-ComponentTree::ComponentTree()
+ComponentTree::ComponentTree( TQue<ComponentNode*>& waitingQue )
+: waitingQue( waitingQue )
 {
 }
 
@@ -56,7 +57,7 @@ void ComponentTree::add( Component *component )
 		return;
 	}
 
-	ComponentNode *node = new ComponentNode( *component );
+	ComponentNode *node = new ComponentNode( *component , waitingQue );
 
 	StringSet dependencies;
 	component->getDependencies( dependencies );

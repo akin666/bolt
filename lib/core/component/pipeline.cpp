@@ -13,7 +13,8 @@ namespace bolt
 {
 
 Pipeline::Pipeline()
-: cycle( 0 )
+: cycle( 0 ),
+  tree( waitingQue )
 {
 }
 
@@ -57,7 +58,7 @@ void Pipeline::run() throw (std::exception)
 		return;
 	}
 
-	uint currentCycle = cycle + 1;
+	++cycle;
 
 	ComponentNode *current;
 	ComponentNode *child;
@@ -91,12 +92,12 @@ void Pipeline::run() throw (std::exception)
 			current = *iter;
 
 			// already running or finished, do not run again.
-			if( current->getCycle() >= currentCycle || current->isRunning() )
+			if( current->getCycle() >= cycle || current->isRunning() )
 			{
 				continue;
 			}
 
-			current->start( currentCycle );
+			current->start( cycle );
 			++running;
 		}
 		// run all single threaded, non-concurrent components.
@@ -105,12 +106,12 @@ void Pipeline::run() throw (std::exception)
 			current = *iter;
 
 			// already running or finished, do not run again.
-			if( current->getCycle() >= currentCycle || current->isRunning() )
+			if( current->getCycle() >= cycle || current->isRunning() )
 			{
 				continue;
 			}
 
-			current->start( currentCycle );
+			current->start( cycle );
 			++running;
 		}
 
@@ -135,7 +136,7 @@ void Pipeline::run() throw (std::exception)
 				{
 					parent = *parentIter;
 
-					if( parent->getCycle() != currentCycle || parent->isRunning() )
+					if( parent->getCycle() != cycle || parent->isRunning() )
 					{
 						qualified = false;
 						break;

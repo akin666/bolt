@@ -28,8 +28,9 @@ protected:
 
 	void removeFromRoot( ComponentNode *node );
 	void addToRoot( ComponentNode *node );
+	TQue<ComponentNode*>& waitingQue;
 public:
-	ComponentTree();
+	ComponentTree( TQue<ComponentNode*>& waitingQue );
 	virtual ~ComponentTree();
 
 	void add( Component *component );

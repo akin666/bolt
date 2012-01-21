@@ -32,7 +32,6 @@ public:
 
 	virtual void handleMouseMove( float x , float y );
 	virtual void handleMouseButton( bolt::Button button , float state );
-	virtual void handleMouseButtonAction( bolt::Button button );
 	virtual void handleMouseWheel( float val );
 };
 }

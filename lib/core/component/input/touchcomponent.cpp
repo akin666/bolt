@@ -12,6 +12,7 @@ namespace bolt
 const std::string TouchComponent::KEY("touch");
 
 TouchComponent::TouchComponent()
+: bolt::Component( KEY )
 {
 }
 

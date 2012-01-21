@@ -13,17 +13,19 @@
 namespace bolt
 {
 
-ComponentNode::ComponentNode( Component& component )
+ComponentNode::ComponentNode( Component& component , TQue<ComponentNode*>& finishQueu )
 : component( component ),
   concurrent_reference_counting( 0 ),
-  cycle( 0 )
+  cycle( 0 ),
+  finishQueu( finishQueu )
 {
 }
 
 ComponentNode::ComponentNode( ComponentNode& other )
 : component( other.component ),
   concurrent_reference_counting( other.concurrent_reference_counting ),
-  cycle( other.cycle )
+  cycle( other.cycle ),
+  finishQueu( other.finishQueu )
 {
 }
 
@@ -49,11 +51,17 @@ void ComponentNode::addReference()
 void ComponentNode::releaseReference()
 {
 	concurrent_reference_counting--;
+
+	// Signal the whatever, that this component finished.
+	if( concurrent_reference_counting == 0 )
+	{
+		finishQueu.push( this );
+	}
 }
 
 bool ComponentNode::isRunning()
 {
-	return concurrent_reference_counting <= 0;
+	return concurrent_reference_counting > 0;
 }
 
 void ComponentNode::start( uint end )

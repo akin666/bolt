@@ -12,6 +12,7 @@ namespace bolt
 const std::string KeyboardComponent::KEY("keyboard");
 
 KeyboardComponent::KeyboardComponent()
+: bolt::Component( KEY )
 {
 }
 

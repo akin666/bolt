@@ -12,6 +12,7 @@ namespace bolt
 const std::string JoystickComponent::KEY("joystick");
 
 JoystickComponent::JoystickComponent()
+: bolt::Component( KEY )
 {
 }
 

@@ -10,6 +10,7 @@
 
 #include <common>
 #include <set>
+#include <tque>
 
 namespace bolt
 {
@@ -33,11 +34,14 @@ protected:
 	NodeSet dependencies;
 	NodeSet childs;
 
+	// Where to push, once finished.
+	TQue<ComponentNode*>& finishQueu;
+
 	// reference counting:
 	void addReference();
 	void releaseReference();
 public:
-	ComponentNode( Component& component );
+	ComponentNode( Component& component , TQue<ComponentNode*>& finishQueu );
 	ComponentNode( ComponentNode& other );
 	virtual ~ComponentNode();
 

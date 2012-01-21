@@ -12,6 +12,7 @@ namespace bolt
 const std::string MouseComponent::KEY("mouse");
 
 MouseComponent::MouseComponent()
+: bolt::Component( KEY )
 {
 }
 
@@ -32,14 +33,6 @@ void MouseComponent::attach(bolt::Entity & entity)
 {
 }
 
-void NameComponent::detach(bolt::Entity & entity)
-{
-}
-
-void NameComponent::start(bolt::ComponentNode & node)
-{
-}
-
 void MouseComponent::detach(bolt::Entity & entity)
 {
 }
@@ -53,10 +46,6 @@ void MouseComponent::handleMouseMove(float x, float y)
 }
 
 void MouseComponent::handleMouseButton(bolt::Button button, float state)
-{
-}
-
-void MouseComponent::handleMouseButtonAction(bolt::Button button)
 {
 }
 
