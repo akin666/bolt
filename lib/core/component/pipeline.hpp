@@ -24,17 +24,13 @@ private:
 	unsigned int cycle;
 	std::mutex mutex;
 
-	NodeSet temp;
+	NodeSet roots;
 	NodeSet nonConcurrent;
 	NodeSet concurrent;
 	TQue<ComponentNode*> waitingQue;
-protected:
-	NodeSet roots;
-	std::map<std::string,ComponentNode*> nodeNameMap;
 
-	void removeFromRoot( ComponentNode *node );
+	std::map<std::string,ComponentNode*> nodeNameMap;
 	void addToRoot( ComponentNode *node );
-	void resetCycle( uint val );
 public:
 	Pipeline();
 	virtual ~Pipeline();

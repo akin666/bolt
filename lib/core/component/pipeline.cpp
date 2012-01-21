@@ -24,17 +24,16 @@ Pipeline::~Pipeline()
 void Pipeline::setCycle( uint val )
 {
 	cycle = val;
+
+	for( std::map<std::string , ComponentNode*>::iterator iter = nodeNameMap.begin() ; iter != nodeNameMap.end() ; ++iter )
+	{
+		iter->second->setCycle( cycle );
+	}
 }
 
 uint Pipeline::getCycle()
 {
 	return cycle;
-}
-
-
-void Pipeline::removeFromRoot( ComponentNode *node )
-{
-	roots.erase( node );
 }
 
 void Pipeline::addToRoot( ComponentNode *node )
@@ -43,14 +42,6 @@ void Pipeline::addToRoot( ComponentNode *node )
 	{
 		// no parent.
 		roots.insert( node );
-	}
-}
-
-void Pipeline::resetCycle( uint val )
-{
-	for( std::map<std::string , ComponentNode*>::iterator iter = nodeNameMap.begin() ; iter != nodeNameMap.end() ; ++iter )
-	{
-		iter->second->setCycle( val );
 	}
 }
 
@@ -111,17 +102,17 @@ void Pipeline::attach( Component *component ) throw (std::exception)
 		dependencyNode->getDependencies().insert( node );
 		node->getChilds().insert( dependencyNode );
 
-		if( dependencyNode->getDependencies().size() == 1 )
+		if( dependencyNode->getDependencies().size() <= 1 )
 		{
 			// First parent! Remove from root!
-			removeFromRoot( dependencyNode );
+			roots.erase( node );
 		}
 	}
 
 	// try to add as root element..
 	addToRoot( node );
 
-	resetCycle( 0 );
+	node->setCycle( cycle );
 }
 
 void Pipeline::detach( Component *component ) throw (std::exception)
