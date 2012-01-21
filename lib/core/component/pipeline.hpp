@@ -12,7 +12,6 @@
 #include <exception>
 #include <thread>
 #include <tque>
-#include "tools/componenttree.hpp"
 #include "tools/componentnode.hpp"
 
 namespace bolt
@@ -23,14 +22,19 @@ class Pipeline
 {
 private:
 	unsigned int cycle;
-
-	ComponentTree tree;
 	std::mutex mutex;
 
 	NodeSet temp;
 	NodeSet nonConcurrent;
 	NodeSet concurrent;
 	TQue<ComponentNode*> waitingQue;
+protected:
+	NodeSet roots;
+	std::map<std::string,ComponentNode*> nodeNameMap;
+
+	void removeFromRoot( ComponentNode *node );
+	void addToRoot( ComponentNode *node );
+	void resetCycle( uint val );
 public:
 	Pipeline();
 	virtual ~Pipeline();
