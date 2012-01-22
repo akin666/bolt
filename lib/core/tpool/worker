@@ -1,4 +1,0 @@
-
-#ifndef WORKER_H_
-#include "worker.hpp"
-#endif

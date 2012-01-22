@@ -3,7 +3,7 @@
 #define THREADPOOL_H_
 
 #include <work>
-#include "worker"
+#include "worker.hpp"
 #include "tque"
 #include <exception>
 
