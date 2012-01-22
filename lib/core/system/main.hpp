@@ -24,10 +24,12 @@
 #include <exception/exceptionhandler.hpp>
 #include <threadpool>
 
+#include <resource/resourceloader.hpp>
+
 namespace bolt
 {
 
-template < class ApplicationPolicy , class VideoPolicy , class AudioPolicy , class LogPolicy >
+template < class ApplicationPolicy , class VideoPolicy , class AudioPolicy , class LogPolicy , class ResourcePolicy >
 class Main
 {
 protected:
@@ -35,6 +37,7 @@ protected:
 	VideoPolicy video;
 	AudioPolicy audio;
 	LogPolicy log;
+	ResourcePolicy resource;
 	ThreadPool pool;
 public:
 	Main();
@@ -43,18 +46,18 @@ public:
 	int run();
 };
 
-template < class ApplicationPolicy , class VideoPolicy , class AudioPolicy , class LogPolicy >
-Main< ApplicationPolicy, VideoPolicy, AudioPolicy , LogPolicy >::Main()
+template < class ApplicationPolicy , class VideoPolicy , class AudioPolicy , class LogPolicy , class ResourcePolicy >
+Main< ApplicationPolicy, VideoPolicy, AudioPolicy , LogPolicy , ResourcePolicy >::Main()
 {
 }
 
-template < class ApplicationPolicy , class VideoPolicy , class AudioPolicy , class LogPolicy >
-Main< ApplicationPolicy, VideoPolicy, AudioPolicy , LogPolicy >::~Main()
+template < class ApplicationPolicy , class VideoPolicy , class AudioPolicy , class LogPolicy , class ResourcePolicy >
+Main< ApplicationPolicy, VideoPolicy, AudioPolicy , LogPolicy , ResourcePolicy >::~Main()
 {
 }
 
-template < class ApplicationPolicy , class VideoPolicy , class AudioPolicy , class LogPolicy >
-bool Main< ApplicationPolicy, VideoPolicy, AudioPolicy , LogPolicy >::initialize( int argc , char *argv[] )
+template < class ApplicationPolicy , class VideoPolicy , class AudioPolicy , class LogPolicy , class ResourcePolicy >
+bool Main< ApplicationPolicy, VideoPolicy, AudioPolicy , LogPolicy , ResourcePolicy >::initialize( int argc , char *argv[] )
 {
 	application.processArgs( argc , argv );
 
@@ -70,14 +73,16 @@ bool Main< ApplicationPolicy, VideoPolicy, AudioPolicy , LogPolicy >::initialize
 	Singleton<Audio>::set( &audio );
 	Singleton<Video>::set( &video );
 
+	Singleton<ResourceLoader>::set( &resource );
+
 	// plenty of slaves to do my bidding.
 	int workers = ThreadPool::getHardwareThreadCount() * 2 + 1.0;
 
 	return pool.initialize( workers ) && application.initialize() && audio.initialize() && video.initialize();
 }
 
-template < class ApplicationPolicy , class VideoPolicy , class AudioPolicy , class LogPolicy >
-int Main< ApplicationPolicy, VideoPolicy, AudioPolicy , LogPolicy >::run()
+template < class ApplicationPolicy , class VideoPolicy , class AudioPolicy , class LogPolicy , class ResourcePolicy >
+int Main< ApplicationPolicy, VideoPolicy, AudioPolicy , LogPolicy , ResourcePolicy >::run()
 {
 	bool restart;
 

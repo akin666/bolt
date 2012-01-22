@@ -4,7 +4,7 @@
 #include "log.hpp"
 #include <singleton>
 
-#define LOG_ERROR 	if( bolt::Singleton<bolt::Log>::get() ) bolt::Singleton<bolt::Log>::get()->error()
+#define LOG_ERROR 	if( bolt::Singleton<bolt::Log>::get() ) bolt::Singleton<bolt::Log>::get()->error() << __FILE__ << ">" << __FUNCTION__ << ":" << __LINE__
 #define LOG_WARNING if( bolt::Singleton<bolt::Log>::get() ) bolt::Singleton<bolt::Log>::get()->warning()
 #define LOG_LOG 	if( bolt::Singleton<bolt::Log>::get() ) bolt::Singleton<bolt::Log>::get()->log()
 #define LOG_OUT 	if( bolt::Singleton<bolt::Log>::get() ) bolt::Singleton<bolt::Log>::get()->out()

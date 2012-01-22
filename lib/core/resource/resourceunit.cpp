@@ -6,6 +6,7 @@
  */
 
 #include "resourceunit.hpp"
+#include <log>
 
 namespace bolt
 {
@@ -19,9 +20,10 @@ ResourceUnit::~ResourceUnit()
 {
 }
 
-void ResourceUnit::setLoadingComplete( bool state )
+void ResourceUnit::setLoadingComplete( bool val )
 {
-	if( state )
+	std::lock_guard<std::mutex> lock( mutex );
+	if( val )
 	{
 		state |= LOADING_COMPLETE;
 	}
@@ -31,9 +33,10 @@ void ResourceUnit::setLoadingComplete( bool state )
 	}
 }
 
-void ResourceUnit::setLoadingStarted( bool state )
+void ResourceUnit::setLoadingStarted( bool val )
 {
-	if( state )
+	std::lock_guard<std::mutex> lock( mutex );
+	if( val )
 	{
 		state |= LOADING_STARTED;
 	}
@@ -45,11 +48,13 @@ void ResourceUnit::setLoadingStarted( bool state )
 
 bool ResourceUnit::isLoadingComplete()
 {
+	std::lock_guard<std::mutex> lock( mutex );
 	return (state & LOADING_COMPLETE) != 0;
 }
 
 bool ResourceUnit::isLoading()
 {
+	std::lock_guard<std::mutex> lock( mutex );
 	return (state & LOADING_STARTED) != 0;
 }
 

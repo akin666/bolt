@@ -7,6 +7,8 @@
 
 #include "resourceloader.hpp"
 #include <iterator>
+#include "dataunit.hpp"
+#include <log>
 
 
 namespace bolt
@@ -36,7 +38,7 @@ ResourceUnit *ResourceLoader::newResourceUnit( std::string path )
 		return NULL;
 	}
 
-	return NULL;
+	return new DataUnit( path );
 }
 
 ResourceUnit *ResourceLoader::getResourceUnit( const std::string& alias )

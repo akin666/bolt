@@ -10,6 +10,7 @@
 #include <fstream>
 #include <singleton>
 #include <threadpool>
+#include <log>
 
 namespace bolt
 {
@@ -35,12 +36,14 @@ void DataUnit::DataUnitWork::run()
 	if( !stream.is_open() )
 	{
 		stream.close();
+		LOG_ERROR << "Stream does not exist." << std::endl;
 		return;
 	}
 
 	if( !stream.good() )
 	{
 		stream.close();
+		LOG_ERROR << "Stream is bad." << std::endl;
 		return;
 	}
 
@@ -55,6 +58,7 @@ void DataUnit::DataUnitWork::run()
 	if( stream.gcount() != length )
 	{
 		// ERROR!
+		LOG_ERROR << "Read data length is different than what was intended." << std::endl;
 	}
 
 	parent.setData( data , length );
@@ -79,6 +83,7 @@ DataUnit::~DataUnit()
 
 void DataUnit::startLoading()
 {
+	LOG_OUT << "Start loading" << std::endl;
 	setLoadingComplete( false );
 	setLoadingStarted( true );
 	bolt::Singleton<bolt::ThreadPool>::get()->schedule( &unitWork );
@@ -97,6 +102,7 @@ void DataUnit::reload()
 
 void DataUnit::setData( unsigned char *newData , uint newLength )
 {
+	LOG_OUT << "Set data" << std::endl;
 	clear();
 
 	data = newData;

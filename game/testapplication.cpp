@@ -11,6 +11,8 @@
 #include <system/video.hpp>
 #include "pipeline/simplerenderercomponent.hpp"
 #include "pipeline/namecomponent.hpp"
+#include <resource/resourceloader.hpp>
+#include <resource/dataunit.hpp>
 
 TestApplication::TestApplication()
 : initialized( false )
@@ -40,6 +42,14 @@ bool TestApplication::initialize()
 	pipeline.attach( bolt::Singleton<SimpleRendererComponent>::get() );
 
 	initialized = true;
+
+	bolt::ResourceLoader *loader = bolt::Singleton<bolt::ResourceLoader>::get();
+
+	loader->addAlias( "config" , "resources/config/default.cfg" );
+
+	bolt::DataUnit *dataunit = loader->get<bolt::DataUnit>( "config" );
+
+	if( dataunit != NULL ) dataunit->startLoading();
 
 	return true;
 }
@@ -82,6 +92,17 @@ void TestApplication::saveState()
 void TestApplication::run()
 {
 //	LOG_OUT << "Hi!\nTestApp. At: " << times << std::endl;
+
+	bolt::ResourceLoader *loader = bolt::Singleton<bolt::ResourceLoader>::get();
+	if( loader != NULL)
+	{
+		bolt::DataUnit *dataunit = loader->get<bolt::DataUnit>( "config" );
+		if( dataunit != NULL && dataunit->isLoadingComplete() )
+		{
+			LOG_OUT << dataunit->accessData() << std::endl;
+		}
+	}
+
 	--times;
 
 	// Bind default screen

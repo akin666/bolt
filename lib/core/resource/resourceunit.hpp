@@ -9,6 +9,7 @@
 #define RESOURCEUNIT_HPP_
 
 #include <common>
+#include <thread>
 
 namespace bolt
 {
@@ -16,14 +17,15 @@ namespace bolt
 class ResourceUnit
 {
 public:
-	static const uint LOADING_NONE = 		0x0;
-	static const uint LOADING_STARTED = 	0x000001;
-	static const uint LOADING_COMPLETE = 	0x000002;
+	static const uint LOADING_NONE = 		0x0000;
+	static const uint LOADING_STARTED = 	0x0001;
+	static const uint LOADING_COMPLETE = 	0x0002;
 protected:
+	std::mutex mutex;
 	unsigned short state;
 
-	void setLoadingComplete( bool state );
-	void setLoadingStarted( bool state );
+	void setLoadingComplete( bool val );
+	void setLoadingStarted( bool val );
 public:
 	ResourceUnit();
 	virtual ~ResourceUnit();
