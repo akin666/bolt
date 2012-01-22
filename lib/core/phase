@@ -1,23 +1,23 @@
 /*
- * state.hpp
+ * phase.hpp
  *
  *  Created on: 22.1.2012
  *      Author: akin
  */
 
-#ifndef STATE_HPP_
-#define STATE_HPP_
+#ifndef PHASE_HPP_
+#define PHASE_HPP_
 
 #include <common>
 
 namespace bolt
 {
 
-class State
+class Phase
 {
 public:
-	State();
-	virtual ~State();
+	Phase() {}
+	virtual ~Phase() {}
 
 	virtual bool initialize() = 0;
 	virtual bool cleanup() = 0;
@@ -26,4 +26,4 @@ public:
 };
 
 } /* namespace bolt */
-#endif /* STATE_HPP_ */
+#endif /* PHASE_HPP_ */
