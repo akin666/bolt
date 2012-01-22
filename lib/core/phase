@@ -19,9 +19,6 @@ public:
 	Phase() {}
 	virtual ~Phase() {}
 
-	virtual bool initialize() = 0;
-	virtual bool cleanup() = 0;
-
 	virtual void update( MicroSeconds delta ) = 0;
 };
 
