@@ -10,12 +10,13 @@
 #include <application/application.hpp>
 #include <system/audio/openalaudio.hpp>
 #include <system/video/glfwvideo.hpp>
+#include <log.hpp>
 
 #include "game/testapplication.hpp"
 
 int main( int argc , char *argv[] )
 {
-	bolt::Main< TestApplication , bolt::GLFWVideo , bolt::OpenALAudio > entity;
+	bolt::Main< TestApplication , bolt::GLFWVideo , bolt::OpenALAudio , bolt::Log > entity;
 
 	entity.initialize( argc , argv );
 

@@ -19,21 +19,14 @@
 #include <exception/exceptionhandler.hpp>
 #include <event/eventhandler.hpp>
 #include <exception/exceptionhandler.hpp>
-#include <input/keyboardinputhandler.hpp>
-#include <input/mouseinputhandler.hpp>
-#include <input/joystickinputhandler.hpp>
 
 namespace bolt
 {
 
 class Application
 	: public EventHandler ,
-	  public Log ,
 	  public ExceptionHandler,
-	  public ApplicationState ,
-	  public KeyboardInputHandler ,
-	  public MouseInputHandler ,
-	  public JoystickInputHandler
+	  public ApplicationState
 {
 public:
 	Application();

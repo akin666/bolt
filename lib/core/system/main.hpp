@@ -22,21 +22,19 @@
 #include <log.hpp>
 #include <event/eventhandler.hpp>
 #include <exception/exceptionhandler.hpp>
-#include <input/keyboardinputhandler.hpp>
-#include <input/mouseinputhandler.hpp>
-#include <input/joystickinputhandler.hpp>
 #include <threadpool>
 
 namespace bolt
 {
 
-template < class ApplicationPolicy , class VideoPolicy , class AudioPolicy >
+template < class ApplicationPolicy , class VideoPolicy , class AudioPolicy , class LogPolicy >
 class Main
 {
 protected:
 	ApplicationPolicy application;
 	VideoPolicy video;
 	AudioPolicy audio;
+	LogPolicy log;
 	ThreadPool pool;
 public:
 	Main();
@@ -45,30 +43,27 @@ public:
 	int run();
 };
 
-template < class ApplicationPolicy , class VideoPolicy , class AudioPolicy >
-Main< ApplicationPolicy, VideoPolicy, AudioPolicy >::Main()
+template < class ApplicationPolicy , class VideoPolicy , class AudioPolicy , class LogPolicy >
+Main< ApplicationPolicy, VideoPolicy, AudioPolicy , LogPolicy >::Main()
 {
 }
 
-template < class ApplicationPolicy , class VideoPolicy , class AudioPolicy >
-Main< ApplicationPolicy, VideoPolicy, AudioPolicy >::~Main()
+template < class ApplicationPolicy , class VideoPolicy , class AudioPolicy , class LogPolicy >
+Main< ApplicationPolicy, VideoPolicy, AudioPolicy , LogPolicy >::~Main()
 {
 }
 
-template < class ApplicationPolicy , class VideoPolicy , class AudioPolicy >
-bool Main< ApplicationPolicy, VideoPolicy, AudioPolicy >::initialize( int argc , char *argv[] )
+template < class ApplicationPolicy , class VideoPolicy , class AudioPolicy , class LogPolicy >
+bool Main< ApplicationPolicy, VideoPolicy, AudioPolicy , LogPolicy >::initialize( int argc , char *argv[] )
 {
 	application.processArgs( argc , argv );
 
 	// _ALL_ expects these to be set
 	// especially the logging and exception handling!
 	Singleton<Application>::set( &application );
-	Singleton<Log>::set( &application );
+	Singleton<Log>::set( &log );
 	Singleton<ExceptionHandler>::set( &application );
 	Singleton<EventHandler>::set( &application );
-	Singleton<KeyboardInputHandler>::set( &application );
-	Singleton<MouseInputHandler>::set( &application );
-	Singleton<JoystickInputHandler>::set( &application );
 
 	Singleton<ThreadPool>::set( &pool );
 
@@ -81,8 +76,8 @@ bool Main< ApplicationPolicy, VideoPolicy, AudioPolicy >::initialize( int argc ,
 	return pool.initialize( workers ) && application.initialize() && audio.initialize() && video.initialize();
 }
 
-template < class ApplicationPolicy , class VideoPolicy , class AudioPolicy >
-int Main< ApplicationPolicy, VideoPolicy, AudioPolicy >::run()
+template < class ApplicationPolicy , class VideoPolicy , class AudioPolicy , class LogPolicy >
+int Main< ApplicationPolicy, VideoPolicy, AudioPolicy , LogPolicy >::run()
 {
 	bool restart;
 
