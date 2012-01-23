@@ -6,7 +6,7 @@
  */
 
 #include "componentwork.hpp"
-#include "componentnode.hpp"
+#include "controllernode.hpp"
 #include <iostream>
 
 namespace bolt
@@ -21,9 +21,9 @@ ComponentWork::~ComponentWork()
 {
 }
 
-void ComponentWork::setComponent( ComponentNode *componentnode )
+void ComponentWork::set( ControllerNode *co )
 {
-	parent = componentnode;
+	parent = co;
 }
 
 bool ComponentWork::begin()

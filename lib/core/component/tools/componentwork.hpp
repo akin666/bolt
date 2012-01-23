@@ -12,14 +12,14 @@
 
 namespace bolt
 {
-class ComponentNode;
+class ControllerNode;
 
 class ComponentWork : public Work
 {
 protected:
-	ComponentNode *parent;
+	ControllerNode *parent;
 public:
-	void setComponent( ComponentNode *component );
+	void set( ControllerNode *co );
 public:
 	ComponentWork();
 	virtual ~ComponentWork();

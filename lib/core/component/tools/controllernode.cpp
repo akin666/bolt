@@ -1,54 +1,54 @@
 /*
- * componentnode.cpp
+ * ControllerNode.cpp
  *
  *  Created on: 16.1.2012
  *      Author: akin
  */
 
-#include "componentnode.hpp"
+#include "controllernode.hpp"
 #include <threadpool>
 #include "componentwork.hpp"
-#include <component/component.hpp>
+#include <component/controller.hpp>
 
 namespace bolt
 {
 
-ComponentNode::ComponentNode( Component& component , TQue<ComponentNode*>& finishQueu )
-: component( component ),
+ControllerNode::ControllerNode( Controller& controller , TQue<ControllerNode*>& finishQueu )
+: controller( controller ),
   concurrent_reference_counting( 0 ),
   cycle( 0 ),
   finishQueu( finishQueu )
 {
 }
 
-ComponentNode::ComponentNode( ComponentNode& other )
-: component( other.component ),
+ControllerNode::ControllerNode( ControllerNode& other )
+: controller( other.controller ),
   concurrent_reference_counting( other.concurrent_reference_counting ),
   cycle( other.cycle ),
   finishQueu( other.finishQueu )
 {
 }
 
-ComponentNode::~ComponentNode()
+ControllerNode::~ControllerNode()
 {
 }
 
-NodeSet& ComponentNode::getDependencies()
+NodeSet& ControllerNode::getDependencies()
 {
 	return dependencies;
 }
 
-NodeSet& ComponentNode::getChilds()
+NodeSet& ControllerNode::getChilds()
 {
 	return childs;
 }
 
-void ComponentNode::addReference()
+void ControllerNode::addReference()
 {
 	concurrent_reference_counting++;
 }
 
-void ComponentNode::releaseReference()
+void ControllerNode::releaseReference()
 {
 	concurrent_reference_counting--;
 
@@ -59,20 +59,20 @@ void ComponentNode::releaseReference()
 	}
 }
 
-bool ComponentNode::isRunning()
+bool ControllerNode::isRunning()
 {
 	return concurrent_reference_counting > 0;
 }
 
-void ComponentNode::start( uint end )
+void ControllerNode::start( uint end )
 {
 	addReference();
-	component.start( *this );
+	controller.start( *this );
 	cycle = end;
 	releaseReference();
 }
 
-void ComponentNode::schedule( ComponentWork& work )
+void ControllerNode::schedule( ComponentWork& work )
 {
 	// Schedule the work in threadpools..
 	addReference();
@@ -88,7 +88,7 @@ void ComponentNode::schedule( ComponentWork& work )
 	}
 }
 
-void ComponentNode::scheduleWork( Work& work )
+void ControllerNode::scheduleWork( Work& work )
 {
 	if( bolt::Singleton<bolt::ThreadPool>::get() != NULL )
 	{
@@ -101,22 +101,22 @@ void ComponentNode::scheduleWork( Work& work )
 	}
 }
 
-Component& ComponentNode::getComponent()
+Controller& ControllerNode::get()
 {
-	return component;
+	return controller;
 }
 
-uint ComponentNode::getCycle()
+uint ControllerNode::getCycle()
 {
 	return cycle;
 }
 
-void ComponentNode::setCycle( uint val )
+void ControllerNode::setCycle( uint val )
 {
 	cycle = val;
 }
 
-void ComponentNode::finished( ComponentWork& work )
+void ControllerNode::finished( ComponentWork& work )
 {
 	releaseReference();
 }

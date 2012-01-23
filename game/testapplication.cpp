@@ -9,8 +9,7 @@
 #include <log>
 #include <singleton>
 #include <system/video.hpp>
-#include "pipeline/simplerenderercomponent.hpp"
-#include "pipeline/namecomponent.hpp"
+#include "pipeline/simplerenderercontroller.hpp"
 #include <resource/resourceloader.hpp>
 #include <resource/dataunit.hpp>
 
@@ -36,10 +35,10 @@ bool TestApplication::initialize()
 
 	times = 100;
 
-	bolt::Singleton<SimpleRendererComponent>::create()->initialize();
-	bolt::Singleton<NameComponent>::create()->initialize();
+	bolt::Singleton<SimpleRendererController>::create()->initialize();
+//	bolt::Singleton<NameComponent>::create()->initialize();
 
-	pipeline.attach( bolt::Singleton<SimpleRendererComponent>::get() );
+	pipeline.attach( bolt::Singleton<SimpleRendererController>::get() );
 
 	initialized = true;
 

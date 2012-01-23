@@ -1,18 +1,19 @@
 /*
- * fencecomponent.hpp
+ * FenceController.hpp
  *
  *  Created on: 20.1.2012
  *      Author: akin
  */
 
-#ifndef FENCECOMPONENT_HPP_
-#define FENCECOMPONENT_HPP_
+#ifndef FENCECONTROLLER_HPP_
+#define FENCECONTROLLER_HPP_
 
-#include "../component.hpp"
+#include <component/controller.hpp>
+#include <common>
 
 namespace bolt
 {
-class FenceComponent: public bolt::Component
+class FenceController: public bolt::Controller
 {
 public:
 	const static std::string INPUT;
@@ -23,8 +24,8 @@ public:
 protected:
 	bolt::StringSet& dependencies;
 public:
-	FenceComponent( std::string fencename , bolt::StringSet& dependencies );
-	virtual ~FenceComponent();
+	FenceController( std::string fencename , bolt::StringSet& dependencies );
+	virtual ~FenceController();
 
 	virtual bool initialize();
 
@@ -33,8 +34,8 @@ public:
 	virtual void attach( bolt::Entity& entity );
 	virtual void detach( bolt::Entity& entity );
 
-	virtual void start( bolt::ComponentNode& node );
+	virtual void start( bolt::ControllerNode& node );
 };
 }
 
-#endif /* FENCECOMPONENT_HPP_ */
+#endif /* FENCECONTROLLER_HPP_ */

@@ -19,18 +19,18 @@ Prototype::~Prototype()
 {
 }
 
-void Prototype::add( Component& component )
+void Prototype::add( Controller& controller )
 {
 	// already in list?
-	if( components.find( &component) != components.end() )
+	if( controllers.find( &controller) != controllers.end() )
 	{
-		components.insert( &component );
+		controllers.insert( &controller );
 	}
 }
 
 void Prototype::attach( Entity& entity )
 {
-	for( ComponentSet::iterator iter = components.begin() ; iter != components.end() ; ++iter )
+	for( ControllerSet::iterator iter = controllers.begin() ; iter != controllers.end() ; ++iter )
 	{
 		(*iter)->attach( entity );
 	}

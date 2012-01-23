@@ -1,12 +1,12 @@
 /*
- * componentnode.hpp
+ * controllernode.hpp
  *
  *  Created on: 16.1.2012
  *      Author: akin
  */
 
-#ifndef COMPONENTNODE_HPP_
-#define COMPONENTNODE_HPP_
+#ifndef CONTROLLERNODE_HPP_
+#define CONTROLLERNODE_HPP_
 
 #include <common>
 #include <set>
@@ -16,17 +16,17 @@ namespace bolt
 {
 
 class Work;
-class Component;
+class Controller;
 class ComponentWork;
 
-class ComponentNode;
+class ControllerNode;
 
-typedef std::set<ComponentNode *> NodeSet;
+typedef std::set<ControllerNode *> NodeSet;
 
-class ComponentNode
+class ControllerNode
 {
 protected:
-	Component& component;
+	Controller& controller;
 	int concurrent_reference_counting;
 
 	uint cycle;
@@ -35,20 +35,20 @@ protected:
 	NodeSet childs;
 
 	// Where to push, once finished.
-	TQue<ComponentNode*>& finishQueu;
+	TQue<ControllerNode*>& finishQueu;
 
 	// reference counting:
 	void addReference();
 	void releaseReference();
 public:
-	ComponentNode( Component& component , TQue<ComponentNode*>& finishQueu );
-	ComponentNode( ComponentNode& other );
-	virtual ~ComponentNode();
+	ControllerNode( Controller& controller , TQue<ControllerNode*>& finishQueu );
+	ControllerNode( ControllerNode& other );
+	virtual ~ControllerNode();
 
 	NodeSet& getDependencies();
 	NodeSet& getChilds();
 
-	Component& getComponent();
+	Controller& get();
 	uint getCycle();
 	void setCycle( uint val );
 	bool isRunning();

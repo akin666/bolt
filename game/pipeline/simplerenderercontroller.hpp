@@ -1,16 +1,16 @@
 /*
- * simpletenderercomponent.hpp
+ * SimpleRendererController.hpp
  *
  *  Created on: 20.1.2012
  *      Author: akin
  */
 
-#ifndef SIMPLETENDERERCOMPONENT_HPP_
-#define SIMPLETENDERERCOMPONENT_HPP_
+#ifndef SIMPLETENDERERCONTROLLER_HPP_
+#define SIMPLETENDERERCONTROLLER_HPP_
 
-#include <component/component.hpp>
+#include <component/controller.hpp>
 
-class SimpleRendererComponent: public bolt::Component
+class SimpleRendererController: public bolt::Controller
 {
 public:
 	const static std::string KEY;
@@ -18,8 +18,8 @@ protected:
 	bool initialized;
 	bolt::StringSet dependecies;
 public:
-	SimpleRendererComponent();
-	virtual ~SimpleRendererComponent();
+	SimpleRendererController();
+	virtual ~SimpleRendererController();
 
 	virtual bool initialize();
 
@@ -28,7 +28,7 @@ public:
 	virtual void attach( bolt::Entity& entity );
 	virtual void detach( bolt::Entity& entity );
 
-	virtual void start( bolt::ComponentNode& node );
+	virtual void start( bolt::ControllerNode& node );
 };
 
 #endif /* SIMPLETENDERERCOMPONENT_HPP_ */

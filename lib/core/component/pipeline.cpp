@@ -6,8 +6,8 @@
  */
 
 #include "pipeline.hpp"
-#include "component.hpp"
-#include "tools/componentnode.hpp"
+#include "controller.hpp"
+#include "tools/controllernode.hpp"
 
 namespace bolt
 {
@@ -24,7 +24,7 @@ Pipeline::~Pipeline()
 
 void Pipeline::clear()
 {
-	for( std::map<std::string , ComponentNode*>::iterator iter = nodeNameMap.begin() ; iter != nodeNameMap.end() ; ++iter )
+	for( std::map<std::string , ControllerNode*>::iterator iter = nodeNameMap.begin() ; iter != nodeNameMap.end() ; ++iter )
 	{
 		delete iter->second;
 	}
@@ -40,7 +40,7 @@ void Pipeline::setCycle( uint val )
 {
 	cycle = val;
 
-	for( std::map<std::string , ComponentNode*>::iterator iter = nodeNameMap.begin() ; iter != nodeNameMap.end() ; ++iter )
+	for( std::map<std::string , ControllerNode*>::iterator iter = nodeNameMap.begin() ; iter != nodeNameMap.end() ; ++iter )
 	{
 		iter->second->setCycle( cycle );
 	}
@@ -51,7 +51,7 @@ uint Pipeline::getCycle()
 	return cycle;
 }
 
-void Pipeline::addToRoot( ComponentNode *node )
+void Pipeline::addToRoot( ControllerNode *node )
 {
 	if( node != NULL && node->getDependencies().size() == 0 )
 	{
@@ -60,9 +60,9 @@ void Pipeline::addToRoot( ComponentNode *node )
 	}
 }
 
-void Pipeline::attach( Component *component ) throw (std::exception)
+void Pipeline::attach( Controller *controller ) throw (std::exception)
 {
-	if( component == NULL )
+	if( controller == NULL )
 	{
 		return;
 	}
@@ -70,19 +70,19 @@ void Pipeline::attach( Component *component ) throw (std::exception)
 	std::lock_guard<std::mutex> lock( mutex );
 
 	// already has it
-	if( nodeNameMap.find( component->getName() ) != nodeNameMap.end() )
+	if( nodeNameMap.find( controller->getName() ) != nodeNameMap.end() )
 	{
 		return;
 	}
 
-	ComponentNode *node = new ComponentNode( *component , waitingQue );
+	ControllerNode *node = new ControllerNode( *controller , waitingQue );
 
 	StringSet dependencies;
-	component->getDependencies( dependencies );
+	controller->getDependencies( dependencies );
 
 	// Seek Parent dependencies.
 	// If found, link em.
-	std::map<std::string , ComponentNode*>::iterator citer;
+	std::map<std::string , ControllerNode*>::iterator citer;
 	for( StringSet::iterator iter = dependencies.begin() ; iter != dependencies.end() ; ++iter )
 	{
 		citer = nodeNameMap.find( *iter );
@@ -90,7 +90,7 @@ void Pipeline::attach( Component *component ) throw (std::exception)
 		if( citer != nodeNameMap.end() )
 		{
 			// found!
-			ComponentNode *dependencyNode = citer->second;
+			ControllerNode *dependencyNode = citer->second;
 
 			node->getDependencies().insert( dependencyNode );
 			dependencyNode->getChilds().insert( node );
@@ -99,13 +99,13 @@ void Pipeline::attach( Component *component ) throw (std::exception)
 
 	// Seek child dependencies.
 	// If found, link em.
-	std::string name = component->getName();
-	for( std::map<std::string , ComponentNode*>::iterator iter = nodeNameMap.begin() ; iter != nodeNameMap.end() ; ++iter )
+	std::string name = controller->getName();
+	for( std::map<std::string , ControllerNode*>::iterator iter = nodeNameMap.begin() ; iter != nodeNameMap.end() ; ++iter )
 	{
-		ComponentNode *dependencyNode = iter->second;
+		ControllerNode *dependencyNode = iter->second;
 
 		// Reuse list..
-		dependencyNode->getComponent().getDependencies( dependencies );
+		dependencyNode->get().getDependencies( dependencies );
 
 		// No dependency?
 		if( dependencies.find( name ) == dependencies.end() )
@@ -130,16 +130,16 @@ void Pipeline::attach( Component *component ) throw (std::exception)
 	node->setCycle( cycle );
 }
 
-void Pipeline::detach( Component *component ) throw (std::exception)
+void Pipeline::detach( Controller *controller ) throw (std::exception)
 {
-	if( component == NULL )
+	if( controller == NULL )
 	{
 		return;
 	}
 
 	std::lock_guard<std::mutex> lock( mutex );
 
-	std::map<std::string , ComponentNode*>::iterator iter = nodeNameMap.find( component->getName() );
+	std::map<std::string , ControllerNode*>::iterator iter = nodeNameMap.find( controller->getName() );
 
 	// does not have it..
 	if( iter == nodeNameMap.end() )
@@ -147,7 +147,7 @@ void Pipeline::detach( Component *component ) throw (std::exception)
 		return;
 	}
 
-	ComponentNode *node = iter->second;
+	ControllerNode *node = iter->second;
 
 	// remove from namemap.
 	nodeNameMap.erase( iter );
@@ -186,7 +186,7 @@ void Pipeline::detach( Component *component ) throw (std::exception)
 
 void Pipeline::run() throw (std::exception)
 {
-	// Launch each component,
+	// Launch each controller,
 	std::lock_guard<std::mutex> lock( mutex );
 
 	if( roots.size() < 1 )
@@ -196,19 +196,19 @@ void Pipeline::run() throw (std::exception)
 
 	++cycle;
 
-	ComponentNode *current;
-	ComponentNode *child;
-	ComponentNode *parent;
+	ControllerNode *current;
+	ControllerNode *child;
+	ControllerNode *parent;
 	bool qualified;
 
-	// Sort concurrent and nonconcurrent components.
+	// Sort concurrent and nonconcurrent controllers.
 	concurrent.clear();
 	nonConcurrent.clear();
 	for( NodeSet::iterator iter = roots.begin() ; iter != roots.end() ; ++iter )
 	{
 		current = *iter;
 
-		if( current->getComponent().isConcurrent() )
+		if( current->get().isConcurrent() )
 		{
 			concurrent.insert( current );
 		}
@@ -222,7 +222,7 @@ void Pipeline::run() throw (std::exception)
 	do
 	{
 		// foreach
-		// run all concurrent components first.
+		// run all concurrent controllers first.
 		for( NodeSet::iterator iter = concurrent.begin() ; iter != concurrent.end() ; ++iter )
 		{
 			current = *iter;
@@ -236,7 +236,7 @@ void Pipeline::run() throw (std::exception)
 			current->start( cycle );
 			++running;
 		}
-		// run all single threaded, non-concurrent components.
+		// run all single threaded, non-concurrent controllers.
 		for( NodeSet::iterator iter = nonConcurrent.begin() ; iter != nonConcurrent.end() ; ++iter )
 		{
 			current = *iter;
@@ -285,7 +285,7 @@ void Pipeline::run() throw (std::exception)
 				}
 
 				// Sort childs to correct places.
-				if( child->getComponent().isConcurrent() )
+				if( child->get().isConcurrent() )
 				{
 					concurrent.insert( child );
 				}

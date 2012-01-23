@@ -11,10 +11,10 @@
 
 // if components are not initialized/set, SET EM!
 #include <singleton>
-#include <component/input/touchcomponent.hpp>
-#include <component/input/keyboardcomponent.hpp>
-#include <component/input/mousecomponent.hpp>
-#include <component/input/joystickcomponent.hpp>
+#include <component/input/touchcontroller.hpp>
+#include <component/input/keyboardcontroller.hpp>
+#include <component/input/mousecontroller.hpp>
+#include <component/input/joystickcontroller.hpp>
 
 namespace bolt
 {
@@ -22,10 +22,10 @@ namespace bolt
 // GLFW INPUT HANDLING
 namespace GLFWInputHandling
 {
-	TouchComponent *touch = NULL;
-	KeyboardComponent *keyboard = NULL;
-	MouseComponent *mouse = NULL;
-	JoystickComponent *joystick = NULL;
+	TouchController *touch = NULL;
+	KeyboardController *keyboard = NULL;
+	MouseController *mouse = NULL;
+	JoystickController *joystick = NULL;
 
 	int mouseX = 0;
 	int mouseY = 0;
@@ -34,31 +34,31 @@ namespace GLFWInputHandling
 	void setup()
 	{
 		// Setup components, IF needed.
-		touch = Singleton<TouchComponent>::get();
-		keyboard = Singleton<KeyboardComponent>::get();
-		mouse = Singleton<MouseComponent>::get();
-		joystick = Singleton<JoystickComponent>::get();
+		touch = Singleton<TouchController>::get();
+		keyboard = Singleton<KeyboardController>::get();
+		mouse = Singleton<MouseController>::get();
+		joystick = Singleton<JoystickController>::get();
 
 		// Setup input components
 		if( touch == NULL )
 		{
-			touch = new TouchComponent();
-			Singleton<TouchComponent>::set(touch);
+			touch = new TouchController();
+			Singleton<TouchController>::set(touch);
 		}
 		if( keyboard == NULL )
 		{
-			keyboard = new KeyboardComponent();
-			Singleton<KeyboardComponent>::set(keyboard);
+			keyboard = new KeyboardController();
+			Singleton<KeyboardController>::set(keyboard);
 		}
 		if( mouse == NULL )
 		{
-			mouse = new MouseComponent();
-			Singleton<MouseComponent>::set(mouse);
+			mouse = new MouseController();
+			Singleton<MouseController>::set(mouse);
 		}
 		if( joystick == NULL )
 		{
-			joystick = new JoystickComponent();
-			Singleton<JoystickComponent>::set(joystick);
+			joystick = new JoystickController();
+			Singleton<JoystickController>::set(joystick);
 		}
 
 		glfwGetMousePos( &mouseX , &mouseY );

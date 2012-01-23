@@ -1,25 +1,25 @@
 /*
- * joystickcomponent.hpp
+ * JoystickController.hpp
  *
  *  Created on: 20.1.2012
  *      Author: akin
  */
 
-#ifndef JOYSTICKCOMPONENT_HPP_
-#define JOYSTICKCOMPONENT_HPP_
+#ifndef JOYSTICKCONTROLLER_HPP_
+#define JOYSTICKCONTROLLER_HPP_
 
-#include <component/component.hpp>
+#include <component/controller.hpp>
 #include <common>
 
 namespace bolt
 {
-class JoystickComponent: public bolt::Component
+class JoystickController: public bolt::Controller
 {
 public:
 	const static std::string KEY;
 public:
-	JoystickComponent();
-	virtual ~JoystickComponent();
+	JoystickController();
+	virtual ~JoystickController();
 
 	virtual bool initialize();
 
@@ -28,11 +28,11 @@ public:
 	virtual void attach( bolt::Entity& entity );
 	virtual void detach( bolt::Entity& entity );
 
-	virtual void start( bolt::ComponentNode& node );
+	virtual void start( bolt::ControllerNode& node );
 
 	virtual void handleJoystickMove( int devicenum , int joynum , float x , float y );
 	virtual void handleJoystickButton( int devicenum , bolt::Button button , float state );
 };
 }
 
-#endif /* JOYSTICKCOMPONENT_HPP_ */
+#endif /* JOYSTICKCONTROLLER_HPP_ */

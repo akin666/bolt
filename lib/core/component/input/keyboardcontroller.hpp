@@ -1,24 +1,24 @@
 /*
- * keyboardcomponent.hpp
+ * KeyboardController.hpp
  *
  *  Created on: 20.1.2012
  *      Author: akin
  */
 
-#ifndef KEYBOARDCOMPONENT_HPP_
-#define KEYBOARDCOMPONENT_HPP_
+#ifndef KEYBOARDCONTROLLER_HPP_
+#define KEYBOARDCONTROLLER_HPP_
 
-#include <component/component.hpp>
+#include <component/controller.hpp>
 
 namespace bolt
 {
-class KeyboardComponent: public bolt::Component
+class KeyboardController: public bolt::Controller
 {
 public:
 	const static std::string KEY;
 public:
-	KeyboardComponent();
-	virtual ~KeyboardComponent();
+	KeyboardController();
+	virtual ~KeyboardController();
 
 	virtual bool initialize();
 
@@ -27,11 +27,11 @@ public:
 	virtual void attach( bolt::Entity& entity );
 	virtual void detach( bolt::Entity& entity );
 
-	virtual void start( bolt::ComponentNode& node );
+	virtual void start( bolt::ControllerNode& node );
 
 	virtual void handleKeyboard( unsigned int key , float state );
 	virtual void handleKeyboardCharacter( unsigned int key , float state );
 };
 }
 
-#endif /* KEYBOARDCOMPONENT_HPP_ */
+#endif /* KEYBOARDCONTROLLER_HPP_ */

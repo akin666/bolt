@@ -1,12 +1,12 @@
 /*
- * Component.hpp
+ * controller.hpp
  *
  *  Created on: 16.1.2012
  *      Author: akin
  */
 
-#ifndef COMPONENT_HPP_
-#define COMPONENT_HPP_
+#ifndef CONTROLLER_HPP_
+#define CONTROLLER_HPP_
 
 #include "entity.hpp"
 #include <set>
@@ -18,8 +18,8 @@ namespace bolt
 typedef std::set<std::string> StringSet;
 
 class ComponentWork;
-class ComponentNode;
-class Component
+class ControllerNode;
+class Controller
 {
 protected:
 	// SM_ID functionality
@@ -41,24 +41,24 @@ public:
 	/////
 	// Following functions create the interface.
 	/////
-	Component( std::string name , bool concurrent = false);
-	virtual ~Component();
+	Controller( std::string name , bool concurrent = false);
+	virtual ~Controller();
 
 	// Create or initialize also the components Property'es
 	virtual bool initialize();
 
-	// Figure out what components should be before this component.
+	// Figure out what controllers should be before this controller.
 	virtual void getDependencies( StringSet& dep );
 
 	// Attach / Detach an entity to the component.
 	virtual void attach( Entity& entity ) = 0;
 	virtual void detach( Entity& entity ) = 0;
 
-	// Start can be blocking, if the component wants to do singlethreaded.
+	// Start can be blocking, if the controller wants to do singlethreaded.
 	// on multithreaded situation, it should start work on packages.
 	// Use ComponentNode to start all sort of crazy work tasks etc.
-	virtual void start( ComponentNode& node ) = 0;
+	virtual void start( ControllerNode& node ) = 0;
 };
 
 } /* namespace bolt */
-#endif /* COMPONENT_HPP_ */
+#endif /* CONTROLLER_HPP_ */

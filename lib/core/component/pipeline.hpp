@@ -11,12 +11,11 @@
 #include <exception>
 #include <thread>
 #include <tque>
-#include "tools/componentnode.hpp"
+#include "tools/controllernode.hpp"
 
 namespace bolt
 {
-class Component;
-class ComponentNode;
+class Controller;
 class Pipeline
 {
 private:
@@ -26,10 +25,10 @@ private:
 	NodeSet roots;
 	NodeSet nonConcurrent;
 	NodeSet concurrent;
-	TQue<ComponentNode*> waitingQue;
+	TQue<ControllerNode*> waitingQue;
 
-	std::map<std::string,ComponentNode*> nodeNameMap;
-	void addToRoot( ComponentNode *node );
+	std::map<std::string,ControllerNode*> nodeNameMap;
+	void addToRoot( ControllerNode *node );
 public:
 	Pipeline();
 	virtual ~Pipeline();
@@ -37,8 +36,8 @@ public:
 	void setCycle( uint val );
 	uint getCycle();
 
-	void attach( Component *component ) throw (std::exception);
-	void detach( Component *component ) throw (std::exception);
+	void attach( Controller *controller ) throw (std::exception);
+	void detach( Controller *controller ) throw (std::exception);
 
 	void clear();
 

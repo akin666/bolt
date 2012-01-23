@@ -10,23 +10,22 @@
 
 #include <set>
 #include "entity.hpp"
-#include "component.hpp"
+#include "controller.hpp"
 
 namespace bolt
 {
 
-typedef std::set<Component*> ComponentSet;
+typedef std::set<Controller*> ControllerSet;
 
-class Component;
 class Prototype
 {
 protected:
-	ComponentSet components;
+	ControllerSet controllers;
 public:
 	Prototype();
 	virtual ~Prototype();
 
-	void add( Component& component );
+	void add( Controller& controller );
 
 	void attach( Entity& entity );
 	Entity create();

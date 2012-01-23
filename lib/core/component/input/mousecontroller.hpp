@@ -1,25 +1,25 @@
 /*
- * mousecomponent.hpp
+ * MouseController.hpp
  *
  *  Created on: 20.1.2012
  *      Author: akin
  */
 
-#ifndef MOUSECOMPONENT_HPP_
-#define MOUSECOMPONENT_HPP_
+#ifndef MOUSECONTROLLER_HPP_
+#define MOUSECONTROLLER_HPP_
 
-#include <component/component.hpp>
+#include <component/controller.hpp>
 #include <common>
 
 namespace bolt
 {
-class MouseComponent: public bolt::Component
+class MouseController: public bolt::Controller
 {
 public:
 	const static std::string KEY;
 public:
-	MouseComponent();
-	virtual ~MouseComponent();
+	MouseController();
+	virtual ~MouseController();
 
 	virtual bool initialize();
 
@@ -28,7 +28,7 @@ public:
 	virtual void attach( bolt::Entity& entity );
 	virtual void detach( bolt::Entity& entity );
 
-	virtual void start( bolt::ComponentNode& node );
+	virtual void start( bolt::ControllerNode& node );
 
 	virtual void handleMouseMove( float x , float y );
 	virtual void handleMouseButton( bolt::Button button , float state );
@@ -36,4 +36,4 @@ public:
 };
 }
 
-#endif /* MOUSECOMPONENT_HPP_ */
+#endif /* MOUSECONTROLLER_HPP_ */
