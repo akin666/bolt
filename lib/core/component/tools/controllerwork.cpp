@@ -1,37 +1,37 @@
 /*
- * componentwork.cpp
+ * ControllerWork.cpp
  *
  *  Created on: 16.1.2012
  *      Author: akin
  */
 
-#include "componentwork.hpp"
+#include "controllerwork.hpp"
 #include "controllernode.hpp"
 #include <iostream>
 
 namespace bolt
 {
 
-ComponentWork::ComponentWork()
+ControllerWork::ControllerWork()
 : parent( NULL )
 {
 }
 
-ComponentWork::~ComponentWork()
+ControllerWork::~ControllerWork()
 {
 }
 
-void ComponentWork::set( ControllerNode *co )
+void ControllerWork::set( ControllerNode *co )
 {
 	parent = co;
 }
 
-bool ComponentWork::begin()
+bool ControllerWork::begin()
 {
 	return true;
 }
 
-void ComponentWork::end()
+void ControllerWork::end()
 {
 	if( parent != NULL )
 	{

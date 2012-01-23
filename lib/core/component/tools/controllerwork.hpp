@@ -1,12 +1,12 @@
 /*
- * componentwork.hpp
+ * ControllerWork.hpp
  *
  *  Created on: 16.1.2012
  *      Author: akin
  */
 
-#ifndef COMPONENTWORK_HPP_
-#define COMPONENTWORK_HPP_
+#ifndef CONTROLLERWORK_HPP_
+#define CONTROLLERWORK_HPP_
 
 #include <work>
 
@@ -14,15 +14,15 @@ namespace bolt
 {
 class ControllerNode;
 
-class ComponentWork : public Work
+class ControllerWork : public Work
 {
 protected:
 	ControllerNode *parent;
 public:
 	void set( ControllerNode *co );
 public:
-	ComponentWork();
-	virtual ~ComponentWork();
+	ControllerWork();
+	virtual ~ControllerWork();
 
 	// Inheriting classes are responsible to produce exact same
 	// action as begin and end are doing in this class.
@@ -32,4 +32,4 @@ public:
 };
 
 } /* namespace bolt */
-#endif /* COMPONENTWORK_HPP_ */
+#endif /* CONTROLLERWORK_HPP_ */

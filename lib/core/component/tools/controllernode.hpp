@@ -17,7 +17,7 @@ namespace bolt
 
 class Work;
 class Controller;
-class ComponentWork;
+class ControllerWork;
 
 class ControllerNode;
 
@@ -56,8 +56,8 @@ public:
 	void start( uint end );
 
 	// Component should use these to run stuff.
-	void schedule( ComponentWork& work );
-	void finished( ComponentWork& work );
+	void schedule( ControllerWork& work );
+	void finished( ControllerWork& work );
 
 	void scheduleWork( Work& work );
 };

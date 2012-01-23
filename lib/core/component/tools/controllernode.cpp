@@ -7,7 +7,7 @@
 
 #include "controllernode.hpp"
 #include <threadpool>
-#include "componentwork.hpp"
+#include "controllerwork.hpp"
 #include <component/controller.hpp>
 
 namespace bolt
@@ -72,7 +72,7 @@ void ControllerNode::start( uint end )
 	releaseReference();
 }
 
-void ControllerNode::schedule( ComponentWork& work )
+void ControllerNode::schedule( ControllerWork& work )
 {
 	// Schedule the work in threadpools..
 	addReference();
@@ -116,7 +116,7 @@ void ControllerNode::setCycle( uint val )
 	cycle = val;
 }
 
-void ControllerNode::finished( ComponentWork& work )
+void ControllerNode::finished( ControllerWork& work )
 {
 	releaseReference();
 }
