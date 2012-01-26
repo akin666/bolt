@@ -19,7 +19,7 @@ namespace resource
 class Loader
 {
 protected:
-	bool loadPath( const std::string& path );
+	bool loadPath( const std::string& alias , const std::string& path );
 public:
 	Loader();
 	virtual ~Loader();
