@@ -8,9 +8,7 @@
 #ifndef LOADER_HPP_
 #define LOADER_HPP_
 
-#include <common>
 #include <string>
-#include <tpool/compositework.hpp>
 
 namespace bolt
 {
@@ -19,10 +17,6 @@ namespace resource
 
 class Loader
 {
-protected:
-	CompositeWork composite;
-
-	bool loadPath( const std::string& alias , const std::string& path );
 public:
 	Loader();
 	virtual ~Loader();
