@@ -6,7 +6,7 @@
  */
 
 #include "bytedatawork.hpp"
-#include <resource/handle.hpp>
+#include <resource/registry.hpp>
 #include <resource/data/bytedata.hpp>
 #include <resource/dictionary.hpp>
 
@@ -42,7 +42,7 @@ void ByteDataWork::run()
 	// if not, load it.
 	uint key = Singleton<Dictionary>::get()->resolveKey( alias );
 
-	bool has = bolt::Singleton<Handle<ByteData> >::create()->hasObject( key );
+	bool has = bolt::Singleton<Registry<ByteData> >::create()->hasObject( key );
 
 	if( has )
 	{
@@ -88,7 +88,7 @@ void ByteDataWork::run()
 	ByteData *bdata = new ByteData( data, length );
 
 	// Give the ownership to Handle.
-	if( !bolt::Singleton<Handle<ByteData> >::create()->setObject( key , bdata ) )
+	if( !bolt::Singleton<Registry<ByteData> >::create()->setObject( key , bdata ) )
 	{
 		delete bdata;
 		return;

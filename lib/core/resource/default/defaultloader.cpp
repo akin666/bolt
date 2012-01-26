@@ -9,8 +9,11 @@
 
 #include <singleton>
 #include <resource/dictionary.hpp>
-#include <resource/loaders/bytedatawork.hpp>
 #include <threadpool>
+
+#include <group>
+#include <resource/handler.hpp>
+#include <resource/handler/texthandler.hpp>
 
 namespace bolt
 {
@@ -19,6 +22,7 @@ namespace resource
 
 DefaultLoader::DefaultLoader()
 {
+	Group<Handler>::add( new TextHandler() );
 }
 
 DefaultLoader::~DefaultLoader()
@@ -31,20 +35,24 @@ bool DefaultLoader::loadPath( const std::string& alias , const std::string& path
 	// And put it to load, with workers.
 	Work *work = NULL;
 
-	// TODO! GLSL Shader loaders, and other dirty specializations.
-	// based on the last .XXX letters.
+	size_t dotPos = path.find_last_of( '.' );
 
-	work = new ByteDataWork( alias , path );
-	/*
-	switch( ".XXX" )
+	// unknown format, no '.'
+	if( dotPos == std::string::npos )
 	{
-		case ".txt" : work = new TextDataWork( alias , path ); break;
-		case ".fs" : work = new FragmentShaderDataWork( alias , path ); break;
-		case ".vs" : work = new VertexShaderDataWork( alias , path ); break;
-		case ".xml" : work = new XMLDataWork( alias , path ); break;
-		default: work = new ByteDataWork( alias , path ); break;
+		return false;
 	}
-	*/
+
+	std::string type = path.substr( dotPos );
+
+	// Seek a handler, that can create work package for the file.
+	for( Group<Handler>::GroupList::iterator iter = Group<Handler>::begin() ; iter != Group<Handler>::end() ; ++iter )
+	{
+		if( (*iter)->canHandle( type ) )
+		{
+			work = (*iter)->handle( alias , path );
+		}
+	}
 
 	if( work != NULL )
 	{

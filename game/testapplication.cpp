@@ -12,7 +12,7 @@
 #include "pipeline/simplerenderercontroller.hpp"
 #include <resource/loader.hpp>
 #include <resource/dictionary.hpp>
-#include <resource/handle.hpp>
+#include <resource/registry.hpp>
 #include <resource/data/bytedata.hpp>
 
 TestApplication::TestApplication()
@@ -89,9 +89,9 @@ void TestApplication::run()
 {
 //	LOG_OUT << "Hi!\nTestApp. At: " << times << std::endl;
 
-	if( bolt::Singleton<bolt::resource::Handle<bolt::resource::ByteData> >::create()->hasObject( "config" ))
+	if( bolt::Singleton<bolt::resource::Registry<bolt::resource::ByteData> >::create()->hasObject( "config" ))
 	{
-		bolt::resource::ByteData *dataunit = bolt::Singleton<bolt::resource::Handle<bolt::resource::ByteData> >::create()->objectFor( "config" );
+		bolt::resource::ByteData *dataunit = bolt::Singleton<bolt::resource::Registry<bolt::resource::ByteData> >::create()->objectFor( "config" );
 
 		if( dataunit != NULL )
 		{

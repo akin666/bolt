@@ -1,0 +1,53 @@
+/*
+ * group
+ *
+ *  Created on: 9.1.2019
+ *      Author: akin
+ */
+
+#ifndef GROUP_HPP_
+#define GROUP_HPP_
+
+#include <iostream>
+#include <thread>
+#include <list>
+#include <iterator>
+
+namespace bolt
+{
+template <class CType>
+class Group
+{
+public:
+	typedef std::list<CType *> GroupList;
+protected:
+	static std::mutex mutex;
+	static GroupList group;
+public:
+	static bool add( CType *ct )
+	{
+		std::lock_guard<std::mutex> lock(mutex);
+		group.push_back( ct );
+		
+		return true;
+	}
+	
+	static typename GroupList::iterator begin()
+	{
+		return group.begin();
+	}
+	
+	static typename GroupList::iterator end()
+	{
+		return group.end();
+	}
+};
+
+template <class CType>
+typename Group<CType>::GroupList Group<CType>::group;
+template <class CType>
+std::mutex Group<CType>::mutex;
+
+}
+
+#endif /* SINGLETON_HPP_ */

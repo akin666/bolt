@@ -1,6 +1,6 @@
 
-#ifndef HANDLE_HPP_
-#define HANDLE_HPP_
+#ifndef REGISTRY_HPP_
+#define REGISTRY_HPP_
 
 /*
 usage (most likely):
@@ -23,7 +23,7 @@ namespace resource
 {
 
 template <class HType>
-class Handle
+class Registry
 {
 protected:
 	std::mutex mutex;
@@ -31,7 +31,7 @@ protected:
 
 	KeyTypeMap handles;
 public:
-	Handle( HType *nullObject = NULL )
+	Registry( HType *nullObject = NULL )
 	{
 		std::lock_guard<std::mutex> lock(mutex);
 		if( nullObject != NULL )

@@ -10,8 +10,8 @@
 #include <application/application.hpp>
 #include <system/audio/openalaudio.hpp>
 #include <system/video/glfwvideo.hpp>
-#include <resource/loader.hpp>
-#include <resource/dictionary.hpp>
+#include <resource/default/defaultloader.hpp>
+#include <resource/default/defaultdictionary.hpp>
 #include <log.hpp>
 
 #include "game/testapplication.hpp"
@@ -22,8 +22,8 @@ int main( int argc , char *argv[] )
 				bolt::GLFWVideo ,
 				bolt::OpenALAudio ,
 				bolt::Log ,
-				bolt::resource::Loader ,
-				bolt::resource::Dictionary > entity;
+				bolt::resource::DefaultLoader ,
+				bolt::resource::DefaultDictionary > entity;
 
 	entity.initialize( argc , argv );
 
