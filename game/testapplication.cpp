@@ -49,14 +49,6 @@ bool TestApplication::initialize()
 
 	initialized = true;
 
-	bolt::ResourceLoader *loader = bolt::Singleton<bolt::ResourceLoader>::get();
-
-	loader->addAlias( "config" , "resources/config/default.cfg" );
-
-	bolt::DataUnit *dataunit = loader->get<bolt::DataUnit>( "config" );
-
-	if( dataunit != NULL ) dataunit->startLoading();
-
 	return true;
 }
 
