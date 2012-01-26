@@ -1,5 +1,4 @@
 
-#include <work>
 #include "worker.hpp"
 #include <iostream>
 #include <stdexcept>
@@ -20,7 +19,7 @@ Worker::~Worker()
 	thread = NULL;
 }
 
-void Worker::init( TQue<Work*>& wqueu )  throw (std::exception)
+void Worker::init( WorkQue& wqueu )  throw (std::exception)
 {
 	if( thread == NULL )
 	{

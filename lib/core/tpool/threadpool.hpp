@@ -4,7 +4,6 @@
 
 #include <work>
 #include "worker.hpp"
-#include "tque"
 #include <exception>
 
 namespace bolt
@@ -13,7 +12,7 @@ namespace bolt
 class ThreadPool
 {
 protected:
-	TQue<Work*> data;
+	WorkQue data;
 	Worker *workers;
 	int worker_count;
 public:

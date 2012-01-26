@@ -5,15 +5,15 @@
 #include <tque>
 #include <thread>
 #include <exception>
+#include <work>
 
 namespace bolt
 {
-class WorkQueu;
-
 class Worker
 {
 protected:
-	TQue<Work*> *queu;
+	// shared queue with other workers.
+	WorkQue *queu;
 	std::thread *thread;
 
 	std::mutex mutex;
@@ -23,7 +23,7 @@ public:
 	Worker();
 	~Worker();
 
-	void init( TQue<Work*>& wqueu ) throw (std::exception);
+	void init( WorkQue& wqueu ) throw (std::exception);
 
 	void operator()();
 

@@ -2,6 +2,8 @@
 #ifndef WORK_H_
 #define WORK_H_
 
+#include <tque>
+
 namespace bolt
 {
 	class Work
@@ -14,5 +16,7 @@ namespace bolt
 		virtual void run() = 0;
 		virtual void end() = 0;
 	};
+	
+	typedef TQue<Work*> WorkQue;
 } /* namespace ice */
 #endif /* WORK_H_ */
