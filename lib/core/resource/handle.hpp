@@ -34,7 +34,10 @@ public:
 	Handle( HType *nullObject = NULL )
 	{
 		std::lock_guard<std::mutex> lock(mutex);
-		handles[ Dictionary::nullId ] = nullObject;
+		if( nullObject != NULL )
+		{
+			handles[ Dictionary::nullId ] = nullObject;
+		}
 	}
 	
 	HType *objectFor( uint key )
