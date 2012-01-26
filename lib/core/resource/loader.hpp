@@ -27,9 +27,8 @@ public:
 	Loader();
 	virtual ~Loader();
 
-	bool load( std::string alias , std::string path );
-
-	bool load( std::string alias );
+	virtual bool load( std::string alias , std::string path );
+	virtual bool load( std::string alias );
 };
 
 } // namespace resource

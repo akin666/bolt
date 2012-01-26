@@ -10,8 +10,6 @@
 #include <singleton>
 #include <system/video.hpp>
 #include "pipeline/simplerenderercontroller.hpp"
-#include <resource/resourceloader.hpp>
-#include <resource/dataunit.hpp>
 #include <resource/loader.hpp>
 #include <resource/dictionary.hpp>
 #include <resource/handle.hpp>
@@ -40,7 +38,7 @@ bool TestApplication::initialize()
 	times = 100;
 
 	bolt::Singleton<bolt::resource::Dictionary>::create()->add( "config" , "resources/config/default.cfg" );
-	bolt::Singleton<bolt::resource::Loader>::create()->load( "config" );
+	bolt::Singleton<bolt::resource::Loader>::get()->load( "config" );
 
 	bolt::Singleton<SimpleRendererController>::create()->initialize();
 //	bolt::Singleton<NameComponent>::create()->initialize();

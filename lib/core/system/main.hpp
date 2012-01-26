@@ -24,12 +24,13 @@
 #include <exception/exceptionhandler.hpp>
 #include <threadpool>
 
-#include <resource/resourceloader.hpp>
+#include <resource/loader.hpp>
+#include <resource/dictionary.hpp>
 
 namespace bolt
 {
 
-template < class ApplicationPolicy , class VideoPolicy , class AudioPolicy , class LogPolicy , class ResourcePolicy >
+template < class ApplicationPolicy , class VideoPolicy , class AudioPolicy , class LogPolicy , class ResourceLoader , class ResourceDictionary >
 class Main
 {
 protected:
@@ -37,7 +38,8 @@ protected:
 	VideoPolicy video;
 	AudioPolicy audio;
 	LogPolicy log;
-	ResourcePolicy resource;
+	ResourceLoader loader;
+	ResourceDictionary dictionary;
 	ThreadPool pool;
 public:
 	Main();
@@ -46,18 +48,18 @@ public:
 	int run();
 };
 
-template < class ApplicationPolicy , class VideoPolicy , class AudioPolicy , class LogPolicy , class ResourcePolicy >
-Main< ApplicationPolicy, VideoPolicy, AudioPolicy , LogPolicy , ResourcePolicy >::Main()
+template < class ApplicationPolicy , class VideoPolicy , class AudioPolicy , class LogPolicy , class ResourceLoader , class ResourceDictionary >
+Main< ApplicationPolicy, VideoPolicy, AudioPolicy , LogPolicy , ResourceLoader , ResourceDictionary >::Main()
 {
 }
 
-template < class ApplicationPolicy , class VideoPolicy , class AudioPolicy , class LogPolicy , class ResourcePolicy >
-Main< ApplicationPolicy, VideoPolicy, AudioPolicy , LogPolicy , ResourcePolicy >::~Main()
+template < class ApplicationPolicy , class VideoPolicy , class AudioPolicy , class LogPolicy , class ResourceLoader , class ResourceDictionary >
+Main< ApplicationPolicy, VideoPolicy, AudioPolicy , LogPolicy , ResourceLoader , ResourceDictionary >::~Main()
 {
 }
 
-template < class ApplicationPolicy , class VideoPolicy , class AudioPolicy , class LogPolicy , class ResourcePolicy >
-bool Main< ApplicationPolicy, VideoPolicy, AudioPolicy , LogPolicy , ResourcePolicy >::initialize( int argc , char *argv[] )
+template < class ApplicationPolicy , class VideoPolicy , class AudioPolicy , class LogPolicy , class ResourceLoader , class ResourceDictionary >
+bool Main< ApplicationPolicy, VideoPolicy, AudioPolicy , LogPolicy , ResourceLoader , ResourceDictionary >::initialize( int argc , char *argv[] )
 {
 	application.processArgs( argc , argv );
 
@@ -73,7 +75,8 @@ bool Main< ApplicationPolicy, VideoPolicy, AudioPolicy , LogPolicy , ResourcePol
 	Singleton<Audio>::set( &audio );
 	Singleton<Video>::set( &video );
 
-	Singleton<ResourceLoader>::set( &resource );
+	Singleton<resource::Loader>::set( &loader );
+	Singleton<resource::Dictionary>::set( &dictionary );
 
 	// plenty of slaves to do my bidding.
 	int workers = ThreadPool::getHardwareThreadCount() * 2 + 1.0;
@@ -81,8 +84,8 @@ bool Main< ApplicationPolicy, VideoPolicy, AudioPolicy , LogPolicy , ResourcePol
 	return pool.initialize( workers ) && application.initialize() && audio.initialize() && video.initialize();
 }
 
-template < class ApplicationPolicy , class VideoPolicy , class AudioPolicy , class LogPolicy , class ResourcePolicy >
-int Main< ApplicationPolicy, VideoPolicy, AudioPolicy , LogPolicy , ResourcePolicy >::run()
+template < class ApplicationPolicy , class VideoPolicy , class AudioPolicy , class LogPolicy , class ResourceLoader , class ResourceDictionary >
+int Main< ApplicationPolicy, VideoPolicy, AudioPolicy , LogPolicy , ResourceLoader , ResourceDictionary >::run()
 {
 	bool restart;
 

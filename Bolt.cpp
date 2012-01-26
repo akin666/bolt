@@ -10,14 +10,20 @@
 #include <application/application.hpp>
 #include <system/audio/openalaudio.hpp>
 #include <system/video/glfwvideo.hpp>
-#include <resource/resourceloader.hpp>
+#include <resource/loader.hpp>
+#include <resource/dictionary.hpp>
 #include <log.hpp>
 
 #include "game/testapplication.hpp"
 
 int main( int argc , char *argv[] )
 {
-	bolt::Main< TestApplication , bolt::GLFWVideo , bolt::OpenALAudio , bolt::Log , bolt::ResourceLoader > entity;
+	bolt::Main< TestApplication ,
+				bolt::GLFWVideo ,
+				bolt::OpenALAudio ,
+				bolt::Log ,
+				bolt::resource::Loader ,
+				bolt::resource::Dictionary > entity;
 
 	entity.initialize( argc , argv );
 

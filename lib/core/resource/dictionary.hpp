@@ -39,12 +39,12 @@ public:
 	Dictionary();
 	virtual ~Dictionary();
 
-	std::string resolvePath( std::string alias );
-	std::string resolvePath( uint key );
-	uint 		resolveKey( std::string alias );
-	std::string resolveAlias( uint key );
+	virtual std::string resolvePath( std::string alias );
+	virtual std::string resolvePath( uint key );
+	virtual uint 		resolveKey( std::string alias );
+	virtual std::string resolveAlias( uint key );
 
-	bool add( std::string alias , std::string path );
+	virtual bool add( std::string alias , std::string path );
 };
 
 } // namespace resource
