@@ -42,7 +42,7 @@ void ByteDataWork::run()
 	// if not, load it.
 	uint key = Singleton<Dictionary>::get()->resolveKey( alias );
 
-	bool has = bolt::Singleton<Handle<ByteData> >::get()->hasObject( key );
+	bool has = bolt::Singleton<Handle<ByteData> >::create()->hasObject( key );
 
 	if( has )
 	{
@@ -88,7 +88,7 @@ void ByteDataWork::run()
 	ByteData *bdata = new ByteData( data, length );
 
 	// Give the ownership to Handle.
-	if( !bolt::Singleton<Handle<ByteData> >::get()->setObject( key , bdata ) )
+	if( !bolt::Singleton<Handle<ByteData> >::create()->setObject( key , bdata ) )
 	{
 		delete bdata;
 		return;

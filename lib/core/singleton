@@ -9,6 +9,7 @@
 #define SINGLETON_HPP_
 
 #include <iostream>
+#include <thread>
 
 namespace bolt
 {
@@ -16,6 +17,7 @@ template <class CType>
 class Singleton
 {
 protected:
+	static std::mutex mutex;
 	static CType *singleton;
 public:
 	static bool isSet()
@@ -45,6 +47,7 @@ public:
 	
 	static CType *create()
 	{
+		std::lock_guard<std::mutex> lock(mutex);
 		if( singleton == NULL ) 
 		{
 			singleton = new CType();
@@ -55,6 +58,8 @@ public:
 
 template <class CType>
 CType *Singleton<CType>::singleton = NULL;
+template <class CType>
+std::mutex Singleton<CType>::mutex;
 
 }
 

@@ -12,6 +12,10 @@
 #include "pipeline/simplerenderercontroller.hpp"
 #include <resource/resourceloader.hpp>
 #include <resource/dataunit.hpp>
+#include <resource/loader.hpp>
+#include <resource/dictionary.hpp>
+#include <resource/handle.hpp>
+#include <resource/data/bytedata.hpp>
 
 TestApplication::TestApplication()
 : initialized( false )
@@ -34,6 +38,9 @@ bool TestApplication::initialize()
 	}
 
 	times = 100;
+
+	bolt::Singleton<bolt::resource::Dictionary>::create()->add( "config" , "resources/config/default.cfg" );
+	bolt::Singleton<bolt::resource::Loader>::create()->load( "config" );
 
 	bolt::Singleton<SimpleRendererController>::create()->initialize();
 //	bolt::Singleton<NameComponent>::create()->initialize();
@@ -92,11 +99,11 @@ void TestApplication::run()
 {
 //	LOG_OUT << "Hi!\nTestApp. At: " << times << std::endl;
 
-	bolt::ResourceLoader *loader = bolt::Singleton<bolt::ResourceLoader>::get();
-	if( loader != NULL)
+	if( bolt::Singleton<bolt::resource::Handle<bolt::ByteData> >::create()->hasObject( "config" ))
 	{
-		bolt::DataUnit *dataunit = loader->get<bolt::DataUnit>( "config" );
-		if( dataunit != NULL && dataunit->isLoadingComplete() )
+		bolt::ByteData *dataunit = bolt::Singleton<bolt::resource::Handle<bolt::ByteData> >::create()->objectFor( "config" );
+
+		if( dataunit != NULL )
 		{
 			LOG_OUT << dataunit->accessData() << std::endl;
 		}
