@@ -1,47 +1,47 @@
 /*
- * workcomposite.cpp
+ * CompositeWork.cpp
  *
  *  Created on: 26.1.2012
  *      Author: akin
  */
 
-#include "workcomposite.hpp"
+#include "compositework.hpp"
 
 namespace bolt
 {
 
-WorkComposite::WorkComposite()
+CompositeWork::CompositeWork()
 : running( false )
 {
 }
 
-WorkComposite::~WorkComposite()
+CompositeWork::~CompositeWork()
 {
 }
 
-void WorkComposite::setRunning( bool state )
+void CompositeWork::setRunning( bool state )
 {
 	std::lock_guard<std::mutex> lock(mutex);
 	running = state;
 }
 
-bool WorkComposite::getRunning()
+bool CompositeWork::getRunning()
 {
 	std::lock_guard<std::mutex> lock(mutex);
 	return running;
 }
 
-bool WorkComposite::begin()
+bool CompositeWork::begin()
 {
 	return true;
 }
 
-void WorkComposite::run()
+void CompositeWork::run()
 {
 	setRunning( true );
 	Work *current;
 
-	while( ( current = work.pop() ) != NULL )
+	while( ( current = work.pop( TQue::RETURN_NULL_IF_EMPTY ) ) != NULL )
 	{
 		if( current->begin() )
 		{
@@ -56,16 +56,16 @@ void WorkComposite::run()
 	setRunning( false );
 }
 
-void WorkComposite::end()
+void CompositeWork::end()
 {
 }
 
-bool WorkComposite::isRunning()
+bool CompositeWork::isRunning()
 {
 	return getRunning();
 }
 
-void WorkComposite::push( Work *work )
+void CompositeWork::push( Work *work )
 {
 	this->work.push( work );
 }

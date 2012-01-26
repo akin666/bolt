@@ -1,12 +1,12 @@
 /*
- * workcomposite.hpp
+ * CompositeWork.hpp
  *
  *  Created on: 26.1.2012
  *      Author: akin
  */
 
-#ifndef WORKCOMPOSITE_HPP_
-#define WORKCOMPOSITE_HPP_
+#ifndef COMPOSITEWORK_HPP_
+#define COMPOSITEWORK_HPP_
 
 #include <work>
 #include <tque>
@@ -14,7 +14,7 @@
 namespace bolt
 {
 
-class WorkComposite: public bolt::Work
+class CompositeWork: public bolt::Work
 {
 protected:
 	std::mutex mutex;
@@ -24,8 +24,8 @@ protected:
 	void setRunning( bool state );
 	bool getRunning();
 public:
-	WorkComposite();
-	virtual ~WorkComposite();
+	CompositeWork();
+	virtual ~CompositeWork();
 
 	virtual bool begin();
 	virtual void run();
@@ -36,4 +36,4 @@ public:
 };
 
 } /* namespace bolt */
-#endif /* WORKCOMPOSITE_HPP_ */
+#endif /* COMPOSITEWORK_HPP_ */

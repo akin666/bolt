@@ -10,7 +10,7 @@
 
 #include <common>
 #include <string>
-#include <tpool/workcomposite.hpp>
+#include <tpool/compositework.hpp>
 
 namespace bolt
 {
@@ -20,7 +20,7 @@ namespace resource
 class Loader
 {
 protected:
-	WorkComposite composite;
+	CompositeWork composite;
 
 	bool loadPath( const std::string& alias , const std::string& path );
 public:

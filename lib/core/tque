@@ -12,6 +12,9 @@ namespace bolt
 template <class tclass>
 class TQue
 {
+public:
+	static const unsigned int NO_FLAGS = 0x0000;
+	static const unsigned int RETURN_NULL_IF_EMPTY = 0x0001;
 protected:
 	std::mutex mutex;
 	std::condition_variable condition;
@@ -25,7 +28,7 @@ public:
 	void push( tclass package );
 
 	// blocking.
-	tclass pop();
+	tclass pop( unsigned char flags = NO_FLAGS );
 };
 
 template <class tclass>
@@ -40,13 +43,23 @@ void TQue<tclass>::push( tclass package )
 }
 
 template <class tclass>
-tclass TQue<tclass>::pop()
+tclass TQue<tclass>::pop( unsigned char flags )
 {
 	std::unique_lock<std::mutex> lock(mutex);
 
-	while( data.empty() )
+	if( (flags & RETURN_NULL_IF_EMPTY) != 0 )
 	{
-		condition.wait(lock);
+		if( data.empty() )
+		{
+			 return NULL;
+		}
+	}
+	else
+	{
+		while( data.empty() )
+		{
+			condition.wait(lock);
+		}
 	}
 
 	tclass popped = data.front();
