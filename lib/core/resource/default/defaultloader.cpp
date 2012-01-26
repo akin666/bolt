@@ -14,6 +14,7 @@
 #include <group>
 #include <resource/handler.hpp>
 #include <resource/handler/texthandler.hpp>
+#include <resource/handler/shaderhandler.hpp>
 
 namespace bolt
 {
@@ -23,6 +24,7 @@ namespace resource
 DefaultLoader::DefaultLoader()
 {
 	Group<Handler>::add( new TextHandler() );
+	Group<Handler>::add( new ShaderHandler() );
 }
 
 DefaultLoader::~DefaultLoader()

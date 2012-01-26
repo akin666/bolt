@@ -1,12 +1,12 @@
 /*
- * texthandler.hpp
+ * shaderhandler.hpp
  *
  *  Created on: 27.1.2012
  *      Author: akin
  */
 
-#ifndef TEXTHANDLER_HPP_
-#define TEXTHANDLER_HPP_
+#ifndef SHADERHANDLER_HPP_
+#define SHADERHANDLER_HPP_
 
 #include <resource/handler.hpp>
 
@@ -15,24 +15,25 @@ namespace bolt
 namespace resource
 {
 
-class TextHandler : public Handler
+class ShaderHandler : public Handler
 {
 public:
-	TextHandler();
-	virtual ~TextHandler();
+	ShaderHandler();
+	virtual ~ShaderHandler();
 
 	virtual bool canHandle( const std::string& extension );
 	virtual Work *handle( const std::string& alias , const std::string path );
 };
 
-class ByteDataWork : public Work
+
+class ShaderWork : public Work
 {
 protected:
 	std::string alias;
 	std::string path;
 public:
-	ByteDataWork( const std::string& alias , const std::string path );
-	virtual ~ByteDataWork();
+	ShaderWork( const std::string& alias , const std::string path );
+	virtual ~ShaderWork();
 
 	virtual bool begin();
 	virtual void run();
@@ -41,4 +42,5 @@ public:
 
 }
 } /* namespace bolt */
-#endif /* TEXTHANDLER_HPP_ */
+#endif /* SHADERHANDLER_HPP_ */
+

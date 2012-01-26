@@ -1,11 +1,12 @@
 /*
- * bytedatawork.cpp
+ * shaderhandler.cpp
  *
- *  Created on: 26.1.2012
+ *  Created on: 27.1.2012
  *      Author: akin
  */
 
-#include "bytedatawork.hpp"
+#include "shaderhandler.hpp"
+
 #include <resource/registry.hpp>
 #include <resource/data/bytedata.hpp>
 #include <resource/dictionary.hpp>
@@ -20,23 +21,66 @@ namespace bolt
 namespace resource
 {
 
+ShaderHandler::ShaderHandler()
+{
+}
 
-ByteDataWork::ByteDataWork( const std::string& alias , const std::string path )
+ShaderHandler::~ShaderHandler()
+{
+}
+
+
+
+
+bool ShaderHandler::canHandle( const std::string& extension )
+{
+	// im not gonna bring boost into the project _just_for_ strUp() function.
+	if( extension == "fs" ||
+		extension == "fS" ||
+		extension == "Fs" ||
+		extension == "FS" ||
+		extension == "vs" ||
+		extension == "vS" ||
+		extension == "Vs" ||
+		extension == "VS" ||
+		// CFG!
+		extension == "gs" ||
+		extension == "gS" ||
+		extension == "Gs" ||
+		extension == "GS"  )
+	{
+		return true;
+	}
+	return false;
+}
+
+Work *ShaderHandler::handle( const std::string& alias , const std::string path )
+{
+	Work *work = new ShaderWork( alias , path );
+
+	return work;
+}
+
+
+
+
+
+ShaderWork::ShaderWork( const std::string& alias , const std::string path )
 : alias( alias ),
   path( path )
 {
 }
 
-ByteDataWork::~ByteDataWork()
+ShaderWork::~ShaderWork()
 {
 }
 
-bool ByteDataWork::begin()
+bool ShaderWork::begin()
 {
 	return true;
 }
 
-void ByteDataWork::run()
+void ShaderWork::run()
 {
 	// Check if resource has been loaded,
 	// if not, load it.
@@ -97,7 +141,7 @@ void ByteDataWork::run()
 	return;
 }
 
-void ByteDataWork::end()
+void ShaderWork::end()
 {
 	// All is done.. Kill yourself.
 	delete this;
