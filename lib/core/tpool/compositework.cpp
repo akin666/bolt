@@ -41,7 +41,7 @@ void CompositeWork::run()
 	setRunning( true );
 	Work *current;
 
-	while( ( current = work.pop( TQue::RETURN_NULL_IF_EMPTY ) ) != NULL )
+	while( ( current = work.pop( work.RETURN_NULL_IF_EMPTY ) ) != NULL )
 	{
 		if( current->begin() )
 		{
