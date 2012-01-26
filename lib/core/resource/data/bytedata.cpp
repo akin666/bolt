@@ -10,6 +10,9 @@
 
 namespace bolt
 {
+namespace resource
+{
+
 
 ByteData::ByteData( unsigned char *newData , uint newLength )
 : data( newData ),
@@ -33,5 +36,6 @@ uint ByteData::size()
 	return length;
 }
 
+}
 } /* namespace bolt */
 

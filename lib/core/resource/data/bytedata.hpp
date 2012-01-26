@@ -12,6 +12,9 @@
 
 namespace bolt
 {
+namespace resource
+{
+
 
 class ByteData
 {
@@ -26,5 +29,6 @@ public:
 	uint size();
 };
 
+}
 } /* namespace bolt */
 #endif /* BYTEDATA_HPP_ */
