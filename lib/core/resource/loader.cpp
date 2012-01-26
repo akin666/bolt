@@ -47,7 +47,12 @@ bool Loader::loadPath( const std::string& alias , const std::string& path )
 
 	if( work != NULL )
 	{
-		bolt::Singleton<bolt::ThreadPool>::get()->schedule( work );
+		composite.push( work );
+
+		if( !composite.isRunning() )
+		{
+			bolt::Singleton<bolt::ThreadPool>::get()->schedule( &composite );
+		}
 	}
 
 	return work != NULL;
