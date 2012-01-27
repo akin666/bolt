@@ -32,7 +32,7 @@ bool SimpleRendererController::initialize()
 
 	dependecies.insert( bolt::FenceController::RENDER );
 
-	return bolt::Singleton<PositionProperty>::create()->initialize();
+	return bolt::createSingleton<PositionProperty>()->initialize();
 }
 
 void SimpleRendererController::getDependencies(bolt::StringSet & dep)
@@ -42,12 +42,12 @@ void SimpleRendererController::getDependencies(bolt::StringSet & dep)
 
 void SimpleRendererController::attach(bolt::Entity & entity)
 {
-	bolt::Singleton<PositionProperty>::get()->attach( entity );
+	bolt::getSingleton<PositionProperty>()->attach( entity );
 }
 
 void SimpleRendererController::detach(bolt::Entity & entity)
 {
-	bolt::Singleton<PositionProperty>::get()->detach( entity );
+	bolt::getSingleton<PositionProperty>()->detach( entity );
 }
 
 void SimpleRendererController::start(bolt::ControllerNode& node)

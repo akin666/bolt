@@ -5,7 +5,7 @@
 /*
 usage (most likely):
 
-MeshAnimation *currentMuumi = bolt::Singleton<Handle<MeshAnimation> >::get()->objectFor( "Muumi" );
+MeshAnimation *currentMuumi = getSingleton<Handle<MeshAnimation> >()->objectFor( "Muumi" );
 
 */
 
@@ -93,13 +93,13 @@ public:
 	// Convenience functions.
 	HType *objectFor( std::string alias )
 	{
-		uint key = Singleton<Dictionary>::get()->resolveKey( alias );
+		uint key = getSingleton<Dictionary>()->resolveKey( alias );
 		return objectFor( key );
 	}
 
 	bool hasObject( std::string alias )
 	{
-		uint key = Singleton<Dictionary>::get()->resolveKey( alias );
+		uint key = getSingleton<Dictionary>()->resolveKey( alias );
 		if( key == Dictionary::nullId )
 		{
 			return false;

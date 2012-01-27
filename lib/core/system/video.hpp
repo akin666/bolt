@@ -5,8 +5,8 @@
  *      Author: akin
  *
  *      Current Video is saved in Singleton class.
- *      Singleton<Video>::get()
- *      Singleton<Video>::set( Video* )
+ *      getSingleton<Video>()
+ *      setSingleton<Video>( Video* )
  */
 
 #ifndef VIDEO_HPP_

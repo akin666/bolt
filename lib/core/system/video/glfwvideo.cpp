@@ -34,31 +34,31 @@ namespace GLFWInputHandling
 	void setup()
 	{
 		// Setup components, IF needed.
-		touch = Singleton<TouchController>::get();
-		keyboard = Singleton<KeyboardController>::get();
-		mouse = Singleton<MouseController>::get();
-		joystick = Singleton<JoystickController>::get();
+		touch = getSingleton<TouchController>();
+		keyboard = getSingleton<KeyboardController>();
+		mouse = getSingleton<MouseController>();
+		joystick = getSingleton<JoystickController>();
 
 		// Setup input components
 		if( touch == NULL )
 		{
 			touch = new TouchController();
-			Singleton<TouchController>::set(touch);
+			setSingleton<TouchController>(touch);
 		}
 		if( keyboard == NULL )
 		{
 			keyboard = new KeyboardController();
-			Singleton<KeyboardController>::set(keyboard);
+			setSingleton<KeyboardController>(keyboard);
 		}
 		if( mouse == NULL )
 		{
 			mouse = new MouseController();
-			Singleton<MouseController>::set(mouse);
+			setSingleton<MouseController>(mouse);
 		}
 		if( joystick == NULL )
 		{
 			joystick = new JoystickController();
-			Singleton<JoystickController>::set(joystick);
+			setSingleton<JoystickController>(joystick);
 		}
 
 		glfwGetMousePos( &mouseX , &mouseY );

@@ -37,10 +37,10 @@ bool TestApplication::initialize()
 
 	times = 100;
 
-	bolt::Singleton<bolt::resource::Dictionary>::create()->add( "config" , "resources/config/default.cfg" );
-	bolt::Singleton<bolt::resource::Loader>::get()->load( "config" );
+	bolt::createSingleton<bolt::resource::Dictionary>()->add( "config" , "resources/config/default.cfg" );
+	bolt::getSingleton<bolt::resource::Loader>()->load( "config" );
 
-	bolt::Singleton<SimpleRendererController>::create()->initialize();
+	bolt::createSingleton<SimpleRendererController>()->initialize();
 //	bolt::Singleton<NameComponent>::create()->initialize();
 
 	pipeline.attach( bolt::Singleton<SimpleRendererController>::get() );
@@ -89,9 +89,9 @@ void TestApplication::run()
 {
 //	LOG_OUT << "Hi!\nTestApp. At: " << times << std::endl;
 
-	if( bolt::Singleton<bolt::resource::Registry<bolt::resource::ByteData> >::create()->hasObject( "config" ))
+	if( bolt::createSingleton<bolt::resource::Registry<bolt::resource::ByteData> >()->hasObject( "config" ))
 	{
-		bolt::resource::ByteData *dataunit = bolt::Singleton<bolt::resource::Registry<bolt::resource::ByteData> >::create()->objectFor( "config" );
+		bolt::resource::ByteData *dataunit = bolt::getSingleton<bolt::resource::Registry<bolt::resource::ByteData> >()->objectFor( "config" );
 
 		if( dataunit != NULL )
 		{
@@ -102,7 +102,7 @@ void TestApplication::run()
 	--times;
 
 	// Bind default screen
-	if( !bolt::Singleton<bolt::Video>::get()->getRenderTarget().bind() )
+	if( !bolt::getSingleton<bolt::Video>()->getRenderTarget().bind() )
 	{
 		return;
 	}
@@ -111,6 +111,6 @@ void TestApplication::run()
 	pipeline.run();
 
 	// flip the screen..
-	bolt::Singleton<bolt::Video>::get()->flip();
+	bolt::getSingleton<bolt::Video>()->flip();
 }
 

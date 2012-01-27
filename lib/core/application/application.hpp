@@ -5,8 +5,8 @@
  *      Author: akin
  *
  *      Current Application is saved in Singleton class.
- *      Singleton<Application>::get()
- *      Singleton<Application>::set( Application* )
+ *      getSingleton<Application>()
+ *      setSingleton<Application>( Application* )
  */
 
 #ifndef APPLICATION_HPP_

@@ -62,7 +62,7 @@ bool DefaultLoader::loadPath( const std::string& alias , const std::string& path
 
 		if( !composite.isRunning() )
 		{
-			bolt::Singleton<bolt::ThreadPool>::get()->schedule( &composite );
+			bolt::getSingleton<bolt::ThreadPool>()->schedule( &composite );
 		}
 	}
 
@@ -72,14 +72,14 @@ bool DefaultLoader::loadPath( const std::string& alias , const std::string& path
 
 bool DefaultLoader::load( std::string alias , std::string path )
 {
-	Singleton<Dictionary>::get()->add( alias , path );
+	getSingleton<Dictionary>()->add( alias , path );
 
 	return loadPath( alias , path );
 }
 
 bool DefaultLoader::load( std::string alias )
 {
-	std::string path = Singleton<Dictionary>::get()->resolvePath( alias );
+	std::string path = getSingleton<Dictionary>()->resolvePath( alias );
 
 	if( path == Dictionary::nullString )
 	{

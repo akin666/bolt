@@ -65,18 +65,18 @@ bool Main< ApplicationPolicy, VideoPolicy, AudioPolicy , LogPolicy , ResourceLoa
 
 	// _ALL_ expects these to be set
 	// especially the logging and exception handling!
-	Singleton<Application>::set( &application );
-	Singleton<Log>::set( &log );
-	Singleton<ExceptionHandler>::set( &application );
-	Singleton<EventHandler>::set( &application );
+	setSingleton<Application>( &application );
+	setSingleton<Log>( &log );
+	setSingleton<ExceptionHandler>( &application );
+	setSingleton<EventHandler>( &application );
 
-	Singleton<ThreadPool>::set( &pool );
+	setSingleton<ThreadPool>( &pool );
 
-	Singleton<Audio>::set( &audio );
-	Singleton<Video>::set( &video );
+	setSingleton<Audio>( &audio );
+	setSingleton<Video>( &video );
 
-	Singleton<resource::Loader>::set( &loader );
-	Singleton<resource::Dictionary>::set( &dictionary );
+	setSingleton<resource::Loader>( &loader );
+	setSingleton<resource::Dictionary>( &dictionary );
 
 	// plenty of slaves to do my bidding.
 	int workers = ThreadPool::getHardwareThreadCount() * 2 + 1.0;

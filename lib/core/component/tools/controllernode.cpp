@@ -77,9 +77,9 @@ void ControllerNode::schedule( ControllerWork& work )
 	// Schedule the work in threadpools..
 	addReference();
 
-	if( bolt::Singleton<bolt::ThreadPool>::get() != NULL )
+	if( bolt::getSingleton<bolt::ThreadPool>() != NULL )
 	{
-		bolt::Singleton<bolt::ThreadPool>::get()->schedule( &work );
+		bolt::getSingleton<bolt::ThreadPool>()->schedule( &work );
 	}
 	else if( work.begin() )
 	{
@@ -90,9 +90,9 @@ void ControllerNode::schedule( ControllerWork& work )
 
 void ControllerNode::scheduleWork( Work& work )
 {
-	if( bolt::Singleton<bolt::ThreadPool>::get() != NULL )
+	if( bolt::getSingleton<bolt::ThreadPool>() != NULL )
 	{
-		bolt::Singleton<bolt::ThreadPool>::get()->schedule( &work );
+		bolt::getSingleton<bolt::ThreadPool>()->schedule( &work );
 	}
 	else if( work.begin() )
 	{

@@ -100,9 +100,9 @@ void ByteDataWork::run()
 {
 	// Check if resource has been loaded,
 	// if not, load it.
-	uint key = Singleton<Dictionary>::get()->resolveKey( alias );
+	uint key = getSingleton<Dictionary>()->resolveKey( alias );
 
-	bool has = bolt::Singleton<Registry<ByteData> >::create()->hasObject( key );
+	bool has = createSingleton<Registry<ByteData> >()->hasObject( key );
 
 	if( has )
 	{
@@ -148,7 +148,7 @@ void ByteDataWork::run()
 	ByteData *bdata = new ByteData( data, length );
 
 	// Give the ownership to Handle.
-	if( !bolt::Singleton<Registry<ByteData> >::create()->setObject( key , bdata ) )
+	if( !createSingleton<Registry<ByteData> >()->setObject( key , bdata ) )
 	{
 		delete bdata;
 		return;

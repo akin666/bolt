@@ -5,8 +5,8 @@
  *      Author: akin
  *
  *      Current Audio is saved in Singleton class.
- *      Singleton<Audio>::get()
- *      Singleton<Audio>::set( Audio* )
+ *      getSingleton<Audio>()
+ *      setSingleton<Audio>( Audio* )
  */
 
 #ifndef AUDIO_HPP_
