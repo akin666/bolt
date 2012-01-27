@@ -106,7 +106,61 @@ public:
 		}
 		return hasObject( key );
 	}
+
+	bool setObjectFor( std::string alias , HType *object )
+	{
+		uint key = getSingleton<Dictionary>()->resolveKey( alias );
+		return setObject( key , object );
+	}
+
+	HType *resetObject( std::string alias )
+	{
+		uint key = getSingleton<Dictionary>()->resolveKey( alias );
+		return resetObject( key );
+	}
 };
+
+// Sugar coating.
+template <class CType>
+bool setObject( std::string alias , CType *object )
+{
+	return getSingleton<Registry<CType> >()->setObjectFor( alias , object );
+}
+template <class CType>
+bool setObject( uint key , CType *object )
+{
+	return getSingleton<Registry<CType> >()->setObject( key , object );
+}
+template <class CType>
+CType *objectFor( std::string alias )
+{
+	return getSingleton<Registry<CType> >()->objectFor( alias );
+}
+template <class CType>
+CType *objectFor( uint key )
+{
+	return getSingleton<Registry<CType> >()->objectFor( key );
+}
+template <class CType>
+bool hasObject( std::string alias )
+{
+	return getSingleton<Registry<CType> >()->hasObject( alias );
+}
+template <class CType>
+bool hasObject( uint key )
+{
+	return getSingleton<Registry<CType> >()->hasObject( key );
+}
+template <class CType>
+CType *resetObject( std::string alias )
+{
+	return getSingleton<Registry<CType> >()->resetObject( alias );
+}
+template <class CType>
+CType *resetObject( uint key )
+{
+	return getSingleton<Registry<CType> >()->resetObject( key );
+}
 
 } // namespace resource
 } // namespace bolt
