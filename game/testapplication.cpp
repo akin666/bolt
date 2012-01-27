@@ -15,6 +15,7 @@
 #include <resource/registry.hpp>
 #include <data>
 #include <graphics/shader/shader.hpp>
+#include <graphics/shader/shaderprogram.hpp>
 
 TestApplication::TestApplication()
 : initialized( false )
@@ -42,6 +43,10 @@ bool TestApplication::initialize()
 	bolt::resource::link( "config" , "resources/config/default.cfg" );
 	bolt::resource::link( "genericVertexShader" , "resources/shader/generic.vs" );
 	bolt::resource::link( "genericFragmentShader" , "resources/shader/generic.fs" );
+	bolt::resource::link( "GenericShader" );
+
+	// create shaderprogram registry.
+	bolt::createSingleton<bolt::resource::Registry<bolt::ShaderProgram> >();
 
 	// instruct to load
 	bolt::resource::load( "config" );
@@ -54,6 +59,7 @@ bool TestApplication::initialize()
 	pipeline.attach( bolt::Singleton<SimpleRendererController>::get() );
 
 	initialized = true;
+	shaderProgramLoaded = false;
 
 	return true;
 }
@@ -97,13 +103,49 @@ void TestApplication::run()
 {
 //	LOG_OUT << "Hi!\nTestApp. At: " << times << std::endl;
 
+	if( !shaderProgramLoaded )
+	{
+		if( bolt::resource::hasObject<bolt::Shader>( "genericVertexShader" ) &&
+			bolt::resource::hasObject<bolt::Shader>( "genericFragmentShader" )  )
+		{
+			// It has both Shaders.. Create em, Link em and create program!
+			bolt::ShaderProgram *program = new bolt::ShaderProgram;
+
+			bolt::Shader *vertex = bolt::resource::getObject<bolt::Shader>( "genericVertexShader" );
+			bolt::Shader *fragment = bolt::resource::getObject<bolt::Shader>( "genericVertexShader" );
+
+			if( vertex->load() && fragment->load() )
+			{
+				program->attach( vertex );
+				program->attach( fragment );
+
+				program->link();
+
+				if( program->linked() )
+				{
+					bolt::resource::setObject<bolt::ShaderProgram>( "GenericShader" , program );
+
+					shaderProgramLoaded = true;
+
+					LOG_OUT << "Shader program is loaded! " << std::endl;
+				}
+			}
+
+			if( !shaderProgramLoaded )
+			{
+				LOG_OUT << "Failed to load Shader program! " << std::endl;
+			}
+		}
+	}
+
+
 	if( bolt::createSingleton<bolt::resource::Registry<bolt::TextData> >()->hasObject( "config" ))
 	{
 		bolt::TextData *dataunit = bolt::getSingleton<bolt::resource::Registry<bolt::TextData> >()->objectFor( "config" );
 
 		if( dataunit != NULL )
 		{
-			LOG_OUT << dataunit->access() << std::endl;
+			// LOG_OUT << dataunit->access() << std::endl;
 		}
 	}
 

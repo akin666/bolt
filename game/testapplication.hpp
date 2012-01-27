@@ -15,6 +15,7 @@ class TestApplication: public bolt::Application
 {
 protected:
 	int times;
+	bool shaderProgramLoaded;
 
 	bolt::Pipeline pipeline;
 

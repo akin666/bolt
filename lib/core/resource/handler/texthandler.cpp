@@ -116,8 +116,6 @@ TextHandler::~TextHandler()
 
 bool TextHandler::canHandle( const std::string& extension )
 {
-	LOG_OUT << "tried to load " << extension << std::endl;
-	// im not gonna bring boost into the project _just_for_ strUp() function.
 	if( extension == "txt" ||
 		extension == "cfg" )
 	{

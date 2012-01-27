@@ -132,12 +132,12 @@ bool setObject( uint key , CType *object )
 	return getSingleton<Registry<CType> >()->setObject( key , object );
 }
 template <class CType>
-CType *objectFor( std::string alias )
+CType *getObject( std::string alias )
 {
 	return getSingleton<Registry<CType> >()->objectFor( alias );
 }
 template <class CType>
-CType *objectFor( uint key )
+CType *getObject( uint key )
 {
 	return getSingleton<Registry<CType> >()->objectFor( key );
 }
