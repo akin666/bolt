@@ -22,21 +22,7 @@ public:
 	virtual ~TextHandler();
 
 	virtual bool canHandle( const std::string& extension );
-	virtual Work *handle( const std::string& alias , const std::string path );
-};
-
-class ByteDataWork : public Work
-{
-protected:
-	std::string alias;
-	std::string path;
-public:
-	ByteDataWork( const std::string& alias , const std::string path );
-	virtual ~ByteDataWork();
-
-	virtual bool begin();
-	virtual void run();
-	virtual void end();
+	virtual Work *handle( std::string alias , std::string path , std::string type );
 };
 
 }

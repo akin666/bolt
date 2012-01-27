@@ -1,0 +1,20 @@
+
+// 
+// StringTools
+// this is to create all the needed tools for minor
+// string operations, that are missing from std::string
+// (i know boost, could provide stuff, but boost is like #include <uglyWorld> )
+// 
+
+#ifndef STRINGTOOLS_H_
+#define STRINGTOOLS_H_
+
+#include <string>
+
+namespace stringtools
+{
+void toUpper( std::string& str );
+void toLower( std::string& str );
+}
+
+#endif

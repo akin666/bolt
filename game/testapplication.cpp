@@ -13,7 +13,7 @@
 #include <resource/loader.hpp>
 #include <resource/dictionary.hpp>
 #include <resource/registry.hpp>
-#include <resource/data/bytedata.hpp>
+#include <data>
 
 TestApplication::TestApplication()
 : initialized( false )
@@ -89,13 +89,13 @@ void TestApplication::run()
 {
 //	LOG_OUT << "Hi!\nTestApp. At: " << times << std::endl;
 
-	if( bolt::createSingleton<bolt::resource::Registry<bolt::resource::ByteData> >()->hasObject( "config" ))
+	if( bolt::createSingleton<bolt::resource::Registry<bolt::TextData> >()->hasObject( "config" ))
 	{
-		bolt::resource::ByteData *dataunit = bolt::getSingleton<bolt::resource::Registry<bolt::resource::ByteData> >()->objectFor( "config" );
+		bolt::TextData *dataunit = bolt::getSingleton<bolt::resource::Registry<bolt::TextData> >()->objectFor( "config" );
 
 		if( dataunit != NULL )
 		{
-			LOG_OUT << dataunit->accessData() << std::endl;
+			LOG_OUT << dataunit->access() << std::endl;
 		}
 	}
 

@@ -8,14 +8,16 @@
 #ifndef SHADERPROGRAM_H_
 #define SHADERPROGRAM_H_
 
+#include <common>
+#include <string>
 #include <exception>
 #include <map>
-#include "shader.hpp"
-#include "uniform.hpp"
-#include "attribute.hpp"
 
 namespace bolt
 {
+	class Shader;
+	class Uniform;
+	class Attribute;
 	class ShaderProgram
 	{
 	protected:

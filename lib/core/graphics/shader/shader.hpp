@@ -11,6 +11,7 @@
 #include <string>
 #include <exception>
 #include <common>
+#include <data>
 
 namespace bolt
 {
@@ -26,8 +27,10 @@ namespace bolt
 			EVALUATION = 5 // 4.0
 		};
 	protected:
-		Type m_type;
 		uint id;
+		Type m_type;
+
+		Data<char> data;
 	public:
 		Shader();
 		virtual ~Shader();
@@ -37,7 +40,11 @@ namespace bolt
 
 		uint getId();
 
-		bool load( const unsigned char *data , int length ) throw (std::exception);
+		// GL commands! only call from GL thread.
+		bool load() throw (std::exception);
+
+		// set can be called from any thread.
+		void set( const Data<char>& newData );
 	};
 }
 

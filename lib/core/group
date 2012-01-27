@@ -50,4 +50,4 @@ std::mutex Group<CType>::mutex;
 
 }
 
-#endif /* SINGLETON_HPP_ */
+#endif /* GROUP_HPP_ */

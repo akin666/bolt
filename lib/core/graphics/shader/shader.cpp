@@ -7,6 +7,7 @@
 
 #include "shader.hpp"
 #include <opengl>
+#include <log>
 #include <stdexcept>
 
 #define NULL_SHADER 0
@@ -14,9 +15,9 @@
 namespace bolt
 {
 	Shader::Shader( )
+	: id( NULL_SHADER ),
+	  m_type( UNKNOWN )
 	{
-		id = NULL_SHADER;
-		m_type = UNKNOWN;
 	}
 
 	Shader::~Shader()
@@ -70,8 +71,14 @@ namespace bolt
 		return id;
 	}
 
-	bool Shader::load( const unsigned char *data , int length ) throw (std::exception)
+	bool Shader::load() throw (std::exception)
 	{
+		if( data.size() == 0 )
+		{
+			LOG_ERROR << "Failed to load shader, no data set." << std::endl;
+			return false;
+		}
+
 		GL_TEST_ERROR("begin")
 		switch( m_type )
 		{
@@ -131,9 +138,10 @@ namespace bolt
 			}
 		}
 
-		const char *dat = (char *)data;
+		const GLchar *dat = data.access();
+		GLint size = data.size();
 
-		glShaderSource( id , 1 , (const GLchar**)&dat , &length );
+		glShaderSource( id , 1 , (const GLchar**)&dat , &size );
 		glCompileShader( id );
 
 		GL_TEST_ERROR("load_shader. ")
@@ -161,5 +169,15 @@ namespace bolt
 		}
 		GL_TEST_ERROR("end")
 		return false;
+	}
+
+	void Shader::set( const Data<char>& newData )
+	{
+		if( newData.size() <= 0 )
+		{
+			return;
+		}
+
+		data = newData;
 	}
 }

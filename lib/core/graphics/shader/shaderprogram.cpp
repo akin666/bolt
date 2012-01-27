@@ -14,7 +14,6 @@
 #include "shader.hpp"
 #include <stdexcept>
 
-
 #define NULL_PROGRAM 0
 
 namespace bolt

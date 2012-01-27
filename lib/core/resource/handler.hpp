@@ -23,7 +23,7 @@ public:
 	virtual ~Handler();
 
 	virtual bool canHandle( const std::string& extension );
-	virtual Work *handle( const std::string& alias , const std::string path );
+	virtual Work *handle( std::string alias , std::string path , std::string type );
 };
 
 }

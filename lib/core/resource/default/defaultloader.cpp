@@ -16,6 +16,8 @@
 #include <resource/handler/texthandler.hpp>
 #include <resource/handler/shaderhandler.hpp>
 
+#include <stringtools>
+
 namespace bolt
 {
 namespace resource
@@ -46,13 +48,14 @@ bool DefaultLoader::loadPath( const std::string& alias , const std::string& path
 	}
 
 	std::string type = path.substr( dotPos + 1 );
+	stringtools::toLower( type );
 
 	// Seek a handler, that can create work package for the file.
 	for( Group<Handler>::GroupList::iterator iter = Group<Handler>::begin() ; iter != Group<Handler>::end() ; ++iter )
 	{
 		if( (*iter)->canHandle( type ) )
 		{
-			work = (*iter)->handle( alias , path );
+			work = (*iter)->handle( alias , path , type );
 		}
 	}
 

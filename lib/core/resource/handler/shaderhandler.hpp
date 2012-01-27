@@ -18,26 +18,17 @@ namespace resource
 class ShaderHandler : public Handler
 {
 public:
+	static const std::string fragmentExtension;
+	static const std::string vertexExtension;
+	static const std::string geometryExtension;
+	static const std::string controlExtension;
+	static const std::string evaluationExtension;
+public:
 	ShaderHandler();
 	virtual ~ShaderHandler();
 
 	virtual bool canHandle( const std::string& extension );
-	virtual Work *handle( const std::string& alias , const std::string path );
-};
-
-
-class ShaderWork : public Work
-{
-protected:
-	std::string alias;
-	std::string path;
-public:
-	ShaderWork( const std::string& alias , const std::string path );
-	virtual ~ShaderWork();
-
-	virtual bool begin();
-	virtual void run();
-	virtual void end();
+	virtual Work *handle( std::string alias , std::string path , std::string type );
 };
 
 }

@@ -26,7 +26,7 @@ bool Handler::canHandle( const std::string& extension )
 	return false;
 }
 
-Work *Handler::handle( const std::string& alias , const std::string path )
+Work *Handler::handle( std::string alias , std::string path , std::string type )
 {
 	return NULL;
 }
