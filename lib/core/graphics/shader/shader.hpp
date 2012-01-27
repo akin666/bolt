@@ -42,6 +42,8 @@ namespace bolt
 
 		// GL commands! only call from GL thread.
 		bool load() throw (std::exception);
+		void unload();
+		bool isLoaded();
 
 		// set can be called from any thread.
 		void set( const Data<char>& newData );

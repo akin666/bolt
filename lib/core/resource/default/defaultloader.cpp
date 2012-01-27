@@ -12,7 +12,7 @@
 #include <threadpool>
 
 #include <group>
-#include <resource/handler.hpp>
+#include <resource/handler/handler.hpp>
 #include <resource/handler/texthandler.hpp>
 #include <resource/handler/shaderhandler.hpp>
 

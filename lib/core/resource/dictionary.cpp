@@ -6,6 +6,7 @@
  */
 
 #include "dictionary.hpp"
+#include <singleton>
 
 namespace bolt
 {
@@ -43,9 +44,26 @@ std::string Dictionary::resolveAlias( uint key )
 	return nullString;
 }
 
+// Pure runtime key aliases.
+bool Dictionary::add( std::string alias )
+{
+	return false;
+}
+
 bool Dictionary::add( std::string alias , std::string path )
 {
 	return false;
+}
+
+// sugar coating:
+bool link( std::string alias )
+{
+	return bolt::getSingleton<Dictionary>()->add( alias );
+}
+
+bool link( std::string alias , std::string path )
+{
+	return bolt::getSingleton<Dictionary>()->add( alias , path );
 }
 
 } // namespace resource

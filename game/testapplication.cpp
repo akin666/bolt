@@ -14,6 +14,7 @@
 #include <resource/dictionary.hpp>
 #include <resource/registry.hpp>
 #include <data>
+#include <graphics/shader/shader.hpp>
 
 TestApplication::TestApplication()
 : initialized( false )
@@ -37,8 +38,15 @@ bool TestApplication::initialize()
 
 	times = 100;
 
-	bolt::createSingleton<bolt::resource::Dictionary>()->add( "config" , "resources/config/default.cfg" );
-	bolt::getSingleton<bolt::resource::Loader>()->load( "config" );
+	// create aliases
+	bolt::resource::link( "config" , "resources/config/default.cfg" );
+	bolt::resource::link( "genericVertexShader" , "resources/shader/generic.vs" );
+	bolt::resource::link( "genericFragmentShader" , "resources/shader/generic.fs" );
+
+	// instruct to load
+	bolt::resource::load( "config" );
+	bolt::resource::load( "genericVertexShader" );
+	bolt::resource::load( "genericFragmentShader" );
 
 	bolt::createSingleton<SimpleRendererController>()->initialize();
 //	bolt::Singleton<NameComponent>::create()->initialize();

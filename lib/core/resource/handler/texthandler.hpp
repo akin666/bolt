@@ -8,7 +8,7 @@
 #ifndef TEXTHANDLER_HPP_
 #define TEXTHANDLER_HPP_
 
-#include <resource/handler.hpp>
+#include "handler.hpp"
 
 namespace bolt
 {

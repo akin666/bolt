@@ -20,18 +20,15 @@ namespace bolt
 
 	Shader::~Shader()
 	{
-		if( id != GL_NULL )
-		{
-			GL_TEST_ERROR("begin")
-			glDeleteShader( id );
-			id = GL_NULL;
-			GL_TEST_ERROR("end")
-		}
+		unload();
 	}
 
 	void Shader::setType( Type type )
 	{
-		m_type = type;
+		if( id == GL_NULL )
+		{
+			m_type = type;
+		}
 	}
 
 	void Shader::setTypeString( std::string type )
@@ -78,78 +75,82 @@ namespace bolt
 		}
 
 		GL_TEST_ERROR("begin")
-		switch( m_type )
+		if( id == GL_NULL )
 		{
-			case Shader::VERTEX :
+			switch( m_type )
 			{
-				id = glCreateShader( GL_VERTEX_SHADER );
-				break;
-			}
-			case Shader::FRAGMENT :
-			{
-				id = glCreateShader( GL_FRAGMENT_SHADER );
-				break;
-			}
-	#if defined(GL_GEOMETRY_SHADER)
-			case Shader::GEOMETRY :
-			{
-				id = glCreateShader( GL_GEOMETRY_SHADER );
-				break;
-			}
-	#elif defined(GL_GEOMETRY_SHADER_EXT)
-			case Shader::GEOMETRY :
-			{
-				id = glCreateShader( GL_GEOMETRY_SHADER_EXT );
-				break;
-			}
-	#endif
-	#if defined(GL_TESS_CONTROL_SHADER)
-			case Shader::CONTROL :
-			{
-				id = glCreateShader( GL_TESS_CONTROL_SHADER );
-				break;
-			}
-	#elif defined(GL_TESS_CONTROL_SHADER_EXT)
-			case Shader::CONTROL :
-			{
-				id = glCreateShader( GL_TESS_CONTROL_SHADER_EXT );
-				break;
-			}
-	#endif
-	#if defined(GL_TESS_EVALUATION_SHADER)
-			case Shader::EVALUATION :
-			{
-				id = glCreateShader( GL_TESS_EVALUATION_SHADER );
-				break;
-			}
-	#elif defined(GL_TESS_EVALUATION_SHADER_EXT)
-			case Shader::CONTROL :
-			{
-				id = glCreateShader( GL_TESS_EVALUATION_SHADER_EXT );
-				break;
-			}
-	#endif
-			default :
-			{
-				GL_TEST_ERROR("half")
-				return false;
+				case Shader::VERTEX :
+				{
+					id = glCreateShader( GL_VERTEX_SHADER );
+					break;
+				}
+				case Shader::FRAGMENT :
+				{
+					id = glCreateShader( GL_FRAGMENT_SHADER );
+					break;
+				}
+		#if defined(GL_GEOMETRY_SHADER)
+				case Shader::GEOMETRY :
+				{
+					id = glCreateShader( GL_GEOMETRY_SHADER );
+					break;
+				}
+		#elif defined(GL_GEOMETRY_SHADER_EXT)
+				case Shader::GEOMETRY :
+				{
+					id = glCreateShader( GL_GEOMETRY_SHADER_EXT );
+					break;
+				}
+		#endif
+		#if defined(GL_TESS_CONTROL_SHADER)
+				case Shader::CONTROL :
+				{
+					id = glCreateShader( GL_TESS_CONTROL_SHADER );
+					break;
+				}
+		#elif defined(GL_TESS_CONTROL_SHADER_EXT)
+				case Shader::CONTROL :
+				{
+					id = glCreateShader( GL_TESS_CONTROL_SHADER_EXT );
+					break;
+				}
+		#endif
+		#if defined(GL_TESS_EVALUATION_SHADER)
+				case Shader::EVALUATION :
+				{
+					id = glCreateShader( GL_TESS_EVALUATION_SHADER );
+					break;
+				}
+		#elif defined(GL_TESS_EVALUATION_SHADER_EXT)
+				case Shader::CONTROL :
+				{
+					id = glCreateShader( GL_TESS_EVALUATION_SHADER_EXT );
+					break;
+				}
+		#endif
+				default :
+				{
+					GL_TEST_ERROR("half")
+					return false;
+				}
 			}
 		}
 
+		GL_TEST_ERROR("mid")
 		const GLchar *dat = data.access();
 		GLint size = data.size();
 
 		glShaderSource( id , 1 , (const GLchar**)&dat , &size );
 		glCompileShader( id );
 
-		GL_TEST_ERROR("load_shader. ")
+		GL_TEST_ERROR("mid2")
 
 		GLint tmp;
 		glGetShaderiv( id , GL_COMPILE_STATUS , &tmp );
 
 		if( tmp )
 		{
-			GL_TEST_ERROR("half ok")
+			GL_TEST_ERROR("end")
 			// ALL OK!
 			return true;
 		}
@@ -165,17 +166,28 @@ namespace bolt
 			GL_TEST_ERROR("end2")
 			throw std::runtime_error(log);
 		}
-		GL_TEST_ERROR("end")
+		GL_TEST_ERROR("end3")
 		return false;
+	}
+
+	void Shader::unload()
+	{
+		if( id != GL_NULL )
+		{
+			GL_TEST_ERROR("begin")
+			glDeleteShader( id );
+			id = GL_NULL;
+			GL_TEST_ERROR("end")
+		}
+	}
+
+	bool Shader::isLoaded()
+	{
+		return id != GL_NULL;
 	}
 
 	void Shader::set( const Data<char>& newData )
 	{
-		if( newData.size() <= 0 )
-		{
-			return;
-		}
-
 		data = newData;
 	}
 }

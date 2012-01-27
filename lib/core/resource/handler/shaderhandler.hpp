@@ -8,7 +8,7 @@
 #ifndef SHADERHANDLER_HPP_
 #define SHADERHANDLER_HPP_
 
-#include <resource/handler.hpp>
+#include "handler.hpp"
 
 namespace bolt
 {

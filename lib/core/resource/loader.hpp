@@ -25,6 +25,10 @@ public:
 	virtual bool load( std::string alias );
 };
 
+// sugar coating:
+bool load( std::string alias , std::string path );
+bool load( std::string alias );
+
 } // namespace resource
 } // namespace bolt
 #endif /* LOADER_HPP_ */

@@ -39,6 +39,9 @@ public:
 	virtual uint 		resolveKey( std::string alias );
 	virtual std::string resolveAlias( uint key );
 
+	// Pure aliases.
+	virtual bool add( std::string alias );
+	// Path aliases.
 	virtual bool add( std::string alias , std::string path );
 };
 

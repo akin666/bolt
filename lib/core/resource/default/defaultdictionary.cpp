@@ -74,6 +74,13 @@ std::string DefaultDictionary::resolveAlias( uint key )
 	return iter->second;
 }
 
+bool DefaultDictionary::add( std::string alias )
+{
+	// just short circuit the alias path..
+	// we do not loose much, by doing this.
+	return add( alias , alias );
+}
+
 bool DefaultDictionary::add( std::string alias , std::string path )
 {
 	StringStringMap::iterator iter = aliasPathMap.find( alias );

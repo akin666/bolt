@@ -6,6 +6,7 @@
  */
 
 #include "loader.hpp"
+#include <singleton>
 
 namespace bolt
 {
@@ -28,6 +29,16 @@ bool Loader::load( std::string alias , std::string path )
 bool Loader::load( std::string alias )
 {
 	return false;
+}
+
+bool load( std::string alias , std::string path )
+{
+	return bolt::getSingleton<bolt::resource::Loader>()->load( alias , path );
+}
+
+bool load( std::string alias )
+{
+	return bolt::getSingleton<bolt::resource::Loader>()->load( alias );
 }
 
 } // namespace resource

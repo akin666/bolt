@@ -3,6 +3,9 @@
  *
  *  Created on: 26.1.2012
  *      Author: akin
+ *
+ *      Service to create unique ID's to aliases.
+ *      Service also includes the service to keep alias-paths.
  */
 
 #ifndef DICTIONARY_HPP_
@@ -30,8 +33,16 @@ public:
 	virtual uint 		resolveKey( std::string alias );
 	virtual std::string resolveAlias( uint key );
 
+	// Pure runtime key aliases.
+	virtual bool add( std::string alias );
+
+	// Path aliases.
 	virtual bool add( std::string alias , std::string path );
 };
+
+// sugar coating:
+bool link( std::string alias );
+bool link( std::string alias , std::string path );
 
 } // namespace resource
 } // namespace bolt
