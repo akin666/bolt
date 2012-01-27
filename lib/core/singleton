@@ -61,6 +61,35 @@ CType *Singleton<CType>::singleton = NULL;
 template <class CType>
 std::mutex Singleton<CType>::mutex;
 
+// Syntactical Sugar:
+// getSingleton<MyClass>();
+// createSingleton<MyClass>();
+// setSingleton<MyClass>( new MyOtherClass );
+// unsetSingleton<MyClass>();
+template <class CType>
+CType *getSingleton()
+{
+	return Singleton<CType>::get();
+}
+
+template <class CType>
+CType *createSingleton()
+{
+	return Singleton<CType>::create();
+}
+
+template <class CType>
+bool setSingleton( CType *ct )
+{
+	return Singleton<CType>::set( ct );
+}
+
+template <class CType>
+void unsetSingleton()
+{
+	Singleton<CType>::unset();
+}
+
 }
 
 #endif /* SINGLETON_HPP_ */

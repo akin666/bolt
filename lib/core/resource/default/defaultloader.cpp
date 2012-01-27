@@ -45,7 +45,7 @@ bool DefaultLoader::loadPath( const std::string& alias , const std::string& path
 		return false;
 	}
 
-	std::string type = path.substr( dotPos );
+	std::string type = path.substr( dotPos + 1 );
 
 	// Seek a handler, that can create work package for the file.
 	for( Group<Handler>::GroupList::iterator iter = Group<Handler>::begin() ; iter != Group<Handler>::end() ; ++iter )
