@@ -10,23 +10,21 @@
 #include <log>
 #include <stdexcept>
 
-#define NULL_SHADER 0
-
 namespace bolt
 {
 	Shader::Shader( )
-	: id( NULL_SHADER ),
+	: id( GL_NULL ),
 	  m_type( UNKNOWN )
 	{
 	}
 
 	Shader::~Shader()
 	{
-		if( id != NULL_SHADER )
+		if( id != GL_NULL )
 		{
 			GL_TEST_ERROR("begin")
 			glDeleteShader( id );
-			id = NULL_SHADER;
+			id = GL_NULL;
 			GL_TEST_ERROR("end")
 		}
 	}

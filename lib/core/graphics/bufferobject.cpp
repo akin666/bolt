@@ -11,23 +11,23 @@ namespace bolt
 {
 	BufferObject::BufferObject( )
 	: bsize(0),
-	  id(GL_NULL_BUFFER)
+	  id(GL_NULL)
 	{
 	}
 
 	BufferObject::~BufferObject()
 	{
-		if( id != GL_NULL_BUFFER )
+		if( id != GL_NULL )
 		{
 			glDeleteBuffers( 1 , &id );
-			id = GL_NULL_BUFFER;
+			id = GL_NULL;
 		}
 	}
 
 	void BufferObject::initialize()
 	{
 		// create ID.
-		if( id == GL_NULL_BUFFER )
+		if( id == GL_NULL )
 		{
 			glGenBuffers( 1 , &id );
 		}
@@ -35,7 +35,7 @@ namespace bolt
 
 	bool BufferObject::hasInitialized()
 	{
-		return id != GL_NULL_BUFFER;
+		return id != GL_NULL;
 	}
 
 	void BufferObject::reserve( const unsigned int bytesize , Graphics::Residence residence , Graphics::Updates updates )
@@ -85,7 +85,7 @@ namespace bolt
 			default : bindStyle = GL_PIXEL_PACK_BUFFER; break;
 		}
 
-		glBindBuffer( bindStyle , GL_NULL_BUFFER );
+		glBindBuffer( bindStyle , GL_NULL );
 	}
 
 	unsigned char *BufferObject::bindMemoryMap( const Graphics::BindStyle style ) const

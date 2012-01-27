@@ -7,7 +7,6 @@
 
 #define NO_GLEE
 
-#define GL_NULL_BUFFER 0
 #define GL_NULL 0
 
 #ifndef NO_GLEE

@@ -15,7 +15,7 @@ namespace bolt
 {
 	Uniform::Uniform()
 	{
-		m_program_id = 0;
+		m_program_id = GL_NULL;
 	}
 
 	Uniform::~Uniform()
@@ -34,7 +34,7 @@ namespace bolt
 
 		m_uniform_id = glGetUniformLocation( m_program_id , (const GLchar*)name.c_str() );
 
-		if( m_uniform_id < 0 )
+		if( m_uniform_id < GL_NULL )
 		{
 			throw std::runtime_error( std::string("Uniform not found ") + name );
 		}

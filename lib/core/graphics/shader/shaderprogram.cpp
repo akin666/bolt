@@ -14,13 +14,11 @@
 #include "shader.hpp"
 #include <stdexcept>
 
-#define NULL_PROGRAM 0
-
 namespace bolt
 {
 	void tryCreatingShaderProgram( uint &id )
 	{
-		if( id == NULL_PROGRAM )
+		if( id == GL_NULL )
 		{
 			GL_TEST_ERROR("begin")
 			id = glCreateProgram();
@@ -31,13 +29,13 @@ namespace bolt
 
 	ShaderProgram::ShaderProgram()
 	{
-		m_id = NULL_PROGRAM;
+		m_id = GL_NULL;
 		linking = false;
 	}
 
 	ShaderProgram::~ShaderProgram()
 	{
-		if( m_id != NULL_PROGRAM )
+		if( m_id != GL_NULL )
 		{
 			GL_TEST_ERROR("begin")
 			glDeleteProgram( m_id );
@@ -183,7 +181,7 @@ namespace bolt
 	std::string ShaderProgram::getError()
 	{
 		GL_TEST_ERROR("begin")
-		if( m_id == NULL_PROGRAM )
+		if( m_id == GL_NULL )
 		{
 			return "";
 		}
@@ -209,6 +207,6 @@ namespace bolt
 
 	bool ShaderProgram::linked()
 	{
-		return (linking && m_id != NULL_PROGRAM);
+		return (linking && m_id != GL_NULL);
 	}
 }

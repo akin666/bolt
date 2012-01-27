@@ -16,7 +16,7 @@ namespace bolt
 	  newMode( RGBA ),
 	  glMode(GL_RGBA),
 	  bytes(4),
-	  texture_id(GL_NULL_BUFFER),
+	  texture_id(GL_NULL),
 	  minificationFilter(LINEAR),
 	  magnificationFilter(LINEAR),
 	  sWrap(CLAMP),
@@ -46,10 +46,10 @@ namespace bolt
 
 	void GTexture::destroy()
 	{
-		if( texture_id != GL_NULL_BUFFER )
+		if( texture_id != GL_NULL )
 		{
 			glDeleteTextures( 1 , &texture_id );
-			texture_id = GL_NULL_BUFFER;
+			texture_id = GL_NULL;
 			GL_TEST_ERROR("GTexture:dtr delete texture.");
 		}
 	}
@@ -57,7 +57,7 @@ namespace bolt
 	bool GTexture::initialize( const unsigned char *data )
 	{
 		GL_TEST_ERROR("GTexture:initialize START.");
-		if( texture_id == GL_NULL_BUFFER )
+		if( texture_id == GL_NULL )
 		{
 			glGenTextures( 1 , &texture_id );
 
@@ -216,7 +216,7 @@ namespace bolt
 
 	bool GTexture::isInitialized() const
 	{
-		return texture_id != GL_NULL_BUFFER;
+		return texture_id != GL_NULL;
 	}
 
 	bool GTexture::testMemory()
@@ -293,7 +293,7 @@ namespace bolt
 		if( glGetError() != GL_NO_ERROR || width == 0 )
 		{
 			while( glGetError() != GL_NO_ERROR );
-			glBindTexture(GL_TEXTURE_2D, GL_NULL_BUFFER );
+			glBindTexture(GL_TEXTURE_2D, GL_NULL );
 
 			return false;
 		}
@@ -302,7 +302,7 @@ namespace bolt
 
 	GTexture& GTexture::setMinificationFilter( TextureFilter filter )
 	{
-		if( texture_id != GL_NULL_BUFFER && filter != minificationFilter )
+		if( texture_id != GL_NULL && filter != minificationFilter )
 		{
 			bind();
 			int para = GL_LINEAR;
@@ -328,7 +328,7 @@ namespace bolt
 
 	GTexture& GTexture::setMagnificationFilter( TextureFilter filter )
 	{
-		if( texture_id != GL_NULL_BUFFER && filter != magnificationFilter )
+		if( texture_id != GL_NULL && filter != magnificationFilter )
 		{
 			bind();
 			int para = GL_LINEAR;
@@ -355,7 +355,7 @@ namespace bolt
 
 	GTexture& GTexture::setSWrapMode( WrapMode wrap )
 	{
-		if( texture_id != GL_NULL_BUFFER && wrap != sWrap )
+		if( texture_id != GL_NULL && wrap != sWrap )
 		{
 			bind();
 			int para = GL_CLAMP_TO_EDGE;
@@ -376,7 +376,7 @@ namespace bolt
 
 	GTexture& GTexture::setTWrapMode( WrapMode wrap )
 	{
-		if( texture_id != GL_NULL_BUFFER && wrap != tWrap )
+		if( texture_id != GL_NULL && wrap != tWrap )
 		{
 			bind();
 			int para = GL_CLAMP_TO_EDGE;
@@ -445,7 +445,7 @@ namespace bolt
 
 	void GTexture::generateMipMap()
 	{
-		if( texture_id != GL_NULL_BUFFER )
+		if( texture_id != GL_NULL )
 		{
 			GL_TEST_ERROR("GTexture:generateMipMap START.");
 			bind();
@@ -490,7 +490,7 @@ namespace bolt
 	void GTexture::release()
 	{
 		GL_TEST_ERROR("GTexture:bind release.");
-		glBindTexture( GL_TEXTURE_2D , GL_NULL_BUFFER );
+		glBindTexture( GL_TEXTURE_2D , GL_NULL );
 		GL_TEST_ERROR("GTexture:bind release.");
 	}
 
@@ -539,7 +539,7 @@ namespace bolt
 		if( glGetError() != GL_NO_ERROR || width == 0 )
 		{
 			while( glGetError() != GL_NO_ERROR );
-			glBindTexture(GL_TEXTURE_2D, GL_NULL_BUFFER );
+			glBindTexture(GL_TEXTURE_2D, GL_NULL );
 			return false;
 		}
 
@@ -578,7 +578,7 @@ namespace bolt
 			generateMipMap();
 		}
 
-		glBindTexture(GL_TEXTURE_2D, GL_NULL_BUFFER );
+		glBindTexture(GL_TEXTURE_2D, GL_NULL );
 
 		GL_TEST_ERROR("GTexture:resize END.");
 

@@ -13,7 +13,7 @@ namespace bolt
 {
 	Attribute::Attribute( )
 	{
-		m_program_id = 0;
+		m_program_id = GL_NULL;
 	}
 
 	Attribute::~Attribute()
@@ -32,7 +32,7 @@ namespace bolt
 
 		m_attribute_id = glGetAttribLocation( m_program_id , (const GLchar*)name.c_str() );
 
-		if( m_attribute_id < 0 )
+		if( m_attribute_id < GL_NULL )
 		{
 			throw std::runtime_error("Attribute location was not found.");
 		}
