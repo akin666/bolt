@@ -5,7 +5,7 @@
 #include <singleton>
 #include <iostream>
 
-#define BOLT_GET_LOG bolt::Singleton<bolt::Log>::get()
+#define BOLT_GET_LOG bolt::getSingleton<bolt::Log>()
 #define BOLT_DUMMY_LOG std::cout
 
 #define LOG_ERROR   ( BOLT_GET_LOG != NULL ? BOLT_GET_LOG->error() 	: BOLT_DUMMY_LOG ) << __FILE__ << ">" << __FUNCTION__ << ":" << __LINE__

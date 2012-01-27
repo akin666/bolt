@@ -3,14 +3,14 @@
 #include "tpool/threadpool.hpp"
 #include "singleton"
 
-#define DO_WORK( work ) if( bolt::Singleton<bolt::ThreadPool>::get() != NULL ) \
+#define DO_WORK( work ) { if( bolt::getSingleton<bolt::ThreadPool>() != NULL ) \
 						{ \
-							bolt::Singleton<bolt::ThreadPool>::get()->schedule( &work ); \
+							bolt::getSingleton<bolt::ThreadPool>()->schedule( &work ); \
 						} \
 						else if( work.begin() ) \
 						{ \
 							work.run(); \
 							work.end(); \
-						}
+						} }
 
 #endif
