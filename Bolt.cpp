@@ -25,6 +25,7 @@ int main( int argc , char *argv[] )
 				bolt::resource::DefaultLoader ,
 				bolt::resource::DefaultDictionary > entity;
 
+	// Application Exception handling not running yet..
 	try
 	{
 		entity.initialize( argc , argv );

@@ -36,7 +36,7 @@ public:
 
 	static void set( CType *ct ) throw (std::exception)
 	{
-		if ( !isSet() )
+		if( isSet() )
 		{
 			throw std::runtime_error("Singleton already set!.");
 		}

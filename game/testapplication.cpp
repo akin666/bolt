@@ -43,7 +43,6 @@ void TestApplication::initialize() throw (std::exception)
 	bolt::resource::link( "config" , "resources/config/default.cfg" );
 	bolt::resource::link( "genericVertexShader" , "resources/shader/generic.vs" );
 	bolt::resource::link( "genericFragmentShader" , "resources/shader/generic.fs" );
-	bolt::resource::link( "GenericShader" );
 
 	// create shaderprogram registry.
 	bolt::createSingleton<bolt::resource::Registry<bolt::ShaderProgram> >();
@@ -125,11 +124,16 @@ void TestApplication::run()
 
 			if( program->linked() )
 			{
+				bolt::resource::link( "GenericShader" );
 				bolt::resource::setObject<bolt::ShaderProgram>( "GenericShader" , program );
 
 				shaderProgramLoaded = true;
 
 				LOG_OUT << "Shader program is loaded! " << std::endl;
+			}
+			else
+			{
+				delete program;
 			}
 
 			if( !shaderProgramLoaded )
