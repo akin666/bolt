@@ -26,6 +26,8 @@ public:
 	TestApplication();
 	virtual ~TestApplication();
 
+	virtual void handleException( const std::exception& exeption );
+
 	virtual bool initialize();
 	virtual void suspend();
 	virtual void resume();

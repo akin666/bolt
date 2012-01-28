@@ -26,6 +26,11 @@ TestApplication::~TestApplication()
 {
 }
 
+void TestApplication::handleException( const std::exception& exeption )
+{
+	LOG_ERROR << "Received and exception!! " << exeption.what() << std::endl;
+}
+
 void TestApplication::processArg( int index , std::string argument )
 {
 }
