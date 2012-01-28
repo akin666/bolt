@@ -31,8 +31,8 @@ namespace bolt
 		TextureGroup();
 		virtual ~TextureGroup();
 
-		bool initialize( const int maxwidth = TG_DEFAULT_TEXTURE_SIZE , const int maxheight = TG_DEFAULT_TEXTURE_SIZE , const int padding = TG_DEFAULT_PAD , const ColorMode mode = RGBA );
-		bool initialize( const glm::ivec2& maxsize , const int padding = TG_DEFAULT_PAD , const ColorMode mode = RGBA );
+		void initialize( int maxwidth = TG_DEFAULT_TEXTURE_SIZE , int maxheight = TG_DEFAULT_TEXTURE_SIZE , int padding = TG_DEFAULT_PAD , ColorMode mode = RGBA ) throw (std::exception);
+		void initialize( const glm::ivec2& maxsize , int padding = TG_DEFAULT_PAD , ColorMode mode = RGBA ) throw (std::exception);
 
 		void request( Texture& texture ) throw (std::exception);
 	};

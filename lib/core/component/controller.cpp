@@ -55,9 +55,8 @@ void Controller::setPriority( uint prio )
 	priority = prio;
 }
 
-bool Controller::initialize()
+void Controller::initialize() throw (std::exception)
 {
-	return true;
 }
 
 void Controller::getDependencies( StringSet& dep )

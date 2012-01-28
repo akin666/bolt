@@ -27,7 +27,7 @@ namespace bolt
 		atlases.clear();
 	}
 
-	bool TextureGroup::initialize( const int maxwidth , const int maxheight , const int padding , const ColorMode mode )
+	void TextureGroup::initialize( int maxwidth , int maxheight , int padding , ColorMode mode ) throw (std::exception)
 	{
 		if( !initialized )
 		{
@@ -39,11 +39,9 @@ namespace bolt
 
 			initialized = true;
 		}
-
-		return initialized;
 	}
 
-	bool TextureGroup::initialize( const glm::ivec2& maxsize , const int padding , const ColorMode mode )
+	void TextureGroup::initialize( const glm::ivec2& maxsize , int padding , ColorMode mode ) throw (std::exception)
 	{
 		return initialize( maxsize.x , maxsize.y , padding , mode );
 	}

@@ -18,9 +18,8 @@ PositionProperty::~PositionProperty()
 {
 }
 
-bool PositionProperty::initialize()
+void PositionProperty::initialize() throw (std::exception)
 {
-	return true;
 }
 
 void PositionProperty::attach( bolt::Entity& entity )

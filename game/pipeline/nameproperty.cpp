@@ -18,9 +18,8 @@ NameProperty::~NameProperty()
 {
 }
 
-bool NameProperty::initialize()
+void NameProperty::initialize() throw (std::exception)
 {
-	return true;
 }
 
 void NameProperty::attach( bolt::Entity& entity )

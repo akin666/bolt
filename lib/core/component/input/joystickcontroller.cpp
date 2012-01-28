@@ -20,9 +20,8 @@ JoystickController::~JoystickController()
 {
 }
 
-bool JoystickController::initialize()
+void JoystickController::initialize() throw (std::exception)
 {
-	return true;
 }
 
 void JoystickController::getDependencies(bolt::StringSet & dep)

@@ -22,12 +22,12 @@ SimpleRendererController::~SimpleRendererController()
 {
 }
 
-bool SimpleRendererController::initialize()
+void SimpleRendererController::initialize() throw (std::exception)
 {
 	// already initialized?
 	if( initialized )
 	{
-		return true;
+		return;
 	}
 
 	dependecies.insert( bolt::FenceController::RENDER );

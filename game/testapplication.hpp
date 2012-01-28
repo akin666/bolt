@@ -26,7 +26,7 @@ public:
 	TestApplication();
 	virtual ~TestApplication();
 
-	virtual bool initialize();
+	virtual void initialize() throw (std::exception);
 	virtual void suspend();
 	virtual void resume();
 	virtual void kill();

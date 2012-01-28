@@ -20,7 +20,7 @@ public:
 	TouchController();
 	virtual ~TouchController();
 
-	virtual bool initialize();
+	virtual void initialize() throw (std::exception);
 
 	virtual void getDependencies( bolt::StringSet& dep );
 

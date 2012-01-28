@@ -29,7 +29,7 @@ public:
 	PositionProperty();
 	virtual ~PositionProperty();
 
-	virtual bool initialize();
+	virtual void initialize() throw (std::exception);
 
 	virtual void attach( bolt::Entity& entity );
 	virtual void detach( bolt::Entity& entity );

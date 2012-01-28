@@ -30,9 +30,8 @@ void ApplicationState::processArgs( int argc , char *argv[] )
 	}
 }
 
-bool ApplicationState::initialize()
+void ApplicationState::initialize() throw (std::exception)
 {
-	return false;
 }
 
 void ApplicationState::suspend()

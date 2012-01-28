@@ -20,9 +20,8 @@ KeyboardController::~KeyboardController()
 {
 }
 
-bool KeyboardController::initialize()
+void KeyboardController::initialize() throw (std::exception)
 {
-	return true;
 }
 
 void KeyboardController::getDependencies(bolt::StringSet & dep)

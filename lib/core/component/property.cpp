@@ -27,9 +27,8 @@ Property::~Property()
 {
 }
 
-bool Property::initialize()
+void Property::initialize() throw (std::exception)
 {
-	return true;
 }
 
 std::string Property::getName() const

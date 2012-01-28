@@ -20,9 +20,8 @@ TouchController::~TouchController()
 {
 }
 
-bool TouchController::initialize()
+void TouchController::initialize() throw (std::exception)
 {
-	return true;
 }
 
 void TouchController::getDependencies(bolt::StringSet & dep)

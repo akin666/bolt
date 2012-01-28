@@ -1,6 +1,7 @@
 
 #include <threadpool>
 #include <thread>
+#include <stdexcept>
 
 namespace bolt
 {
@@ -19,7 +20,7 @@ ThreadPool::~ThreadPool()
 {
 }
 
-bool ThreadPool::initialize( unsigned int count ) throw (std::exception)
+void ThreadPool::initialize( unsigned int count ) throw (std::exception)
 {
 	if( workers == NULL )
 	{
@@ -30,10 +31,11 @@ bool ThreadPool::initialize( unsigned int count ) throw (std::exception)
 		{
 			workers[i].init( data );
 		}
-
-		return true;
 	}
-	return false;
+	else
+	{
+		throw std::runtime_error("ThreadPool Workers already initialized!.");
+	}
 }
 
 void ThreadPool::kill()

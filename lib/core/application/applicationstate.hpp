@@ -22,7 +22,7 @@ public:
 	virtual ~ApplicationState();
 
 	void processArgs( int argc , char *argv[] );
-	virtual bool initialize();
+	virtual void initialize() throw (std::exception);
 
 	virtual void suspend();
 	virtual void resume();

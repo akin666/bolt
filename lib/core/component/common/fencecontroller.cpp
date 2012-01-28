@@ -26,9 +26,8 @@ FenceController::~FenceController()
 {
 }
 
-bool FenceController::initialize()
+void FenceController::initialize() throw (std::exception)
 {
-	return true;
 }
 
 void FenceController::getDependencies( bolt::StringSet& dep )

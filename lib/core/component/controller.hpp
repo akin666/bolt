@@ -8,6 +8,7 @@
 #ifndef CONTROLLER_HPP_
 #define CONTROLLER_HPP_
 
+#include <exception>
 #include "entity.hpp"
 #include <set>
 #include <string>
@@ -45,7 +46,7 @@ public:
 	virtual ~Controller();
 
 	// Create or initialize also the components Property'es
-	virtual bool initialize();
+	virtual void initialize() throw (std::exception);
 
 	// Figure out what controllers should be before this controller.
 	virtual void getDependencies( StringSet& dep );

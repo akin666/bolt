@@ -21,7 +21,7 @@ public:
 
 	static unsigned int getHardwareThreadCount();
 
-	bool initialize( unsigned int count ) throw (std::exception);
+	void initialize( unsigned int count ) throw (std::exception);
 
 	void schedule( Work *work );
 

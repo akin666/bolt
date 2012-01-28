@@ -30,11 +30,11 @@ void TestApplication::processArg( int index , std::string argument )
 {
 }
 
-bool TestApplication::initialize()
+void TestApplication::initialize() throw (std::exception)
 {
 	if( initialized )
 	{
-		return true;
+		return;
 	}
 
 	times = 100;
@@ -60,8 +60,6 @@ bool TestApplication::initialize()
 
 	initialized = true;
 	shaderProgramLoaded = false;
-
-	return true;
 }
 
 void TestApplication::suspend()

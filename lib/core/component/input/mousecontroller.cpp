@@ -20,9 +20,8 @@ MouseController::~MouseController()
 {
 }
 
-bool MouseController::initialize()
+void MouseController::initialize() throw (std::exception)
 {
-	return true;
 }
 
 void MouseController::getDependencies(bolt::StringSet & dep)
