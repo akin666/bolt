@@ -10,6 +10,8 @@
 
 #include <iostream>
 #include <thread>
+#include <exception>
+#include <stdexcept>
 
 namespace bolt
 {
@@ -25,19 +27,20 @@ public:
 		return singleton != NULL;
 	}
 
-	static void unset()
+	static CType *reset()
 	{
+		CType *tmp = singleton;
 		singleton = NULL;
+		return tmp;
 	}
 
-	static bool set( CType *ct )
+	static void set( CType *ct ) throw (std::exception)
 	{
 		if ( !isSet() )
 		{
-			singleton = ct;
-			return true;
+			throw std::runtime_error("Singleton already set!.");
 		}
-		return false;
+		singleton = ct;
 	}
 
 	static CType *get()
@@ -79,9 +82,9 @@ CType *createSingleton()
 }
 
 template <class CType>
-bool setSingleton( CType *ct )
+void setSingleton( CType *ct ) throw (std::exception)
 {
-	return Singleton<CType>::set( ct );
+	Singleton<CType>::set( ct );
 }
 
 template <class CType>
