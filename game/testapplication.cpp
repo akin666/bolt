@@ -144,7 +144,7 @@ void TestApplication::run()
 
 	if( bolt::createSingleton<bolt::resource::Registry<bolt::TextData> >()->hasObject( "config" ))
 	{
-		bolt::TextData *dataunit = bolt::getSingleton<bolt::resource::Registry<bolt::TextData> >()->objectFor( "config" );
+		bolt::TextData *dataunit = bolt::getSingleton<bolt::resource::Registry<bolt::TextData> >()->getObject( "config" );
 
 		if( dataunit != NULL )
 		{

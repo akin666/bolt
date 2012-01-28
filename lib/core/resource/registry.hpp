@@ -40,7 +40,7 @@ public:
 		}
 	}
 	
-	HType *objectFor( uint key )
+	HType *getObject( uint key )
 	{
 		std::lock_guard<std::mutex> lock(mutex);
 		typename KeyTypeMap::iterator iter = handles.find( key );
@@ -91,10 +91,10 @@ public:
 
 
 	// Convenience functions.
-	HType *objectFor( std::string alias )
+	HType *getObject( std::string alias )
 	{
 		uint key = getSingleton<Dictionary>()->resolveKey( alias );
-		return objectFor( key );
+		return getObject( key );
 	}
 
 	bool hasObject( std::string alias )
@@ -134,7 +134,7 @@ bool setObject( uint key , CType *object )
 template <class CType>
 CType *getObject( std::string alias )
 {
-	return getSingleton<Registry<CType> >()->objectFor( alias );
+	return getSingleton<Registry<CType> >()->getObject( alias );
 }
 template <class CType>
 CType *getObject( uint key )
