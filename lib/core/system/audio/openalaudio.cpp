@@ -7,6 +7,7 @@
 
 #include "openalaudio.hpp"
 #include <cstdio>
+#include <stdexcept>
 
 namespace bolt
 {
@@ -80,20 +81,20 @@ bool OpenALAudio::createDevice()
 	return true;
 }
 
-bool OpenALAudio::initialize()
+void OpenALAudio::initialize() throw (std::exception)
 {
 	if( device != NULL && context != NULL )
 	{
-		return true;
+		return;
 	}
 
 	if( !createDevice() )
 	{
-		return false;
+		throw std::runtime_error("OpenALAudio initialize! Failed to create device.");
 	}
 	if( !createContext() )
 	{
-		return false;
+		throw std::runtime_error("OpenALAudio initialize! Failed to create context.");
 	}
 
 	// At this point context and device exists.
@@ -137,15 +138,13 @@ bool OpenALAudio::initialize()
 	contextResumeSupported = true;
 
 	AL_TEST_ERROR("end");
-
-	return true;
 }
 
-bool OpenALAudio::suspend()
+void OpenALAudio::suspend() throw (std::exception)
 {
 	if( device == NULL || context == NULL )
 	{
-		return true;
+		return;
 	}
 
 	if( contextResumeSupported )
@@ -154,34 +153,32 @@ bool OpenALAudio::suspend()
 		alcSuspendContext( context );
 		AL_TEST_ERROR("end");
 
-		return true;
+		return;
 	}
 
 	// Suspending not supported, KILL context.
 	killContext();
-
-	return true;
 }
 
-bool OpenALAudio::resume()
+void OpenALAudio::resume() throw (std::exception)
 {
 
 	if( contextResumeSupported )
 	{
 		if( device == NULL || context == NULL )
 		{
-			return true;
+			return;
 		}
 
 		AL_TEST_ERROR("start");
 		alcProcessContext( context );
 		AL_TEST_ERROR("end");
 
-		return true;
+		return;
 	}
 
 	// Suspending not supported, create context.
-	return createContext();
+	createContext();
 }
 
 void OpenALAudio::setVolume( float vol )

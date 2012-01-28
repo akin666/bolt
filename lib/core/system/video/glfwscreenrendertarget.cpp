@@ -8,6 +8,7 @@
 #include "glfwscreenrendertarget.hpp"
 #include <log>
 #include <opengl>
+#include <stdexcept>
 
 namespace bolt
 {
@@ -30,15 +31,11 @@ GLFWScreenRenderTarget::~GLFWScreenRenderTarget()
 {
 }
 
-bool GLFWScreenRenderTarget::bind()
+void GLFWScreenRenderTarget::bind() throw (std::exception)
 {
 	GL_TEST_ERROR("begin");
-
 	glBindFramebuffer( GL_FRAMEBUFFER , 0 );
-
 	GL_TEST_ERROR("end");
-
-	return true;
 }
 
 void GLFWScreenRenderTarget::setFullscreen( bool val )
@@ -52,9 +49,12 @@ void GLFWScreenRenderTarget::setFullscreen( bool val )
 	// ehm.. initialized already, so, we need to switch?
 }
 
-bool GLFWScreenRenderTarget::initialize()
+void GLFWScreenRenderTarget::initialize() throw (std::exception)
 {
-	if( initialized ) return true;
+	if( initialized )
+	{
+		throw std::runtime_error("GLFWScreenRenderTarget already initialized!.");
+	}
 
 	if (glfwOpenWindow(
 			mode.getWidth(),
@@ -67,13 +67,10 @@ bool GLFWScreenRenderTarget::initialize()
 			mode.getStencilBits(),
 			( fullscreen ? GLFW_FULLSCREEN : GLFW_WINDOW ) ) != GL_TRUE )
 	{
-		LOG_ERROR << "Failed to open window." << std::endl;
-		return false;
+		throw std::runtime_error("GLFWScreenRenderTarget Failed to open window!.");
 	}
 
 	initialized = true;
-
-	return true;
 }
 
 } /* namespace bolt */

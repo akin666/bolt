@@ -14,6 +14,7 @@
 #ifndef MAIN_HPP_
 #define MAIN_HPP_
 
+#include <exception>
 #include <singleton>
 #include <application/application.hpp>
 #include "audio.hpp"
@@ -44,7 +45,7 @@ protected:
 public:
 	Main();
 	~Main();
-	bool initialize( int argc , char *argv[] );
+	void initialize( int argc , char *argv[] ) throw (std::exception);
 	int run();
 };
 
@@ -59,7 +60,7 @@ Main< ApplicationPolicy, VideoPolicy, AudioPolicy , LogPolicy , ResourceLoader ,
 }
 
 template < class ApplicationPolicy , class VideoPolicy , class AudioPolicy , class LogPolicy , class ResourceLoader , class ResourceDictionary >
-bool Main< ApplicationPolicy, VideoPolicy, AudioPolicy , LogPolicy , ResourceLoader , ResourceDictionary >::initialize( int argc , char *argv[] )
+void Main< ApplicationPolicy, VideoPolicy, AudioPolicy , LogPolicy , ResourceLoader , ResourceDictionary >::initialize( int argc , char *argv[] ) throw (std::exception)
 {
 	application.processArgs( argc , argv );
 
@@ -81,7 +82,10 @@ bool Main< ApplicationPolicy, VideoPolicy, AudioPolicy , LogPolicy , ResourceLoa
 	// plenty of slaves to do my bidding.
 	int workers = ThreadPool::getHardwareThreadCount() * 2 + 1.0;
 
-	return pool.initialize( workers ) && application.initialize() && audio.initialize() && video.initialize();
+	pool.initialize( workers );
+	application.initialize();
+	audio.initialize();
+	video.initialize();
 }
 
 template < class ApplicationPolicy , class VideoPolicy , class AudioPolicy , class LogPolicy , class ResourceLoader , class ResourceDictionary >

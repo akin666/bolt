@@ -25,7 +25,15 @@ int main( int argc , char *argv[] )
 				bolt::resource::DefaultLoader ,
 				bolt::resource::DefaultDictionary > entity;
 
-	entity.initialize( argc , argv );
+	try
+	{
+		entity.initialize( argc , argv );
+	}
+	catch( std::exception& e )
+	{
+		std::cerr << "Failed to initialize application: " << e.what() << std::endl;
+		return -1;
+	}
 
 	return entity.run();
 }

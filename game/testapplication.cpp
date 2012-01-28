@@ -155,10 +155,7 @@ void TestApplication::run()
 	--times;
 
 	// Bind default screen
-	if( !bolt::getSingleton<bolt::Video>()->getRenderTarget().bind() )
-	{
-		return;
-	}
+	bolt::getSingleton<bolt::Video>()->getRenderTarget().bind();
 
 	// Run the currently attached pipeline
 	pipeline.run();

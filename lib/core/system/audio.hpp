@@ -12,6 +12,8 @@
 #ifndef AUDIO_HPP_
 #define AUDIO_HPP_
 
+#include <exception>
+
 namespace bolt
 {
 
@@ -21,9 +23,9 @@ public:
 	Audio();
 	virtual ~Audio();
 
-	virtual bool initialize();
-	virtual bool suspend();
-	virtual bool resume();
+	virtual void initialize() throw (std::exception);
+	virtual void suspend() throw (std::exception);
+	virtual void resume() throw (std::exception);
 
 	virtual void setVolume( float vol );
 	virtual float getVolume();

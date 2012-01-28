@@ -22,11 +22,11 @@ public:
 	GLFWScreenRenderTarget();
 	virtual ~GLFWScreenRenderTarget();
 
-	virtual bool bind();
+	virtual void bind() throw (std::exception);
 
 	void setFullscreen( bool val );
 
-	bool initialize();
+	void initialize() throw (std::exception);
 };
 
 } /* namespace bolt */

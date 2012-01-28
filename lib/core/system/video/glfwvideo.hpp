@@ -42,12 +42,12 @@ public:
 	virtual bool isCursorVisible();
 	virtual void setCursorVisible( bool val );
 
-	virtual bool initialize();
+	virtual void initialize() throw (std::exception);
 
 	virtual void setTitle( std::string head );
 	virtual std::string getTitle();
 
-	virtual void apply( const VideoMode& mode );
+	virtual void apply( const VideoMode& mode ) throw (std::exception);
 
 	virtual void listVideoModes( std::vector<VideoMode>& modes ) const;
 

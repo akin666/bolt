@@ -6,6 +6,7 @@
  */
 
 #include "video.hpp"
+#include <stdexcept>
 
 namespace bolt
 {
@@ -63,9 +64,9 @@ void Video::setMinorVersion(int v)
 {
 }
 
-bool Video::initialize()
+void Video::initialize() throw (std::exception)
 {
-	return false;
+	throw std::runtime_error("Default video initializer.");
 }
 
 void Video::setTitle(std::string head)
@@ -77,8 +78,9 @@ std::string Video::getTitle()
 	return "";
 }
 
-void Video::apply( const VideoMode& mode )
+void Video::apply( const VideoMode& mode ) throw (std::exception)
 {
+	throw std::runtime_error("Default video apply.");
 }
 
 void Video::listVideoModes( std::vector<VideoMode>& modes ) const

@@ -28,9 +28,8 @@ VideoMode& RenderTarget::getVideoMode()
 	return mode;
 }
 
-bool RenderTarget::bind()
+void RenderTarget::bind() throw (std::exception)
 {
-	return false;
 }
 
 } /* namespace bolt */

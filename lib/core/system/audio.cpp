@@ -6,6 +6,7 @@
  */
 
 #include "audio.hpp"
+#include <stdexcept>
 
 namespace bolt
 {
@@ -18,19 +19,19 @@ Audio::~Audio()
 {
 }
 
-bool Audio::initialize()
+void Audio::initialize() throw (std::exception)
 {
-	return false;
+	throw std::runtime_error("default audio initialize!.");
 }
 
-bool Audio::suspend()
+void Audio::suspend() throw (std::exception)
 {
-	return false;
+	throw std::runtime_error("default audio suspend!.");
 }
 
-bool Audio::resume()
+void Audio::resume() throw (std::exception)
 {
-	return false;
+	throw std::runtime_error("default audio resume!.");
 }
 
 void Audio::setVolume( float vol )

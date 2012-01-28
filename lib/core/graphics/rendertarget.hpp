@@ -9,6 +9,7 @@
 #define RENDERTARGET_HPP_
 
 #include "videomode.hpp"
+#include <exception>
 
 namespace bolt
 {
@@ -24,7 +25,7 @@ public:
 
 	VideoMode& getVideoMode();
 
-	virtual bool bind();
+	virtual void bind() throw (std::exception);
 };
 
 } /* namespace bolt */

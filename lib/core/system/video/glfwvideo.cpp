@@ -9,6 +9,8 @@
 #include <log>
 #include <opengl>
 
+#include <stdexcept>
+
 // if components are not initialized/set, SET EM!
 #include <singleton>
 #include <component/input/touchcontroller.hpp>
@@ -189,12 +191,11 @@ void GLFWVideo::setCursorVisible( bool val )
 	}
 }
 
-bool GLFWVideo::initialize()
+void GLFWVideo::initialize() throw (std::exception)
 {
 	if (glfwInit() != GL_TRUE)
 	{
-		LOG_ERROR << "glfwInit failed!" << std::endl;
-		return false;
+		throw std::runtime_error("glfwInit failed!.");
 	}
 
 	glfwOpenWindowHint( GLFW_OPENGL_VERSION_MAJOR , major );
@@ -206,8 +207,7 @@ bool GLFWVideo::initialize()
 	// Enable gl1+ functionality!.
 	if( !GL_INITIALIZATION )
 	{
-		LOG_ERROR << "Failed to initialize GL Extended." << std::endl;
-		return false;
+		throw std::runtime_error("Failed to initialize GL Extended.");
 	}
 
 	// GL Data List logging.
@@ -237,8 +237,6 @@ bool GLFWVideo::initialize()
 	glfwSetMouseWheelCallback( GLFWInputHandling::mouseWheelCallback );
 
 	GL_TEST_ERROR("end");
-
-	return true;
 }
 
 void GLFWVideo::setTitle(std::string head)
@@ -251,8 +249,9 @@ std::string GLFWVideo::getTitle()
 	return title;
 }
 
-void GLFWVideo::apply(const VideoMode & mode)
+void GLFWVideo::apply(const VideoMode & mode) throw (std::exception)
 {
+	throw std::runtime_error("GLFWVideo apply. TODO");
 }
 
 void GLFWVideo::listVideoModes(std::vector<VideoMode> & modes) const
