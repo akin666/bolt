@@ -57,8 +57,8 @@ namespace bolt
 	public:
 		// GL commands! only call from GL thread.
 		void createId();
-		bool compile() throw (std::exception);
-		bool load();
+		void compile() throw (std::exception);
+		void load() throw (std::exception);
 		void reset();
 	};
 }

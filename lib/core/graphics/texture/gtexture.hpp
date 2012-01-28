@@ -15,7 +15,8 @@
 #include "texturefilter.hpp"
 #include "texturewrap.hpp"
 #include <iostream>
-#include "../bufferobject.hpp"
+#include <exception>
+#include <graphics/bufferobject.hpp>
 
 namespace bolt
 {
@@ -42,7 +43,7 @@ namespace bolt
 		GTexture( const GTexture& other );
 		virtual ~GTexture();
 
-		bool initialize( const unsigned char *data = NULL );
+		void initialize( const unsigned char *data = NULL ) throw (std::exception);
 		void destroy();
 
 		bool testMemory();
@@ -69,7 +70,7 @@ namespace bolt
 
 		void generateMipMap();
 
-		bool resize( glm::ivec2 newDimensions );
+		void resize( glm::ivec2 newDimensions ) throw (std::exception);
 
 		ColorMode getColorMode() const;
 
@@ -77,7 +78,7 @@ namespace bolt
 		void renderSubTexture( glm::ivec2 pos , glm::ivec2 dim , BufferObject& bo );
 		void renderSubArea( glm::ivec2 pos , glm::ivec2 dim , const unsigned char color );
 
-		bool resize( int new_width , int new_height );
+		void resize( int new_width , int new_height ) throw (std::exception);
 		void renderSubTexture( int x , int y , int width , int height , const unsigned char *data );
 		void renderSubTexture( int x , int y , int width , int height , BufferObject& bo );
 		void renderSubArea( int x , int y , int width , int height , unsigned char color );

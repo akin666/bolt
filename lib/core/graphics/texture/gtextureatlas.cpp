@@ -6,6 +6,8 @@
  */
 
 #include "gtextureatlas.hpp"
+#include <log>
+#include <stdexcept>
 
 namespace bolt
 {
@@ -18,36 +20,39 @@ namespace bolt
 	{
 	}
 
-	bool GTextureAtlas::initialize( const glm::ivec2& dimensions , const int padding , const ColorMode mode )
+	void GTextureAtlas::initialize( const glm::ivec2& dimensions , const int padding , const ColorMode mode ) throw (std::exception)
 	{
 		if( !initialized )
 		{
 			texture.setDimensions( dimensions );
 			texture.setColorMode( mode );
 
-			if( !texture.initialize( ) )
-			{
-				return false;
-			}
+			texture.initialize( );
 
 			atlas.initialize( dimensions , padding );
 
 			initialized = true;
 		}
-		return initialized;
+		else
+		{
+			throw std::runtime_error("Texture atlas already initialized!");
+		}
 	}
 
-	bool GTextureAtlas::resize( const glm::ivec2& val )
+	void GTextureAtlas::resize( const glm::ivec2& val ) throw (std::exception)
 	{
-		// TODO! reverting ATLAS back to previous state
-		// GTexture probably doesn't change if it fails
-		// so, need to code logic to revert ATLAS back
-		// to previous size.
-		if( atlas.resize( val ) && texture.resize( val ) )
-		{
-			return true;
-		}
-		return false;
+		//	// TODO! reverting ATLAS back to previous state
+		//	// GTexture probably doesn't change if it fails
+		//	// so, need to code logic to revert ATLAS back
+		//	// to previous size.
+
+		// new comment:
+		// both should be throwing.. the most likely to give up, is the texture,
+		// atlas should be more resiliant in resize situations..
+		// if atlas fails, we would need to revert texture resize, but that is.. i have no idea how.
+		// so TODO still.. the previous comment, im not sure about it.
+		texture.resize( val );
+		atlas.resize( val );
 	}
 
 	bool GTextureAtlas::request( const glm::ivec2& dimensions , glm::ivec2& position )

@@ -8,6 +8,8 @@
 #include "gtexture.hpp"
 #include <iostream>
 #include <opengl>
+#include <log>
+#include <stdexcept>
 
 namespace bolt
 {
@@ -54,164 +56,164 @@ namespace bolt
 		}
 	}
 
-	bool GTexture::initialize( const unsigned char *data )
+	void GTexture::initialize( const unsigned char *data ) throw (std::exception)
 	{
-		GL_TEST_ERROR("GTexture:initialize START.");
-		if( texture_id == GL_NULL )
+		GL_TEST_ERROR("begin");
+		if( texture_id != GL_NULL )
 		{
-			glGenTextures( 1 , &texture_id );
-
-			bind();
-
-			glPixelStorei( GL_UNPACK_ALIGNMENT , 1 );
-			glPixelStorei( GL_PACK_ALIGNMENT , 1 );
-
-			// fits into mem?
-			if( !testMemory() )
-			{
-				destroy();
-				return false;
-			}
-
-			int para;
-
-			// MIN
-			{
-				switch( minificationFilter )
-				{
-					case NEAREST :
-						para = GL_NEAREST;
-						break;
-					case MIPMAP_NEAREST :
-						para = GL_NEAREST_MIPMAP_NEAREST;
-						break;
-					case MIPMAP_LINEAR :
-						para = GL_LINEAR_MIPMAP_LINEAR;
-						break;
-					default:
-						para = GL_LINEAR;
-						break;
-				}
-				glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, para );
-			}
-			// MAG
-			{
-				switch( magnificationFilter )
-				{
-					case NEAREST :
-						para = GL_NEAREST;
-						break;
-					case MIPMAP_NEAREST :
-						para = GL_NEAREST_MIPMAP_NEAREST;
-						break;
-					case MIPMAP_LINEAR :
-						para = GL_LINEAR_MIPMAP_LINEAR;
-						break;
-					default:
-						para = GL_LINEAR;
-						break;
-				}
-				glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, para );
-			}
-			// SWRAP
-			{
-				switch( sWrap )
-				{
-					case CLAMP :
-						para = GL_CLAMP_TO_EDGE;
-						break;
-					default:
-						para = GL_REPEAT;
-						break;
-				}
-				glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, para );
-			}
-			// TWRAP
-			{
-				switch( tWrap )
-				{
-					case CLAMP :
-						para = GL_CLAMP_TO_EDGE;
-						break;
-					default:
-						para = GL_REPEAT;
-						break;
-				}
-				glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, para );
-			}
-			// ColorMode
-			{
-				mode = newMode;
-
-				switch( mode )
-				{
-					case RGB :
-						glMode = GL_RGB;
-						bytes = 3;
-						break;
-					case RGBA :
-						glMode = GL_RGBA;
-						bytes = 4;
-						break;
-					case ARGB :
-						break;
-					case ALPHA :
-						glMode = GL_ALPHA;
-						bytes = 1;
-						break;
-					case LUMINANCE :
-						glMode = GL_LUMINANCE;
-						bytes = 1;
-						break;
-					case INTENSITY :
-						glMode = GL_INTENSITY;
-						bytes = 1;
-						break;
-					case RGBA12 :
-						glMode = GL_RGBA12;
-						bytes = 6;
-						break;
-					case RGBA16 :
-						glMode = GL_RGBA16;
-						bytes = 8;
-						break;
-					case RGBA32 :
-						break;
-					default :
-						glMode = GL_RGBA;
-						bytes = 4;
-						break;
-				}
-			}
-			// Dimensions
-			{
-				dimensions = newDimensions;
-			}
-
-			// Create correct sized buffer.
-			glTexImage2D(
-					GL_TEXTURE_2D,
-					0,
-					glMode,
-					dimensions.x,
-					dimensions.y,
-					0,
-					glMode,
-					GL_UNSIGNED_BYTE, // TODO is this correct for GL_RGBA16 formats etc
-					NULL
-			);
-			GL_TEST_ERROR("GTexture:initialize END.");
-
-			if( data != NULL )
-			{
-				renderSubTexture( glm::ivec2(0,0) , dimensions , data );
-			}
-
-			GL_TEST_ERROR("GTexture:initialize END.");
-			return true;
+			throw std::runtime_error("Texture already initialized.");
 		}
 
-		return false;
+		glGenTextures( 1 , &texture_id );
+
+		bind();
+
+		glPixelStorei( GL_UNPACK_ALIGNMENT , 1 );
+		glPixelStorei( GL_PACK_ALIGNMENT , 1 );
+
+		// fits into mem?
+		if( !testMemory() )
+		{
+			destroy();
+			throw std::runtime_error("Texture does not fit into memory.");
+		}
+
+		int para;
+
+		// MIN
+		{
+			switch( minificationFilter )
+			{
+				case NEAREST :
+					para = GL_NEAREST;
+					break;
+				case MIPMAP_NEAREST :
+					para = GL_NEAREST_MIPMAP_NEAREST;
+					break;
+				case MIPMAP_LINEAR :
+					para = GL_LINEAR_MIPMAP_LINEAR;
+					break;
+				default:
+					para = GL_LINEAR;
+					break;
+			}
+			glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, para );
+		}
+		// MAG
+		{
+			switch( magnificationFilter )
+			{
+				case NEAREST :
+					para = GL_NEAREST;
+					break;
+				case MIPMAP_NEAREST :
+					para = GL_NEAREST_MIPMAP_NEAREST;
+					break;
+				case MIPMAP_LINEAR :
+					para = GL_LINEAR_MIPMAP_LINEAR;
+					break;
+				default:
+					para = GL_LINEAR;
+					break;
+			}
+			glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, para );
+		}
+		// SWRAP
+		{
+			switch( sWrap )
+			{
+				case CLAMP :
+					para = GL_CLAMP_TO_EDGE;
+					break;
+				default:
+					para = GL_REPEAT;
+					break;
+			}
+			glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, para );
+		}
+		// TWRAP
+		{
+			switch( tWrap )
+			{
+				case CLAMP :
+					para = GL_CLAMP_TO_EDGE;
+					break;
+				default:
+					para = GL_REPEAT;
+					break;
+			}
+			glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, para );
+		}
+		// ColorMode
+		{
+			mode = newMode;
+
+			switch( mode )
+			{
+				case RGB :
+					glMode = GL_RGB;
+					bytes = 3;
+					break;
+				case RGBA :
+					glMode = GL_RGBA;
+					bytes = 4;
+					break;
+				case ARGB :
+					break;
+				case ALPHA :
+					glMode = GL_ALPHA;
+					bytes = 1;
+					break;
+				case LUMINANCE :
+					glMode = GL_LUMINANCE;
+					bytes = 1;
+					break;
+				case INTENSITY :
+					glMode = GL_INTENSITY;
+					bytes = 1;
+					break;
+				case RGBA12 :
+					glMode = GL_RGBA12;
+					bytes = 6;
+					break;
+				case RGBA16 :
+					glMode = GL_RGBA16;
+					bytes = 8;
+					break;
+				case RGBA32 :
+					break;
+				default :
+					glMode = GL_RGBA;
+					bytes = 4;
+					break;
+			}
+		}
+		// Dimensions
+		{
+			dimensions = newDimensions;
+		}
+
+		// Create correct sized buffer.
+		glTexImage2D(
+				GL_TEXTURE_2D,
+				0,
+				glMode,
+				dimensions.x,
+				dimensions.y,
+				0,
+				glMode,
+				GL_UNSIGNED_BYTE, // TODO is this correct for GL_RGBA16 formats etc
+				NULL
+		);
+
+		GL_TEST_ERROR("mid.");
+
+		if( data != NULL )
+		{
+			renderSubTexture( glm::ivec2(0,0) , dimensions , data );
+		}
+
+		GL_TEST_ERROR("end");
 	}
 
 	bool GTexture::isInitialized() const
@@ -221,6 +223,7 @@ namespace bolt
 
 	bool GTexture::testMemory()
 	{
+		GL_TEST_ERROR("begin");
 		// ColorMode
 		unsigned int tMode;
 //		unsigned int tBytes;
@@ -290,13 +293,17 @@ namespace bolt
 				&width
 				);
 
+		// Test for errors, if width is 0, that means that the
+		// memory could not be allocated.
 		if( glGetError() != GL_NO_ERROR || width == 0 )
 		{
 			while( glGetError() != GL_NO_ERROR );
 			glBindTexture(GL_TEXTURE_2D, GL_NULL );
 
+			GL_TEST_ERROR("err end");
 			return false;
 		}
+		GL_TEST_ERROR("end");
 		return true;
 	}
 
@@ -318,8 +325,9 @@ namespace bolt
 				default: break;
 			}
 
+			GL_TEST_ERROR("begin");
 			glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, para );
-			GL_TEST_ERROR("GTexture:setMinificationFilter END.");
+			GL_TEST_ERROR("end");
 		}
 		minificationFilter = filter;
 
@@ -344,8 +352,9 @@ namespace bolt
 				default: break;
 			}
 
+			GL_TEST_ERROR("begin");
 			glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, para );
-			GL_TEST_ERROR("GTexture:setMinificationFilter END.");
+			GL_TEST_ERROR("end");
 		}
 
 		magnificationFilter = filter;
@@ -365,8 +374,9 @@ namespace bolt
 				para = GL_REPEAT;
 			}
 
+			GL_TEST_ERROR("begin");
 			glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, para );
-			GL_TEST_ERROR("GTexture:setMinificationFilter END.");
+			GL_TEST_ERROR("end");
 		}
 
 		sWrap = wrap;
@@ -386,8 +396,9 @@ namespace bolt
 				para = GL_REPEAT;
 			}
 
+			GL_TEST_ERROR("begin");
 			glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, para );
-			GL_TEST_ERROR("GTexture:setMinificationFilter END.");
+			GL_TEST_ERROR("end");
 		}
 
 		tWrap = wrap;
@@ -447,10 +458,10 @@ namespace bolt
 	{
 		if( texture_id != GL_NULL )
 		{
-			GL_TEST_ERROR("GTexture:generateMipMap START.");
 			bind();
+			GL_TEST_ERROR("begin");
 			glGenerateMipmap(GL_TEXTURE_2D);
-			GL_TEST_ERROR("GTexture:generateMipMap END.");
+			GL_TEST_ERROR("end");
 		}
 		mipmapped = true;
 	}
@@ -482,21 +493,21 @@ namespace bolt
 
 	void GTexture::bind()
 	{
-		GL_TEST_ERROR("GTexture:bind START.");
+		GL_TEST_ERROR("begin");
 		glBindTexture( GL_TEXTURE_2D , texture_id );
-		GL_TEST_ERROR("GTexture:bind END.");
+		GL_TEST_ERROR("end");
 	}
 
 	void GTexture::release()
 	{
-		GL_TEST_ERROR("GTexture:bind release.");
+		GL_TEST_ERROR("begin");
 		glBindTexture( GL_TEXTURE_2D , GL_NULL );
-		GL_TEST_ERROR("GTexture:bind release.");
+		GL_TEST_ERROR("end");
 	}
 
-	bool GTexture::resize( glm::ivec2 newDimensions )
+	void GTexture::resize( glm::ivec2 newDimensions ) throw (std::exception)
 	{
-		GL_TEST_ERROR("GTexture:resize START.");
+		GL_TEST_ERROR("begin");
 
 		BufferObject bo;
 
@@ -540,7 +551,7 @@ namespace bolt
 		{
 			while( glGetError() != GL_NO_ERROR );
 			glBindTexture(GL_TEXTURE_2D, GL_NULL );
-			return false;
+			throw std::runtime_error("Could not allocate memory for texture.");
 		}
 
 		// resize
@@ -580,13 +591,13 @@ namespace bolt
 
 		glBindTexture(GL_TEXTURE_2D, GL_NULL );
 
-		GL_TEST_ERROR("GTexture:resize END.");
-
-		return true;
+		GL_TEST_ERROR("end");
 	}
 
 	void GTexture::renderSubTexture( glm::ivec2 pos , glm::ivec2 dim , const unsigned char *data )
 	{
+		GL_TEST_ERROR("begin");
+
 		glm::ivec2 pos2( pos.x + dim.x , pos.y + dim.y );
 
 		if( pos.x < 0 || pos.y < 0 )
@@ -604,7 +615,8 @@ namespace bolt
 			resize( max );
 		}
 
-		GL_TEST_ERROR("GTexture:renderSubGTexture START.");
+		GL_TEST_ERROR("mid");
+
 		bind();
 
 		BufferObject bo;
@@ -626,11 +638,12 @@ namespace bolt
 					);
 		bo.release( Graphics::read );
 
-		GL_TEST_ERROR("GTexture:renderSubGTexture END.");
+		GL_TEST_ERROR("end");
 	}
 
 	void GTexture::renderSubTexture( glm::ivec2 pos , glm::ivec2 dim , BufferObject& bo )
 	{
+		GL_TEST_ERROR("begin");
 		glm::ivec2 pos2( pos.x + dim.x , pos.y + dim.y );
 
 		if( pos.x < 0 || pos.y < 0 )
@@ -648,7 +661,7 @@ namespace bolt
 			resize( max );
 		}
 
-		GL_TEST_ERROR("GTexture:renderSubGTexture START.");
+		GL_TEST_ERROR("mid");
 		bind();
 
 		// Bind buffer for reading.
@@ -672,12 +685,12 @@ namespace bolt
 
 		bo.release( Graphics::read );;
 
-		GL_TEST_ERROR("GTexture:renderSubGTexture END.");
+		GL_TEST_ERROR("end");
 	}
 
 	void GTexture::renderSubArea( glm::ivec2 pos , glm::ivec2 dim , const unsigned char color )
 	{
-		GL_TEST_ERROR("GTexture:renderSubArea START.");
+		GL_TEST_ERROR("begin");
 
 		unsigned char data[dim.x*dim.y*bytes];
 
@@ -688,10 +701,10 @@ namespace bolt
 
 		renderSubTexture( pos , dim , data );
 
-		GL_TEST_ERROR("GTexture:renderSubArea END.");
+		GL_TEST_ERROR("end");
 	}
 
-	bool GTexture::resize( int new_width , int new_height )
+	void GTexture::resize( int new_width , int new_height ) throw (std::exception)
 	{
 		return resize( glm::ivec2(new_width,new_height) );
 	}

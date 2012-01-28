@@ -12,6 +12,7 @@
 #include "gtexture.hpp"
 #include <atlas/atlas.h>
 #include <common>
+#include <exception>
 
 namespace bolt
 {
@@ -25,8 +26,8 @@ namespace bolt
 		GTextureAtlas();
 		virtual ~GTextureAtlas();
 
-		bool initialize( const glm::ivec2& dimensions , const int padding , ColorMode mode = RGBA );
-		bool resize( const glm::ivec2& val );
+		void initialize( const glm::ivec2& dimensions , const int padding , ColorMode mode = RGBA ) throw (std::exception);
+		void resize( const glm::ivec2& val ) throw (std::exception);
 
 		bool request( const glm::ivec2& dimensions , glm::ivec2& position );
 		bool release( const glm::ivec2& dimensions , const glm::ivec2& position );

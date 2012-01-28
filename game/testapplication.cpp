@@ -26,11 +26,6 @@ TestApplication::~TestApplication()
 {
 }
 
-void TestApplication::handleException( const std::exception& exeption )
-{
-	LOG_ERROR << "Received and exception!! " << exeption.what() << std::endl;
-}
-
 void TestApplication::processArg( int index , std::string argument )
 {
 }
@@ -119,24 +114,24 @@ void TestApplication::run()
 			bolt::Shader *vertex = bolt::resource::getObject<bolt::Shader>( "genericVertexShader" );
 			bolt::Shader *fragment = bolt::resource::getObject<bolt::Shader>( "genericFragmentShader" );
 
-			if( vertex->load() && fragment->load() )
+			vertex->load();
+			fragment->load();
+
+			vertex->compile();
+			fragment->compile();
+
+			program->attach( vertex );
+			program->attach( fragment );
+
+			program->link();
+
+			if( program->linked() )
 			{
-				if( vertex->compile() && fragment->compile() )
-				{
-					program->attach( vertex );
-					program->attach( fragment );
+				bolt::resource::setObject<bolt::ShaderProgram>( "GenericShader" , program );
 
-					program->link();
+				shaderProgramLoaded = true;
 
-					if( program->linked() )
-					{
-						bolt::resource::setObject<bolt::ShaderProgram>( "GenericShader" , program );
-
-						shaderProgramLoaded = true;
-
-						LOG_OUT << "Shader program is loaded! " << std::endl;
-					}
-				}
+				LOG_OUT << "Shader program is loaded! " << std::endl;
 			}
 
 			if( !shaderProgramLoaded )

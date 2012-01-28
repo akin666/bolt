@@ -12,6 +12,7 @@
 #include <glm/glm>
 #include "gtextureatlas.hpp"
 #include "texture.hpp"
+#include <exception>
 
 #define TG_DEFAULT_TEXTURE_SIZE 2048
 #define TG_DEFAULT_PAD 1
@@ -33,7 +34,7 @@ namespace bolt
 		bool initialize( const int maxwidth = TG_DEFAULT_TEXTURE_SIZE , const int maxheight = TG_DEFAULT_TEXTURE_SIZE , const int padding = TG_DEFAULT_PAD , const ColorMode mode = RGBA );
 		bool initialize( const glm::ivec2& maxsize , const int padding = TG_DEFAULT_PAD , const ColorMode mode = RGBA );
 
-		bool request( Texture& texture );
+		void request( Texture& texture ) throw (std::exception);
 	};
 } /* namespace ice */
 #endif /* TEXTUREGROUP_H_ */

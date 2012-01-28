@@ -7,6 +7,8 @@
 
 #include "texturegroup.hpp"
 #include <iterator>
+#include <log>
+#include <stdexcept>
 
 namespace bolt
 {
@@ -46,11 +48,11 @@ namespace bolt
 		return initialize( maxsize.x , maxsize.y , padding , mode );
 	}
 
-	bool TextureGroup::request( Texture& texture )
+	void TextureGroup::request( Texture& texture ) throw (std::exception)
 	{
 		if( texture.getDimension().x > max.x || texture.getDimension().y > max.y )
 		{
-			return false;
+			throw std::runtime_error("TextureGroup: texture dimensions, bigger than MAX dimensions.");
 		}
 
 		for( typename std::vector<GTextureAtlas*>::iterator iter = atlases.begin() ; iter != atlases.end() ; ++iter )
@@ -58,28 +60,29 @@ namespace bolt
 			if( (*iter)->request( texture.getDimension() , texture.getPosition() ) )
 			{
 				texture.setTexture( &(*iter)->getTexture() );
-
-				return true;
 			}
 		}
 
 		GTextureAtlas *tt = new GTextureAtlas;
-		if( !tt->initialize( max , pad , channels ) )
+
+		try
+		{
+			tt->initialize( max , pad , channels );
+		}
+		catch( std::exception& e )
 		{
 			delete tt;
-			return false;
+			throw std::runtime_error("TextureGroup: could not initialize texture.");
 		}
 
 		if( !tt->request( texture.getDimension() , texture.getPosition() ) )
 		{
 			delete tt;
-			return false;
+			throw std::runtime_error("TextureGroup: could not grant request, even from new atlas texture.");
 		}
 
 		atlases.push_back( tt );
 
 		texture.setTexture( &tt->getTexture() );
-
-		return true;
 	}
 } /* namespace ice */
