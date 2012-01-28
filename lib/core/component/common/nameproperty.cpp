@@ -7,6 +7,8 @@
 
 #include "nameproperty.hpp"
 
+namespace bolt
+{
 const std::string NameProperty::KEY("name");
 
 NameProperty::NameProperty()
@@ -44,4 +46,5 @@ void NameProperty::detach( bolt::Entity& entity )
 std::string& NameProperty::get( bolt::Entity& entity )
 {
 	return data[entity];
+}
 }

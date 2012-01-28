@@ -12,6 +12,8 @@
 #include <map>
 #include <string>
 
+namespace bolt
+{
 class NameProperty: public bolt::Property
 {
 public:
@@ -29,5 +31,6 @@ public:
 
 	std::string& get( bolt::Entity& entity );
 };
+}
 
 #endif /* NAMEPROPERTY_HPP_ */

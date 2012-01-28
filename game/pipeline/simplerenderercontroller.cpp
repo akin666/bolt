@@ -6,7 +6,7 @@
  */
 
 #include "simplerenderercontroller.hpp"
-#include "positionproperty.hpp"
+#include <component/common/positionproperty.hpp>
 #include <singleton>
 #include <component/common/fencecontroller.hpp>
 
@@ -32,7 +32,7 @@ void SimpleRendererController::initialize() throw (std::exception)
 
 	dependecies.insert( bolt::FenceController::RENDER );
 
-	return bolt::createSingleton<PositionProperty>()->initialize();
+	bolt::createSingleton<bolt::PositionProperty>()->initialize();
 }
 
 void SimpleRendererController::getDependencies(bolt::StringSet & dep)
@@ -42,12 +42,12 @@ void SimpleRendererController::getDependencies(bolt::StringSet & dep)
 
 void SimpleRendererController::attach(bolt::Entity & entity)
 {
-	bolt::getSingleton<PositionProperty>()->attach( entity );
+	bolt::getSingleton<bolt::PositionProperty>()->attach( entity );
 }
 
 void SimpleRendererController::detach(bolt::Entity & entity)
 {
-	bolt::getSingleton<PositionProperty>()->detach( entity );
+	bolt::getSingleton<bolt::PositionProperty>()->detach( entity );
 }
 
 void SimpleRendererController::start(bolt::ControllerNode& node)

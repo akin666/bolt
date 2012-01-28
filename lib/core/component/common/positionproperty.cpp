@@ -7,6 +7,8 @@
 
 #include "positionproperty.hpp"
 
+namespace bolt
+{
 const std::string PositionProperty::KEY("position");
 
 PositionProperty::PositionProperty()
@@ -45,4 +47,5 @@ void PositionProperty::detach( bolt::Entity& entity )
 PositionProperty::Data& PositionProperty::get( bolt::Entity& entity )
 {
 	return data[entity];
+}
 }

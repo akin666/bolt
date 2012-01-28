@@ -12,6 +12,8 @@
 #include <map>
 #include <glm/glm>
 
+namespace bolt
+{
 class PositionProperty: public bolt::Property
 {
 public:
@@ -36,6 +38,7 @@ public:
 
 	Data& get( bolt::Entity& entity );
 };
+}
 
 #endif /* POSITIONPROPERTY_HPP_ */
 
