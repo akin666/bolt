@@ -52,6 +52,8 @@ namespace bolt
 		bool isLoaded();
 
 		void set( const Data<char>& newData );
+		char *access();
+		uint size();
 	public:
 		// GL commands! only call from GL thread.
 		void createId();

@@ -8,7 +8,7 @@
 #define BOLT_GET_LOG bolt::getSingleton<bolt::Log>()
 #define BOLT_DUMMY_LOG std::cout
 
-#define LOG_ERROR   ( BOLT_GET_LOG != NULL ? BOLT_GET_LOG->error() 	: BOLT_DUMMY_LOG ) << __FILE__ << ">" << __FUNCTION__ << ":" << __LINE__
+#define LOG_ERROR   ( BOLT_GET_LOG != NULL ? BOLT_GET_LOG->error() 	: BOLT_DUMMY_LOG ) << __FILE__ << ">" << __FUNCTION__ << ":" << __LINE__ << " >>"
 #define LOG_WARNING ( BOLT_GET_LOG != NULL ? BOLT_GET_LOG->warning(): BOLT_DUMMY_LOG )
 #define LOG_LOG     ( BOLT_GET_LOG != NULL ? BOLT_GET_LOG->log()	: BOLT_DUMMY_LOG ) 
 #define LOG_OUT     ( BOLT_GET_LOG != NULL ? BOLT_GET_LOG->out()	: BOLT_DUMMY_LOG )

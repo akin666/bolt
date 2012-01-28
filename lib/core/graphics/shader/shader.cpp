@@ -164,6 +164,16 @@ namespace bolt
 		return m_type;
 	}
 
+	char *Shader::access()
+	{
+		return data.access();
+	}
+
+	uint Shader::size()
+	{
+		return data.size();
+	}
+
 	bool Shader::load()
 	{
 		if( data.size() == 0 )
@@ -217,10 +227,9 @@ namespace bolt
 			GLchar log[loglen];
 			glGetShaderInfoLog( id , loglen , NULL , log );
 
-			GL_TEST_ERROR("end2")
-			throw std::runtime_error(log);
+			LOG_ERROR << "Shader compile error: " << log << std::endl;
 		}
-		GL_TEST_ERROR("end3")
+		GL_TEST_ERROR("end2")
 
 		return false;
 	}

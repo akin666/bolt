@@ -112,7 +112,7 @@ void TestApplication::run()
 			bolt::ShaderProgram *program = new bolt::ShaderProgram;
 
 			bolt::Shader *vertex = bolt::resource::getObject<bolt::Shader>( "genericVertexShader" );
-			bolt::Shader *fragment = bolt::resource::getObject<bolt::Shader>( "genericVertexShader" );
+			bolt::Shader *fragment = bolt::resource::getObject<bolt::Shader>( "genericFragmentShader" );
 
 			if( vertex->load() && fragment->load() )
 			{
