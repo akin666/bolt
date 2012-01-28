@@ -116,18 +116,21 @@ void TestApplication::run()
 
 			if( vertex->load() && fragment->load() )
 			{
-				program->attach( vertex );
-				program->attach( fragment );
-
-				program->link();
-
-				if( program->linked() )
+				if( vertex->compile() && fragment->compile() )
 				{
-					bolt::resource::setObject<bolt::ShaderProgram>( "GenericShader" , program );
+					program->attach( vertex );
+					program->attach( fragment );
 
-					shaderProgramLoaded = true;
+					program->link();
 
-					LOG_OUT << "Shader program is loaded! " << std::endl;
+					if( program->linked() )
+					{
+						bolt::resource::setObject<bolt::ShaderProgram>( "GenericShader" , program );
+
+						shaderProgramLoaded = true;
+
+						LOG_OUT << "Shader program is loaded! " << std::endl;
+					}
 				}
 			}
 

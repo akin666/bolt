@@ -14,66 +14,44 @@ namespace bolt
 {
 	Shader::Shader( )
 	: id( GL_NULL ),
-	  m_type( UNKNOWN )
+	  m_type( UNKNOWN ),
+	  state( 0 )
 	{
 	}
 
 	Shader::~Shader()
 	{
-		unload();
+		reset();
 	}
 
-	void Shader::setType( Type type )
+	uint state;
+
+	void Shader::setLoaded( bool status )
 	{
-		if( id == GL_NULL )
+		if( status )
 		{
-			m_type = type;
+			state |= LOADED;
+		}
+		else
+		{
+			state &= ~LOADED;
 		}
 	}
 
-	void Shader::setTypeString( std::string type )
+	void Shader::setCompiled( bool status )
 	{
-		if( type == "fragment" )
+		if( status )
 		{
-			setType( FRAGMENT );
+			state |= COMPILED;
 		}
-		else if( type == "vertex" )
+		else
 		{
-			setType( VERTEX );
+			state &= ~COMPILED;
 		}
-#if defined(GL_GEOMETRY_SHADER) or defined(GL_GEOMETRY_SHADER_EXT)
-		else if( type == "geometry" )
-		{
-			setType( GEOMETRY );
-		}
-#endif
-#if defined(GL_TESS_CONTROL_SHADER) or defined(GL_TESS_CONTROL_SHADER_EXT)
-		else if( type == "control" )
-		{
-			setType( CONTROL );
-		}
-#endif
-#if defined(GL_TESS_EVALUATION_SHADER) or defined(GL_TESS_EVALUATION_SHADER_EXT)
-		else if( type == "evaluation" )
-		{
-			setType( EVALUATION );
-		}
-#endif
 	}
 
-	uint Shader::getId()
+	void Shader::createId()
 	{
-		return id;
-	}
-
-	bool Shader::load() throw (std::exception)
-	{
-		if( data.size() == 0 )
-		{
-			LOG_ERROR << "Failed to load shader, no data set." << std::endl;
-			return false;
-		}
-
 		GL_TEST_ERROR("begin")
 		if( id == GL_NULL )
 		{
@@ -130,26 +108,102 @@ namespace bolt
 		#endif
 				default :
 				{
-					GL_TEST_ERROR("half")
-					return false;
+					LOG_ERROR << "Requested unknown shader type: " << m_type << std::endl;
+					return;
 				}
 			}
 		}
+		GL_TEST_ERROR("end")
+	}
 
-		GL_TEST_ERROR("mid")
+	void Shader::setType( Type type )
+	{
+		if( id == GL_NULL )
+		{
+			m_type = type;
+		}
+	}
+
+	void Shader::setTypeString( std::string type )
+	{
+		if( type == "fragment" )
+		{
+			setType( FRAGMENT );
+		}
+		else if( type == "vertex" )
+		{
+			setType( VERTEX );
+		}
+#if defined(GL_GEOMETRY_SHADER) or defined(GL_GEOMETRY_SHADER_EXT)
+		else if( type == "geometry" )
+		{
+			setType( GEOMETRY );
+		}
+#endif
+#if defined(GL_TESS_CONTROL_SHADER) or defined(GL_TESS_CONTROL_SHADER_EXT)
+		else if( type == "control" )
+		{
+			setType( CONTROL );
+		}
+#endif
+#if defined(GL_TESS_EVALUATION_SHADER) or defined(GL_TESS_EVALUATION_SHADER_EXT)
+		else if( type == "evaluation" )
+		{
+			setType( EVALUATION );
+		}
+#endif
+	}
+
+	uint Shader::getId()
+	{
+		return id;
+	}
+
+	Shader::Type Shader::getType()
+	{
+		return m_type;
+	}
+
+	bool Shader::load()
+	{
+		if( data.size() == 0 )
+		{
+			LOG_ERROR << "Failed to load shader, no data set." << std::endl;
+			return false;
+		}
+
+		createId();
+
+		if( id == GL_NULL )
+		{
+			return false;
+		}
+
+		setCompiled( false );
+
+		GL_TEST_ERROR("begin")
+
 		const GLchar *dat = data.access();
 		GLint size = data.size();
 
 		glShaderSource( id , 1 , (const GLchar**)&dat , &size );
-		glCompileShader( id );
+		GL_TEST_ERROR("end")
 
-		GL_TEST_ERROR("mid2")
+		setLoaded( true );
+		return true;
+	}
+
+	bool Shader::compile() throw (std::exception)
+	{
+		GL_TEST_ERROR("begin")
+		glCompileShader( id );
 
 		GLint tmp;
 		glGetShaderiv( id , GL_COMPILE_STATUS , &tmp );
 
 		if( tmp )
 		{
+			setCompiled( true );
 			GL_TEST_ERROR("end")
 			// ALL OK!
 			return true;
@@ -167,10 +221,11 @@ namespace bolt
 			throw std::runtime_error(log);
 		}
 		GL_TEST_ERROR("end3")
+
 		return false;
 	}
 
-	void Shader::unload()
+	void Shader::reset()
 	{
 		if( id != GL_NULL )
 		{
@@ -179,15 +234,17 @@ namespace bolt
 			id = GL_NULL;
 			GL_TEST_ERROR("end")
 		}
+		setCompiled( false );
 	}
 
 	bool Shader::isLoaded()
 	{
-		return id != GL_NULL;
+		return (state & (LOADED | COMPILED) ) != 0;
 	}
 
 	void Shader::set( const Data<char>& newData )
 	{
 		data = newData;
+		setLoaded( false );
 	}
 }

@@ -31,22 +31,33 @@ namespace bolt
 		Type m_type;
 
 		Data<char> data;
+
+		uint state;
+
+		void setLoaded( bool status );
+		void setCompiled( bool status );
+
+		static const uint LOADED = 		0x0001;
+		static const uint COMPILED =	0x0002;
 	public:
 		Shader();
 		virtual ~Shader();
 
 		void setType( Type type );
 		void setTypeString( std::string type );
+		Type getType();
 
 		uint getId();
 
-		// GL commands! only call from GL thread.
-		bool load() throw (std::exception);
-		void unload();
 		bool isLoaded();
 
-		// set can be called from any thread.
 		void set( const Data<char>& newData );
+	public:
+		// GL commands! only call from GL thread.
+		void createId();
+		bool compile() throw (std::exception);
+		bool load();
+		void reset();
 	};
 }
 
