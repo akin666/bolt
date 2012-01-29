@@ -52,8 +52,8 @@ public:
 	virtual void getDependencies( StringSet& dep );
 
 	// Attach / Detach an entity to the component.
-	virtual void attach( Entity& entity ) = 0;
-	virtual void detach( Entity& entity ) = 0;
+	virtual void attach( Entity& entity );
+	virtual void detach( Entity& entity );
 
 	// Start can be blocking, if the controller wants to do singlethreaded.
 	// on multithreaded situation, it should start work on packages.

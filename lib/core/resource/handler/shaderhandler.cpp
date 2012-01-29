@@ -98,12 +98,7 @@ public:
 		shader->set( data );
 
 		// Give the ownership to Handle.
-		if( !createSingleton<Registry<Shader> >()->setObject( key , shader ) )
-		{
-			return;
-		}
-
-		return;
+		createSingleton<Registry<Shader> >()->setObject( key , shader );
 	}
 
 	virtual void end()

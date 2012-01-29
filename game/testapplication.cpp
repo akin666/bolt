@@ -9,13 +9,11 @@
 #include <log>
 #include <singleton>
 #include <system/video.hpp>
+#include <component/common/fencecontroller.hpp>
+#include <component/pipeline.hpp>
 #include "pipeline/simplerenderercontroller.hpp"
-#include <resource/loader.hpp>
-#include <resource/dictionary.hpp>
-#include <resource/registry.hpp>
-#include <data>
-#include <graphics/shader/shader.hpp>
-#include <graphics/shader/shaderprogram.hpp>
+#include "pipeline/states/loadcontroller.hpp"
+#include "pipeline/states/testapplicationgame.hpp"
 
 TestApplication::TestApplication()
 : initialized( false )
@@ -39,26 +37,27 @@ void TestApplication::initialize() throw (std::exception)
 
 	times = 100;
 
-	// create aliases
-	bolt::resource::link( "config" , "resources/config/default.cfg" );
-	bolt::resource::link( "genericVertexShader" , "resources/shader/generic.vs" );
-	bolt::resource::link( "genericFragmentShader" , "resources/shader/generic.fs" );
+	bolt::Pipeline *pipeline = bolt::getSingleton<bolt::Pipeline>();
 
-	// create shaderprogram registry.
-	bolt::createSingleton<bolt::resource::Registry<bolt::ShaderProgram> >();
+	// Create dependency list for fence.
+	bolt::StringSet fenceDependencies;
+	fenceDependencies.insert( LoadController::KEY );
+	fenceDependencies.insert( TestApplicationGame::KEY );
 
-	// instruct to load
-	bolt::resource::load( "config" );
-	bolt::resource::load( "genericVertexShader" );
-	bolt::resource::load( "genericFragmentShader" );
+	bolt::FenceController *logicFence = new bolt::FenceController( bolt::FenceController::LOGIC , fenceDependencies );
 
-	bolt::createSingleton<SimpleRendererController>()->initialize();
-//	bolt::Singleton<NameComponent>::create()->initialize();
+	SimpleRendererController *renderer = new SimpleRendererController();
+	LoadController *loader = new LoadController();
 
-	pipeline.attach( bolt::Singleton<SimpleRendererController>::get() );
+	logicFence->initialize();
+	loader->initialize();
+	renderer->initialize();
+
+	pipeline->attach( logicFence );
+	pipeline->attach( loader );
+	pipeline->attach( renderer );
 
 	initialized = true;
-	shaderProgramLoaded = false;
 }
 
 void TestApplication::suspend()
@@ -99,7 +98,7 @@ void TestApplication::saveState()
 void TestApplication::run()
 {
 //	LOG_OUT << "Hi!\nTestApp. At: " << times << std::endl;
-
+	/*
 	if( !shaderProgramLoaded )
 	{
 		if( bolt::resource::hasObject<bolt::Shader>( "genericVertexShader" ) &&
@@ -153,6 +152,7 @@ void TestApplication::run()
 			// LOG_OUT << dataunit->access() << std::endl;
 		}
 	}
+	*/
 
 	--times;
 
@@ -160,7 +160,7 @@ void TestApplication::run()
 	bolt::getSingleton<bolt::Video>()->getRenderTarget().bind();
 
 	// Run the currently attached pipeline
-	pipeline.run();
+	bolt::getSingleton<bolt::Pipeline>()->run();
 
 	// flip the screen..
 	bolt::getSingleton<bolt::Video>()->flip();

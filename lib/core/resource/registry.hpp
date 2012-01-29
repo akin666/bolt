@@ -16,6 +16,8 @@ MeshAnimation *currentMuumi = getSingleton<Handle<MeshAnimation> >()->objectFor(
 #include "dictionary.hpp"
 #include <singleton>
 #include <thread>
+#include <exception>
+#include <stdexcept>
 
 namespace bolt
 {
@@ -34,18 +36,26 @@ public:
 	Registry( HType *nullObject = NULL )
 	{
 		std::lock_guard<std::mutex> lock(mutex);
+
 		if( nullObject != NULL )
 		{
 			handles[ Dictionary::nullId ] = nullObject;
 		}
 	}
 	
-	HType *getObject( uint key )
+	HType *getObject( uint key ) throw (std::exception)
 	{
 		std::lock_guard<std::mutex> lock(mutex);
+
 		typename KeyTypeMap::iterator iter = handles.find( key );
 		if( iter == handles.end() )
 		{
+			// Null Object pattern!
+			iter = handles.find( Dictionary::nullId );
+			if( iter == handles.end() )
+			{
+				throw std::runtime_error("No null object set for type!.");
+			}
 			return handles[ Dictionary::nullId ];
 		}
 		return iter->second;
@@ -54,24 +64,16 @@ public:
 	bool hasObject( uint key )
 	{
 		std::lock_guard<std::mutex> lock(mutex);
+
 		typename KeyTypeMap::iterator iter = handles.find( key );
 		return iter != handles.end();
 	}
 
-	bool setObject( uint key , HType *object )
+	void setObject( uint key , HType *object )
 	{
 		std::lock_guard<std::mutex> lock(mutex);
 
-		typename KeyTypeMap::iterator iter = handles.find( key );
-		if( iter != handles.end() )
-		{
-			// already set!
-			return false;
-		}
-
 		handles[ key ] = object;
-
-		return true;
 	}
 
 	HType *resetObject( uint key )
@@ -89,9 +91,8 @@ public:
 		return tmp;
 	}
 
-
 	// Convenience functions.
-	HType *getObject( std::string alias )
+	HType *getObject( std::string alias ) throw (std::exception)
 	{
 		uint key = getSingleton<Dictionary>()->resolveKey( alias );
 		return getObject( key );
@@ -107,10 +108,10 @@ public:
 		return hasObject( key );
 	}
 
-	bool setObjectFor( std::string alias , HType *object )
+	void setObjectFor( std::string alias , HType *object )
 	{
 		uint key = getSingleton<Dictionary>()->resolveKey( alias );
-		return setObject( key , object );
+		setObject( key , object );
 	}
 
 	HType *resetObject( std::string alias )
@@ -122,22 +123,22 @@ public:
 
 // Sugar coating.
 template <class CType>
-bool setObject( std::string alias , CType *object )
+void setObject( std::string alias , CType *object )
 {
-	return getSingleton<Registry<CType> >()->setObjectFor( alias , object );
+	getSingleton<Registry<CType> >()->setObjectFor( alias , object );
 }
 template <class CType>
-bool setObject( uint key , CType *object )
+void setObject( uint key , CType *object )
 {
-	return getSingleton<Registry<CType> >()->setObject( key , object );
+	getSingleton<Registry<CType> >()->setObject( key , object );
 }
 template <class CType>
-CType *getObject( std::string alias )
+CType *getObject( std::string alias ) throw (std::exception)
 {
 	return getSingleton<Registry<CType> >()->getObject( alias );
 }
 template <class CType>
-CType *getObject( uint key )
+CType *getObject( uint key ) throw (std::exception)
 {
 	return getSingleton<Registry<CType> >()->objectFor( key );
 }

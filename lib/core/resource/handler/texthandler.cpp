@@ -90,13 +90,7 @@ public:
 		}
 
 		// Give the ownership to Handle.
-		if( !createSingleton<Registry<TextData> >()->setObject( key , data ) )
-		{
-			delete data;
-			return;
-		}
-
-		return;
+		createSingleton<Registry<TextData> >()->setObject( key , data );
 	}
 
 	virtual void end()

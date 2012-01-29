@@ -22,7 +22,7 @@ public:
 	const static std::string RENDER;
 	const static std::string POSTPROCESS;
 protected:
-	bolt::StringSet& dependencies;
+	bolt::StringSet dependencies;
 public:
 	FenceController( std::string fencename , bolt::StringSet& dependencies );
 	virtual ~FenceController();

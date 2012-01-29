@@ -19,6 +19,7 @@
 #include <application/application.hpp>
 #include "audio.hpp"
 #include "video.hpp"
+#include <component/pipeline.hpp>
 
 #include <log.hpp>
 #include <event/eventhandler.hpp>
@@ -42,6 +43,7 @@ protected:
 	ResourceLoader loader;
 	ResourceDictionary dictionary;
 	ThreadPool pool;
+	Pipeline pipeline;
 public:
 	Main();
 	~Main();
@@ -78,6 +80,8 @@ void Main< ApplicationPolicy, VideoPolicy, AudioPolicy , LogPolicy , ResourceLoa
 
 	setSingleton<resource::Loader>( &loader );
 	setSingleton<resource::Dictionary>( &dictionary );
+
+	setSingleton<Pipeline>( &pipeline );
 
 	// plenty of slaves to do my bidding.
 	int workers = ThreadPool::getHardwareThreadCount() * 2 + 1.0;

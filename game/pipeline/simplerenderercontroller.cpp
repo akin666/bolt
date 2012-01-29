@@ -6,8 +6,8 @@
  */
 
 #include "simplerenderercontroller.hpp"
-#include <component/common/positionproperty.hpp>
 #include <singleton>
+#include <component/common/positionproperty.hpp>
 #include <component/common/fencecontroller.hpp>
 
 const std::string SimpleRendererController::KEY("simplerenderer");
@@ -30,7 +30,7 @@ void SimpleRendererController::initialize() throw (std::exception)
 		return;
 	}
 
-	dependecies.insert( bolt::FenceController::RENDER );
+	dependecies.insert( bolt::FenceController::LOGIC );
 
 	bolt::createSingleton<bolt::PositionProperty>()->initialize();
 }

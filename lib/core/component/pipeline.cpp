@@ -66,68 +66,8 @@ void Pipeline::attach( Controller *controller ) throw (std::exception)
 	{
 		return;
 	}
-
-	std::lock_guard<std::mutex> lock( mutex );
-
-	// already has it
-	if( nodeNameMap.find( controller->getName() ) != nodeNameMap.end() )
-	{
-		return;
-	}
-
-	ControllerNode *node = new ControllerNode( *controller , waitingQue );
-
-	StringSet dependencies;
-	controller->getDependencies( dependencies );
-
-	// Seek Parent dependencies.
-	// If found, link em.
-	std::map<std::string , ControllerNode*>::iterator citer;
-	for( StringSet::iterator iter = dependencies.begin() ; iter != dependencies.end() ; ++iter )
-	{
-		citer = nodeNameMap.find( *iter );
-
-		if( citer != nodeNameMap.end() )
-		{
-			// found!
-			ControllerNode *dependencyNode = citer->second;
-
-			node->getDependencies().insert( dependencyNode );
-			dependencyNode->getChilds().insert( node );
-		}
-	}
-
-	// Seek child dependencies.
-	// If found, link em.
-	std::string name = controller->getName();
-	for( std::map<std::string , ControllerNode*>::iterator iter = nodeNameMap.begin() ; iter != nodeNameMap.end() ; ++iter )
-	{
-		ControllerNode *dependencyNode = iter->second;
-
-		// Reuse list..
-		dependencyNode->get().getDependencies( dependencies );
-
-		// No dependency?
-		if( dependencies.find( name ) == dependencies.end() )
-		{
-			continue;
-		}
-
-		// Dependency, link em.
-		dependencyNode->getDependencies().insert( node );
-		node->getChilds().insert( dependencyNode );
-
-		if( dependencyNode->getDependencies().size() <= 1 )
-		{
-			// First parent! Remove from root!
-			roots.erase( node );
-		}
-	}
-
-	// try to add as root element..
-	addToRoot( node );
-
-	node->setCycle( cycle );
+	std::lock_guard<std::mutex> lock( componentMutex );
+	addSet.insert( controller );
 }
 
 void Pipeline::detach( Controller *controller ) throw (std::exception)
@@ -137,65 +77,24 @@ void Pipeline::detach( Controller *controller ) throw (std::exception)
 		return;
 	}
 
-	std::lock_guard<std::mutex> lock( mutex );
-
-	std::map<std::string , ControllerNode*>::iterator iter = nodeNameMap.find( controller->getName() );
-
-	// does not have it..
-	if( iter == nodeNameMap.end() )
-	{
-		return;
-	}
-
-	ControllerNode *node = iter->second;
-
-	// remove from namemap.
-	nodeNameMap.erase( iter );
-
-	if( node == NULL )
-	{
-		return;
-	}
-
-	// remove node from the lists.
-	if( roots.find( node ) != roots.end() )
-	{
-		roots.erase( node );
-	}
-
-	// remove parent from childs
-	// and link new child parent relation
-	// or add to roots.
-	bool root = node->getDependencies().size() > 0;
-	for( NodeSet::iterator iter = node->getChilds().begin() ; iter != node->getChilds().end() ; ++iter )
-	{
-		(*iter)->getDependencies().erase( node );
-
-		for( NodeSet::iterator piter = node->getDependencies().begin() ; piter != node->getDependencies().end() ; ++piter )
-		{
-			(*iter)->getDependencies().insert( *piter );
-			(*piter)->getChilds().insert( *iter );
-		}
-
-		if( !root )
-		{
-			addToRoot( *iter );
-		}
-	}
+	std::lock_guard<std::mutex> lock( componentMutex );
+	removeSet.insert( controller );
 }
 
 void Pipeline::run() throw (std::exception)
 {
-	// Launch each controller,
 	std::lock_guard<std::mutex> lock( mutex );
-
 	if( roots.size() < 1 )
 	{
+		runRemoveSet();
+		runAddSet();
+
 		return;
 	}
 
 	++cycle;
 
+	// Launch each controller,
 	ControllerNode *current;
 	ControllerNode *child;
 	ControllerNode *parent;
@@ -297,6 +196,135 @@ void Pipeline::run() throw (std::exception)
 		}
 	}
 	while( running > 0 || concurrent.size() > 0 || nonConcurrent.size() > 0 );
+
+	runRemoveSet();
+	runAddSet();
+}
+
+void Pipeline::runAddSet()
+{
+	std::lock_guard<std::mutex> lock( componentMutex );
+
+	for( ControllerSet::iterator iter = addSet.begin() ; iter != addSet.end() ; ++iter )
+	{
+		Controller *controller = *iter;
+
+		// already has it
+		if( nodeNameMap.find( controller->getName() ) != nodeNameMap.end() )
+		{
+			continue;
+		}
+
+		ControllerNode *node = new ControllerNode( *controller , waitingQue );
+
+		StringSet dependencies;
+		controller->getDependencies( dependencies );
+
+		// Seek Parent dependencies.
+		// If found, link em.
+		std::map<std::string , ControllerNode*>::iterator citer;
+		for( StringSet::iterator iter = dependencies.begin() ; iter != dependencies.end() ; ++iter )
+		{
+			citer = nodeNameMap.find( *iter );
+
+			if( citer != nodeNameMap.end() )
+			{
+				// found!
+				ControllerNode *dependencyNode = citer->second;
+
+				node->getDependencies().insert( dependencyNode );
+				dependencyNode->getChilds().insert( node );
+			}
+		}
+
+		// Seek child dependencies.
+		// If found, link em.
+		std::string name = controller->getName();
+		for( std::map<std::string , ControllerNode*>::iterator iter = nodeNameMap.begin() ; iter != nodeNameMap.end() ; ++iter )
+		{
+			ControllerNode *dependencyNode = iter->second;
+
+			// Reuse list..
+			dependencyNode->get().getDependencies( dependencies );
+
+			// No dependency?
+			if( dependencies.find( name ) == dependencies.end() )
+			{
+				continue;
+			}
+
+			// Dependency, link em.
+			dependencyNode->getDependencies().insert( node );
+			node->getChilds().insert( dependencyNode );
+
+			if( dependencyNode->getDependencies().size() <= 1 )
+			{
+				// First parent! Remove from root!
+				roots.erase( node );
+			}
+		}
+
+		// try to add as root element..
+		addToRoot( node );
+
+		node->setCycle( cycle );
+	}
+	addSet.clear();
+}
+
+void Pipeline::runRemoveSet()
+{
+	std::lock_guard<std::mutex> lock( componentMutex );
+
+	for( ControllerSet::iterator iter = removeSet.begin() ; iter != removeSet.end() ; ++iter )
+	{
+		Controller *controller = *iter;
+
+		std::map<std::string , ControllerNode*>::iterator iter = nodeNameMap.find( controller->getName() );
+
+		// does not have it..
+		if( iter == nodeNameMap.end() )
+		{
+			return;
+		}
+
+		ControllerNode *node = iter->second;
+
+		// remove from namemap.
+		nodeNameMap.erase( iter );
+
+		if( node == NULL )
+		{
+			return;
+		}
+
+		// remove node from the lists.
+		if( roots.find( node ) != roots.end() )
+		{
+			roots.erase( node );
+		}
+
+		// remove parent from childs
+		// and link new child parent relation
+		// or add to roots.
+		bool root = node->getDependencies().size() > 0;
+		for( NodeSet::iterator iter = node->getChilds().begin() ; iter != node->getChilds().end() ; ++iter )
+		{
+			(*iter)->getDependencies().erase( node );
+
+			for( NodeSet::iterator piter = node->getDependencies().begin() ; piter != node->getDependencies().end() ; ++piter )
+			{
+				(*iter)->getDependencies().insert( *piter );
+				(*piter)->getChilds().insert( *iter );
+			}
+
+			if( !root )
+			{
+				addToRoot( *iter );
+			}
+		}
+	}
+	removeSet.clear();
 }
 
 } /* namespace bolt */

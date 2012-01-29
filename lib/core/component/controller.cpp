@@ -63,4 +63,12 @@ void Controller::getDependencies( StringSet& dep )
 {
 }
 
+void Controller::attach( Entity& entity )
+{
+}
+
+void Controller::detach( Entity& entity )
+{
+}
+
 } /* namespace bolt */

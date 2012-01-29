@@ -19,8 +19,10 @@ class Controller;
 class Pipeline
 {
 private:
+	typedef std::set<Controller *> ControllerSet;
 	unsigned int cycle;
 	std::mutex mutex;
+	std::mutex componentMutex;
 
 	NodeSet roots;
 	NodeSet nonConcurrent;
@@ -29,6 +31,12 @@ private:
 
 	std::map<std::string,ControllerNode*> nodeNameMap;
 	void addToRoot( ControllerNode *node );
+
+	ControllerSet addSet;
+	ControllerSet removeSet;
+
+	void runAddSet();
+	void runRemoveSet();
 public:
 	Pipeline();
 	virtual ~Pipeline();
