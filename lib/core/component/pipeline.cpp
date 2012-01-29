@@ -205,9 +205,9 @@ void Pipeline::runAddSet()
 {
 	std::lock_guard<std::mutex> lock( componentMutex );
 
-	for( ControllerSet::iterator iter = addSet.begin() ; iter != addSet.end() ; ++iter )
+	for( ControllerSet::iterator addSetIter = addSet.begin() ; addSetIter != addSet.end() ; ++addSetIter )
 	{
-		Controller *controller = *iter;
+		Controller *controller = *addSetIter;
 
 		// already has it
 		if( nodeNameMap.find( controller->getName() ) != nodeNameMap.end() )
@@ -223,9 +223,9 @@ void Pipeline::runAddSet()
 		// Seek Parent dependencies.
 		// If found, link em.
 		std::map<std::string , ControllerNode*>::iterator citer;
-		for( StringSet::iterator iter = dependencies.begin() ; iter != dependencies.end() ; ++iter )
+		for( StringSet::iterator stringSetIter = dependencies.begin() ; stringSetIter != dependencies.end() ; ++stringSetIter )
 		{
-			citer = nodeNameMap.find( *iter );
+			citer = nodeNameMap.find( *stringSetIter );
 
 			if( citer != nodeNameMap.end() )
 			{
@@ -280,18 +280,18 @@ void Pipeline::runRemoveSet()
 	{
 		Controller *controller = *iter;
 
-		std::map<std::string , ControllerNode*>::iterator iter = nodeNameMap.find( controller->getName() );
+		std::map<std::string , ControllerNode*>::iterator nodeNameMapIter = nodeNameMap.find( controller->getName() );
 
 		// does not have it..
-		if( iter == nodeNameMap.end() )
+		if( nodeNameMapIter == nodeNameMap.end() )
 		{
 			return;
 		}
 
-		ControllerNode *node = iter->second;
+		ControllerNode *node = nodeNameMapIter->second;
 
 		// remove from namemap.
-		nodeNameMap.erase( iter );
+		nodeNameMap.erase( nodeNameMapIter );
 
 		if( node == NULL )
 		{
@@ -308,19 +308,19 @@ void Pipeline::runRemoveSet()
 		// and link new child parent relation
 		// or add to roots.
 		bool root = node->getDependencies().size() > 0;
-		for( NodeSet::iterator iter = node->getChilds().begin() ; iter != node->getChilds().end() ; ++iter )
+		for( NodeSet::iterator childIter = node->getChilds().begin() ; childIter != node->getChilds().end() ; ++childIter )
 		{
-			(*iter)->getDependencies().erase( node );
+			(*childIter)->getDependencies().erase( node );
 
-			for( NodeSet::iterator piter = node->getDependencies().begin() ; piter != node->getDependencies().end() ; ++piter )
+			for( NodeSet::iterator dependenciesIter = node->getDependencies().begin() ; dependenciesIter != node->getDependencies().end() ; ++dependenciesIter )
 			{
-				(*iter)->getDependencies().insert( *piter );
-				(*piter)->getChilds().insert( *iter );
+				(*childIter)->getDependencies().insert( *dependenciesIter );
+				(*dependenciesIter)->getChilds().insert( *childIter );
 			}
 
 			if( !root )
 			{
-				addToRoot( *iter );
+				addToRoot( *childIter );
 			}
 		}
 	}
