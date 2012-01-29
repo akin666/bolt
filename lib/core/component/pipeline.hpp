@@ -44,6 +44,11 @@ public:
 	void setCycle( uint val );
 	uint getCycle();
 
+	// Attach/Detach
+	// These functions are volatile, the Pipeline does not transfer the ownership of the Controller* to Pipeline
+	// but, if you detach, you must make sure that the Controller* lives, at least till the run cycle finishes.
+	// IF you delete the controller before that.. No guarantees what happens.
+	// probably the safest pattern is to a) detach controller b) kill the controller in the next cycle.
 	void attach( Controller *controller ) throw (std::exception);
 	void detach( Controller *controller ) throw (std::exception);
 
