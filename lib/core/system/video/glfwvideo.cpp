@@ -135,7 +135,8 @@ GLFWVideo::GLFWVideo()
   cursorVisible( true ),
   major(3),
   minor(1),
-  title("GLFWBolt")
+  title("GLFWBolt"),
+  initialized( false )
 {
 }
 
@@ -210,6 +211,8 @@ void GLFWVideo::initialize() throw (std::exception)
 		throw std::runtime_error("Failed to initialize GL Extended.");
 	}
 
+	glfwSetWindowTitle( title.c_str() );
+
 	// GL Data List logging.
 	LOG_OUT << "Video renderer Data: " << std::endl;
 	LOG_OUT << " Vendor:" << glGetString(GL_VENDOR) << std::endl;
@@ -237,11 +240,18 @@ void GLFWVideo::initialize() throw (std::exception)
 	glfwSetMouseWheelCallback( GLFWInputHandling::mouseWheelCallback );
 
 	GL_TEST_ERROR("end");
+
+	initialized = true;
 }
 
 void GLFWVideo::setTitle(std::string head)
 {
 	title = head;
+
+	if( initialized )
+	{
+		glfwSetWindowTitle( title.c_str() );
+	}
 }
 
 std::string GLFWVideo::getTitle()
@@ -251,7 +261,9 @@ std::string GLFWVideo::getTitle()
 
 void GLFWVideo::apply(const VideoMode & mode) throw (std::exception)
 {
-	throw std::runtime_error("GLFWVideo apply. TODO");
+	//throw std::runtime_error("GLFWVideo apply. TODO");
+	// TODO!
+	rendertarget.getVideoMode() = mode;
 }
 
 void GLFWVideo::listVideoModes(std::vector<VideoMode> & modes) const

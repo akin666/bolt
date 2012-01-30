@@ -23,6 +23,7 @@ protected:
 	int major;
 	int minor;
 	std::string title;
+	bool initialized;
 
 	GLFWScreenRenderTarget rendertarget;
 public:

@@ -1,0 +1,20 @@
+/*
+ * merge
+ *
+ *  Created on: 9.1.2099
+ *      Author: akin
+ */
+
+#ifndef SINGLETON_HPP_
+#define SINGLETON_HPP_
+
+namespace bolt
+{
+template <class CType, class CType2>
+class Merge : public CType , public CType2
+{
+public:
+};
+}
+
+#endif /* SINGLETON_HPP_ */

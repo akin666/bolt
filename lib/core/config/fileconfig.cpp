@@ -8,9 +8,9 @@
 #include "fileconfig.hpp"
 #include <iterator>
 #include <fstream>
-#include <sstream>
 #include <string>
 #include <stringtools>
+#include <stdexcept>
 
 namespace bolt
 {
@@ -82,7 +82,7 @@ float FileConfig::get( std::string key , float def )
 	return def;
 }
 
-bool FileConfig::get( std::string key , const bool def )
+bool FileConfig::get( std::string key , bool def )
 {
 	if( isSet(key) )
 	{
@@ -128,51 +128,47 @@ void FileConfig::load( std::string path ) throw (std::exception)
 	 *	// key value #comment
 	 */
 
-	try
-	{
-		std::string line;
-		int first = 0;
-		int second = 0;
-		int third = 0;
-		int fourth = 0;
+	std::ifstream inFile;
+	inFile.open( path.c_str() );
 
-		dio.lock();
-		while( !dio.empty() )
+	if( !inFile.is_open() || !inFile.good() )
+	{
+		throw std::runtime_error("Failed to open file.");
+	}
+
+	std::string line;
+	int first = 0;
+	int second = 0;
+	int third = 0;
+	int fourth = 0;
+
+	while( getline( inFile , line ) )
+	{
+		// Hack to handle CRLF lines.
+		if(line.size() > 0 && line[line.size()-1] == '\r')
 		{
-			dio.readLine(line);
-			// Hack to handle CRLF lines.
-			if(line.size() > 0 && line[line.size()-1] == '\r')
-			{
-				line = line.substr(0, line.size()-1);
-			}
-
-			// Skip the line if it contains less than 3 values,
-			// the smallest possible key-value pair is 'a b'
-			if( line.size() < 3 ){
-				continue;
-			}
-			// first not space or tab.
-			first = line.find_first_not_of(" \t");
-
-			// Skip comment line
-			if( line.at(first) == '#' ){
-				continue;
-			}
-
-			second = line.find_first_of(" \t" , first );
-			third = line.find_first_not_of(" \t" , second );
-			fourth = line.find_last_not_of(" \t" , third-1 );
-
-			pairs[line.substr( first , (second-first))] = line.substr( third , (fourth-third));
+			line = line.substr(0, line.size()-1);
 		}
-		dio.unlock();
-	}
-	catch( ... )
-	{
-		return false;
-	}
 
-	return true;
+		// Skip the line if it contains less than 3 values,
+		// the smallest possible key-value pair is 'a b'
+		if( line.size() < 3 ){
+			continue;
+		}
+		// first not space or tab.
+		first = line.find_first_not_of(" \t");
+
+		// Skip comment line
+		if( line.at(first) == '#' ){
+			continue;
+		}
+
+		second = line.find_first_of(" \t" , first );
+		third = line.find_first_not_of(" \t" , second );
+		fourth = line.find_last_not_of(" \t" , third-1 );
+
+		pairs[line.substr( first , (second-first))] = line.substr( third , (fourth-third));
+	}
 }
 
 void FileConfig::save( std::string path ) throw (std::exception)
@@ -180,29 +176,23 @@ void FileConfig::save( std::string path ) throw (std::exception)
 	/*
 	 * Save to pure configuration, no comments etc.
 	 */
-	try
+	std::ofstream outFile;
+	outFile.open ( path.c_str() );
+
+	// unable to open
+	if (!outFile)
 	{
-		std::ofstream outFile;
-		outFile.open ( path.c_str() );
-		// unable to open
-		if (!outFile) {
-			outFile.close();
-			return false;
-		}
-
-		std::map<std::string,std::string>::iterator iter;
-		for( iter = pairs.begin(); iter != pairs.end(); iter++ ) {
-			outFile << iter->first << " " << iter->second << std::endl;
-		}
-
 		outFile.close();
-	}
-	catch( ... )
-	{
-		return false;
+		throw std::runtime_error("Failed to open file.");
 	}
 
-	return true;
+	std::map<std::string,std::string>::iterator iter;
+	for( iter = pairs.begin(); iter != pairs.end(); iter++ )
+	{
+		outFile << iter->first << " " << iter->second << std::endl;
+	}
+
+	outFile.close();
 }
 
 } /* namespace bolt */

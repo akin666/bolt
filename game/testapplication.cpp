@@ -9,11 +9,13 @@
 #include <log>
 #include <singleton>
 #include <system/video.hpp>
+#include <system/audio.hpp>
 #include <component/common/fencecontroller.hpp>
 #include <component/pipeline.hpp>
 #include "pipeline/simplerenderercontroller.hpp"
 #include "pipeline/states/loadcontroller.hpp"
 #include "pipeline/states/testapplicationgame.hpp"
+#include <config/fileconfig.hpp>
 
 TestApplication::TestApplication()
 : initialized( false )
@@ -35,6 +37,37 @@ void TestApplication::initialize() throw (std::exception)
 		return;
 	}
 
+	// Load Configuration.
+	bolt::FileConfig *config = new bolt::FileConfig( "resources/config/default.cfg" );
+	bolt::setSingleton<bolt::Config>( config );
+
+	/////////////
+	// Setup video
+	/////////////
+	bolt::Video *video = bolt::getSingleton<bolt::Video>();
+	bolt::VideoMode mode;
+
+	mode.setWidth( config->get("screen_width" , 800) );
+	mode.setHeight( config->get("screen_height" ,600) );
+	mode.setRedBits( config->get("screen_red_bits" ,8) );
+	mode.setGreenBits( config->get("screen_green_bits" ,8) );
+	mode.setBlueBits( config->get("screen_blue_bits" ,8) );
+	mode.setAlphaBits( config->get("screen_alpha_bits" ,8) );
+	mode.setDepthBits( config->get("screen_depth_bits" ,24) );
+	mode.setStencilBits( config->get("screen_stencil_bits" ,8) );
+
+	video->setTitle( config->get("screen_title" , std::string("Bolt is BOLT") ) );
+	video->setWindowed( config->get("screen_windowed" , true ) );
+	video->apply( mode );
+
+
+	/////////////
+	// Setup audio
+	/////////////
+	bolt::Audio *audio = bolt::getSingleton<bolt::Audio>();
+
+
+	// Setup rest.
 	times = 100;
 
 	bolt::Pipeline *pipeline = bolt::getSingleton<bolt::Pipeline>();
