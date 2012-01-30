@@ -50,6 +50,10 @@ void ApplicationState::restart()
 {
 }
 
+void ApplicationState::memoryWarning( uint level )
+{
+}
+
 bool ApplicationState::willContinue()
 {
 	return false;

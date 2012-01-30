@@ -32,6 +32,7 @@ public:
 	Application();
 	virtual ~Application();
 
+	// The whole thing is running, when entering run -> video & audio exists etc.
 	virtual void run();
 };
 
