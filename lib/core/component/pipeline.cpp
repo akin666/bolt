@@ -24,16 +24,16 @@ Pipeline::~Pipeline()
 
 void Pipeline::clear()
 {
-	std::lock_guard<std::mutex> lock( mutex );
-	std::lock_guard<std::mutex> addlock( addSetMutex );
-	std::lock_guard<std::mutex> removelock( removeSetMutex );
+	std::lock_guard<std::mutex> lock( nameMap );
+	std::lock_guard<std::mutex> addlock( addSet );
+	std::lock_guard<std::mutex> removelock( removeSet );
 
-	for( std::map<std::string , ControllerNode*>::iterator iter = nodeNameMap.begin() ; iter != nodeNameMap.end() ; ++iter )
+	for( std::map<std::string , ControllerNode*>::iterator iter = nameMap.begin() ; iter != nameMap.end() ; ++iter )
 	{
 		delete iter->second;
 	}
 
-	nodeNameMap.clear();
+	nameMap.clear();
 	roots.clear();
 	nonConcurrent.clear();
 	concurrent.clear();
@@ -45,11 +45,11 @@ void Pipeline::clear()
 
 void Pipeline::setCycle( uint val )
 {
-	std::lock_guard<std::mutex> lock( mutex );
+	std::lock_guard<std::mutex> lock( nameMap );
 
 	cycle = val;
 
-	for( std::map<std::string , ControllerNode*>::iterator iter = nodeNameMap.begin() ; iter != nodeNameMap.end() ; ++iter )
+	for( std::map<std::string , ControllerNode*>::iterator iter = nameMap.begin() ; iter != nameMap.end() ; ++iter )
 	{
 		iter->second->setCycle( cycle );
 	}
@@ -76,7 +76,7 @@ void Pipeline::attach( Controller *controller ) throw (std::exception)
 		return;
 	}
 
-	std::lock_guard<std::mutex> lock( addSetMutex );
+	std::lock_guard<std::mutex> lock( addSet );
 	addSet.insert( controller );
 }
 
@@ -87,13 +87,13 @@ void Pipeline::detach( Controller *controller ) throw (std::exception)
 		return;
 	}
 
-	std::lock_guard<std::mutex> lock( removeSetMutex );
+	std::lock_guard<std::mutex> lock( removeSet );
 	removeSet.insert( controller );
 }
 
 void Pipeline::run() throw (std::exception)
 {
-	std::lock_guard<std::mutex> lock( mutex );
+	std::lock_guard<std::mutex> lock( nameMap );
 	if( roots.size() < 1 )
 	{
 		runRemoveSet();
@@ -219,14 +219,15 @@ void Pipeline::run() throw (std::exception)
 
 void Pipeline::runAddSet()
 {
-	std::lock_guard<std::mutex> lock( addSetMutex );
+	std::lock_guard<std::mutex> lock( addSet );
+
 	ControllerNode *node;
 	for( ControllerSet::iterator addSetIter = addSet.begin() ; addSetIter != addSet.end() ; ++addSetIter )
 	{
 		Controller *controller = *addSetIter;
 
 		// already has it
-		if( nodeNameMap.find( controller->getName() ) != nodeNameMap.end() )
+		if( nameMap.find( controller->getName() ) != nameMap.end() )
 		{
 			continue;
 		}
@@ -241,9 +242,9 @@ void Pipeline::runAddSet()
 		std::map<std::string , ControllerNode*>::iterator citer;
 		for( StringSet::iterator stringSetIter = dependencies.begin() ; stringSetIter != dependencies.end() ; ++stringSetIter )
 		{
-			citer = nodeNameMap.find( *stringSetIter );
+			citer = nameMap.find( *stringSetIter );
 
-			if( citer != nodeNameMap.end() )
+			if( citer != nameMap.end() )
 			{
 				// found!
 				ControllerNode *dependencyNode = citer->second;
@@ -256,7 +257,7 @@ void Pipeline::runAddSet()
 		// Seek child dependencies.
 		// If found, link em.
 		std::string name = controller->getName();
-		for( std::map<std::string , ControllerNode*>::iterator iter = nodeNameMap.begin() ; iter != nodeNameMap.end() ; ++iter )
+		for( std::map<std::string , ControllerNode*>::iterator iter = nameMap.begin() ; iter != nameMap.end() ; ++iter )
 		{
 			ControllerNode *dependencyNode = iter->second;
 
@@ -282,7 +283,7 @@ void Pipeline::runAddSet()
 
 		// try to add as root element..
 		addToRoot( node );
-		nodeNameMap[controller->getName()] = node;
+		nameMap[controller->getName()] = node;
 
 		node->setCycle( cycle );
 	}
@@ -291,7 +292,7 @@ void Pipeline::runAddSet()
 
 void Pipeline::runRemoveSet()
 {
-	std::lock_guard<std::mutex> lock( removeSetMutex );
+	std::lock_guard<std::mutex> lock( removeSet );
 
 	ControllerNode *node;
 	for( ControllerSet::iterator iter = removeSet.begin() ; iter != removeSet.end() ; ++iter )
@@ -299,18 +300,18 @@ void Pipeline::runRemoveSet()
 		Controller *controller = *iter;
 
 		{
-			std::map<std::string , ControllerNode*>::iterator nodeNameMapIter = nodeNameMap.find( controller->getName() );
+			std::map<std::string , ControllerNode*>::iterator nameMapIter = nameMap.find( controller->getName() );
 
 			// does not have it..
-			if( nodeNameMapIter == nodeNameMap.end() )
+			if( nameMapIter == nameMap.end() )
 			{
 				return;
 			}
 
-			node = nodeNameMapIter->second;
+			node = nameMapIter->second;
 
 			// remove from namemap.
-			nodeNameMap.erase( nodeNameMapIter );
+			nameMap.erase( nameMapIter );
 
 			if( node == NULL )
 			{

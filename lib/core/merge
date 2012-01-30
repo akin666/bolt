@@ -5,8 +5,8 @@
  *      Author: akin
  */
 
-#ifndef SINGLETON_HPP_
-#define SINGLETON_HPP_
+#ifndef MERGE_HPP_
+#define MERGE_HPP_
 
 namespace bolt
 {
@@ -17,4 +17,4 @@ public:
 };
 }
 
-#endif /* SINGLETON_HPP_ */
+#endif /* MERGE_HPP_ */

@@ -13,6 +13,7 @@
 #include <thread>
 #include <tque>
 #include "tools/controllernode.hpp"
+#include <merge>
 
 namespace bolt
 {
@@ -23,20 +24,18 @@ private:
 	static const uint CYCLE_NULL = 0;
 
 	typedef std::set<Controller *> ControllerSet;
+	typedef std::map<std::string,ControllerNode*> NodeNameMap;
 	unsigned int cycle;
-	std::mutex mutex;
-	std::mutex addSetMutex;
-	std::mutex removeSetMutex;
 
+	Merge< std::mutex , ControllerSet > addSet;
+	Merge< std::mutex , ControllerSet > removeSet;
+	Merge< std::mutex , NodeNameMap > nameMap;
+
+	// Internal tools for 'run'
 	NodeSet roots;
 	NodeSet nonConcurrent;
 	NodeSet concurrent;
 	TQue<ControllerNode*> waitingQue;
-
-	std::map<std::string,ControllerNode*> nodeNameMap;
-
-	ControllerSet addSet;
-	ControllerSet removeSet;
 
 	void addToRoot( ControllerNode *node );
 	void runAddSet();
