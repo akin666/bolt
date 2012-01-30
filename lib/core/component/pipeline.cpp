@@ -13,8 +13,8 @@ namespace bolt
 {
 
 Pipeline::Pipeline()
-: cycle( 0 )
 {
+	clear();
 }
 
 Pipeline::~Pipeline()
@@ -24,6 +24,10 @@ Pipeline::~Pipeline()
 
 void Pipeline::clear()
 {
+	std::lock_guard<std::mutex> lock( mutex );
+	std::lock_guard<std::mutex> addlock( addSetMutex );
+	std::lock_guard<std::mutex> removelock( removeSetMutex );
+
 	for( std::map<std::string , ControllerNode*>::iterator iter = nodeNameMap.begin() ; iter != nodeNameMap.end() ; ++iter )
 	{
 		delete iter->second;
@@ -33,11 +37,16 @@ void Pipeline::clear()
 	roots.clear();
 	nonConcurrent.clear();
 	concurrent.clear();
-	cycle = 0;
+	addSet.clear();
+	removeSet.clear();
+
+	cycle = CYCLE_NULL + 1;
 }
 
 void Pipeline::setCycle( uint val )
 {
+	std::lock_guard<std::mutex> lock( mutex );
+
 	cycle = val;
 
 	for( std::map<std::string , ControllerNode*>::iterator iter = nodeNameMap.begin() ; iter != nodeNameMap.end() ; ++iter )
@@ -66,7 +75,8 @@ void Pipeline::attach( Controller *controller ) throw (std::exception)
 	{
 		return;
 	}
-	std::lock_guard<std::mutex> lock( componentMutex );
+
+	std::lock_guard<std::mutex> lock( addSetMutex );
 	addSet.insert( controller );
 }
 
@@ -77,7 +87,7 @@ void Pipeline::detach( Controller *controller ) throw (std::exception)
 		return;
 	}
 
-	std::lock_guard<std::mutex> lock( componentMutex );
+	std::lock_guard<std::mutex> lock( removeSetMutex );
 	removeSet.insert( controller );
 }
 
@@ -203,7 +213,7 @@ void Pipeline::run() throw (std::exception)
 
 void Pipeline::runAddSet()
 {
-	std::lock_guard<std::mutex> lock( componentMutex );
+	std::lock_guard<std::mutex> lock( addSetMutex );
 
 	for( ControllerSet::iterator addSetIter = addSet.begin() ; addSetIter != addSet.end() ; ++addSetIter )
 	{
@@ -274,55 +284,59 @@ void Pipeline::runAddSet()
 
 void Pipeline::runRemoveSet()
 {
-	std::lock_guard<std::mutex> lock( componentMutex );
+	std::lock_guard<std::mutex> lock( removeSetMutex );
 
+	ControllerNode *node;
 	for( ControllerSet::iterator iter = removeSet.begin() ; iter != removeSet.end() ; ++iter )
 	{
 		Controller *controller = *iter;
 
-		std::map<std::string , ControllerNode*>::iterator nodeNameMapIter = nodeNameMap.find( controller->getName() );
-
-		// does not have it..
-		if( nodeNameMapIter == nodeNameMap.end() )
 		{
-			return;
+			std::map<std::string , ControllerNode*>::iterator nodeNameMapIter = nodeNameMap.find( controller->getName() );
+
+			// does not have it..
+			if( nodeNameMapIter == nodeNameMap.end() )
+			{
+				return;
+			}
+
+			ControllerNode *node = nodeNameMapIter->second;
+
+			// remove from namemap.
+			nodeNameMap.erase( nodeNameMapIter );
+
+			if( node == NULL )
+			{
+				continue;
+			}
 		}
 
-		ControllerNode *node = nodeNameMapIter->second;
-
-		// remove from namemap.
-		nodeNameMap.erase( nodeNameMapIter );
-
-		if( node == NULL )
-		{
-			return;
-		}
-
-		// remove node from the lists.
+		// Remove node from roots
 		if( roots.find( node ) != roots.end() )
 		{
 			roots.erase( node );
 		}
 
-		// remove parent from childs
-		// and link new child parent relation
-		// or add to roots.
-		bool root = node->getDependencies().size() > 0;
-		for( NodeSet::iterator childIter = node->getChilds().begin() ; childIter != node->getChilds().end() ; ++childIter )
+		// Remove node from childs
+		for( NodeSet::iterator targetIter = node->getChilds().begin() ; targetIter != node->getChilds().end() ; ++targetIter )
 		{
-			(*childIter)->getDependencies().erase( node );
+			(*targetIter)->getDependencies().erase( node );
 
-			for( NodeSet::iterator dependenciesIter = node->getDependencies().begin() ; dependenciesIter != node->getDependencies().end() ; ++dependenciesIter )
+			// check if the child becomes a root node.
+			if( (*targetIter)->getDependencies().size() == 0 )
 			{
-				(*childIter)->getDependencies().insert( *dependenciesIter );
-				(*dependenciesIter)->getChilds().insert( *childIter );
-			}
-
-			if( !root )
-			{
-				addToRoot( *childIter );
+				roots.insert( (*targetIter) );
 			}
 		}
+
+		// Remove node from dependencies.
+		for( NodeSet::iterator targetIter = node->getDependencies().begin() ; targetIter != node->getDependencies().end() ; ++targetIter )
+		{
+			(*targetIter)->getChilds().erase( node );
+		}
+
+		// destroy the node.
+		delete node;
 	}
 	removeSet.clear();
 }

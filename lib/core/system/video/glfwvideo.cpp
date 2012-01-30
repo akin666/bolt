@@ -261,8 +261,6 @@ std::string GLFWVideo::getTitle()
 
 void GLFWVideo::apply(const VideoMode & mode) throw (std::exception)
 {
-	//throw std::runtime_error("GLFWVideo apply. TODO");
-	// TODO!
 	rendertarget.getVideoMode() = mode;
 }
 

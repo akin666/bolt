@@ -8,6 +8,7 @@
 #ifndef PIPELINE_HPP_
 #define PIPELINE_HPP_
 
+#include <common>
 #include <exception>
 #include <thread>
 #include <tque>
@@ -19,10 +20,13 @@ class Controller;
 class Pipeline
 {
 private:
+	static const uint CYCLE_NULL = 0;
+
 	typedef std::set<Controller *> ControllerSet;
 	unsigned int cycle;
 	std::mutex mutex;
-	std::mutex componentMutex;
+	std::mutex addSetMutex;
+	std::mutex removeSetMutex;
 
 	NodeSet roots;
 	NodeSet nonConcurrent;
@@ -30,11 +34,11 @@ private:
 	TQue<ControllerNode*> waitingQue;
 
 	std::map<std::string,ControllerNode*> nodeNameMap;
-	void addToRoot( ControllerNode *node );
 
 	ControllerSet addSet;
 	ControllerSet removeSet;
 
+	void addToRoot( ControllerNode *node );
 	void runAddSet();
 	void runRemoveSet();
 public:
