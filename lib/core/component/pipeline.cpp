@@ -160,9 +160,15 @@ void Pipeline::run() throw (std::exception)
 			++running;
 		}
 
+
 		// Clear the queu
 		concurrent.clear();
 		nonConcurrent.clear();
+
+		if( running == 0 )
+		{
+			continue;
+		}
 
 		current = waitingQue.pop();
 		--running;
@@ -214,7 +220,7 @@ void Pipeline::run() throw (std::exception)
 void Pipeline::runAddSet()
 {
 	std::lock_guard<std::mutex> lock( addSetMutex );
-
+	ControllerNode *node;
 	for( ControllerSet::iterator addSetIter = addSet.begin() ; addSetIter != addSet.end() ; ++addSetIter )
 	{
 		Controller *controller = *addSetIter;
@@ -225,7 +231,7 @@ void Pipeline::runAddSet()
 			continue;
 		}
 
-		ControllerNode *node = new ControllerNode( *controller , waitingQue );
+		node = new ControllerNode( *controller , waitingQue );
 
 		StringSet dependencies;
 		controller->getDependencies( dependencies );
@@ -276,6 +282,7 @@ void Pipeline::runAddSet()
 
 		// try to add as root element..
 		addToRoot( node );
+		nodeNameMap[controller->getName()] = node;
 
 		node->setCycle( cycle );
 	}
@@ -300,7 +307,7 @@ void Pipeline::runRemoveSet()
 				return;
 			}
 
-			ControllerNode *node = nodeNameMapIter->second;
+			node = nodeNameMapIter->second;
 
 			// remove from namemap.
 			nodeNameMap.erase( nodeNameMapIter );

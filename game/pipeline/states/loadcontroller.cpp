@@ -51,7 +51,6 @@ void LoadController::initialize() throw (std::exception)
 
 void LoadController::start( bolt::ControllerNode& node )
 {
-	LOG_OUT << "Load phase " << std::endl;
 	if( !loadComplete )
 	{
 		if( bolt::resource::hasObject<bolt::Shader>( "genericVertexShader" ) &&
@@ -104,6 +103,7 @@ void LoadController::start( bolt::ControllerNode& node )
 
 	if( loadComplete )
 	{
+		LOG_OUT << "Load phase Completed." << std::endl;
 		// TestApplication!
 		TestApplicationGame *game = new TestApplicationGame();
 
