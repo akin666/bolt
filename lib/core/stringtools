@@ -15,6 +15,26 @@ namespace stringtools
 {
 void toUpper( std::string& str );
 void toLower( std::string& str );
+
+template <class T>
+static bool from_string(T& t,
+		const std::string& s,
+		std::ios_base& (*f)(std::ios_base&))
+{
+	std::istringstream iss(s);
+	return !(iss >> f >> t).fail();
+}
+
+template<typename T, typename F>
+static T to_ot( const F from )
+{
+	std::stringstream temp;
+	temp << from;
+	T to = T();
+	temp >> to;
+	return to;
+}
+
 }
 
 #endif
