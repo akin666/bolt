@@ -55,6 +55,10 @@ public:
 	virtual void attach( Entity& entity );
 	virtual void detach( Entity& entity );
 
+	// detach all entities & clear the whole blody component.
+	// this gets called when attaching to pipeline.
+	virtual void clear();
+
 	// Start can be blocking, if the controller wants to do singlethreaded.
 	// on multithreaded situation, it should start work on packages.
 	// Use ComponentNode to start all sort of crazy work tasks etc.

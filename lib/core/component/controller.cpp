@@ -71,4 +71,8 @@ void Controller::detach( Entity& entity )
 {
 }
 
+void Controller::clear()
+{
+}
+
 } /* namespace bolt */

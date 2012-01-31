@@ -12,7 +12,21 @@
 
 namespace bolt
 {
-	typedef uint Entity;
+	class Entity
+	{
+	protected:
+		static uint mId;
+		static uint createId();
+
+		uint id;
+	public:
+		Entity();
+		Entity( const Entity& other );
+
+		uint getId();
+		operator uint();
+		Entity& operator =( const Entity& other );
+	};
 }
 
 #endif /* ENTITY_HPP_ */

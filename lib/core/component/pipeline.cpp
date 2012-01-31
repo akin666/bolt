@@ -43,9 +43,27 @@ void Pipeline::clear()
 	cycle = CYCLE_NULL + 1;
 }
 
+void Pipeline::removeEntity( Entity& entity )
+{
+	// Although we are using namemap, only
+	// the run() function doesnt really destroy or touch namemap while running.. SO..
+	// the only thing that can affect the namemap are the addSet and removeSet.
+	std::lock_guard<std::mutex> addlock( addSet );
+	std::lock_guard<std::mutex> removelock( removeSet );
+
+	for( std::map<std::string , ControllerNode*>::iterator iter = nameMap.begin() ; iter != nameMap.end() ; ++iter )
+	{
+		iter->second->controller.detach( entity );
+	}
+}
+
 void Pipeline::setCycle( uint val )
 {
-	std::lock_guard<std::mutex> lock( nameMap );
+	// Although we are using namemap, only
+	// the run() function doesnt really destroy or touch namemap while running.. SO..
+	// the only thing that can affect the namemap are the addSet and removeSet.
+	std::lock_guard<std::mutex> addlock( addSet );
+	std::lock_guard<std::mutex> removelock( removeSet );
 
 	cycle = val;
 
@@ -78,6 +96,7 @@ void Pipeline::attach( Controller *controller ) throw (std::exception)
 
 	std::lock_guard<std::mutex> lock( addSet );
 	addSet.insert( controller );
+	controller->clear();
 }
 
 void Pipeline::detach( Controller *controller ) throw (std::exception)

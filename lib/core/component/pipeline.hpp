@@ -14,6 +14,7 @@
 #include <tque>
 #include "tools/controllernode.hpp"
 #include <merge>
+#include "entity.hpp"
 
 namespace bolt
 {
@@ -56,6 +57,8 @@ public:
 	void detach( Controller *controller ) throw (std::exception);
 
 	void clear();
+
+	void removeEntity( Entity& entity );
 
 	// Run is the heart of the pipeline, it is essentially the main-loop.
 	void run() throw (std::exception);
