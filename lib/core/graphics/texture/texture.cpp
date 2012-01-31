@@ -66,12 +66,12 @@ namespace bolt
 		return parent;
 	}
 
-	void Texture::bind()
+	void Texture::bind() throw (GraphicsException)
 	{
 		parent->bind();
 	}
 
-	void Texture::release()
+	void Texture::release() throw (GraphicsException)
 	{
 		parent->release();
 	}

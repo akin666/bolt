@@ -42,7 +42,7 @@ void ApplicationState::resume()
 {
 }
 
-void ApplicationState::kill()
+void ApplicationState::exit()
 {
 }
 

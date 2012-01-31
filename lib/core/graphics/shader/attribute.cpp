@@ -25,7 +25,7 @@ namespace bolt
 		m_program_id = program;
 	}
 
-	void Attribute::attach( std::string name ) throw (std::exception)
+	void Attribute::attach( std::string name ) throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		m_name = name;
@@ -45,21 +45,21 @@ namespace bolt
 		return m_name;
 	}
 
-	void Attribute::enable()
+	void Attribute::enable() throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		glEnableVertexAttribArray( m_attribute_id );
 		GL_TEST_ERROR("end")
 	}
 
-	void Attribute::disable()
+	void Attribute::disable() throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		glDisableVertexAttribArray( m_attribute_id );
 		GL_TEST_ERROR("end")
 	}
 
-	void Attribute::setPointer( int data_size , GLenum data_type , GLsizei stride )
+	void Attribute::setPointer( int data_size , GLenum data_type , GLsizei stride ) throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		//glEnableVertexAttribArray(0);
@@ -82,7 +82,7 @@ namespace bolt
 		GL_TEST_ERROR("end")
 	}
 
-	void Attribute::setPointer(int size, GLenum type, void *ptr)
+	void Attribute::setPointer(int size, GLenum type, void *ptr) throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		// glVertexAttribPointer( GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const GLvoid * pointer);
@@ -90,179 +90,179 @@ namespace bolt
 		GL_TEST_ERROR("end")
 	}
 
-	void Attribute::set(float v)
+	void Attribute::set(float v) throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		glVertexAttrib1f( m_attribute_id , v );
 		GL_TEST_ERROR("end")
 	}
-	void Attribute::set(float v, float v2)
+	void Attribute::set(float v, float v2) throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		glVertexAttrib2f( m_attribute_id , v , v2 );
 		GL_TEST_ERROR("end")
 	}
-	void Attribute::set(float v, float v2, float v3)
+	void Attribute::set(float v, float v2, float v3) throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		glVertexAttrib3f( m_attribute_id , v , v2 , v3 );
 		GL_TEST_ERROR("end")
 	}
-	void Attribute::set(float v, float v2, float v3, float v4)
+	void Attribute::set(float v, float v2, float v3, float v4) throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		glVertexAttrib4f( m_attribute_id , v , v2 , v3 , v4 );
 		GL_TEST_ERROR("end")
 	}
-	void Attribute::set(double v)
+	void Attribute::set(double v) throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		glVertexAttrib1d( m_attribute_id , v );
 		GL_TEST_ERROR("end")
 	}
-	void Attribute::set(double v, double v2)
+	void Attribute::set(double v, double v2) throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		glVertexAttrib2d( m_attribute_id , v , v2 );
 		GL_TEST_ERROR("end")
 	}
-	void Attribute::set(double v, double v2, double v3)
+	void Attribute::set(double v, double v2, double v3) throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		glVertexAttrib3d( m_attribute_id , v , v2 , v3 );
 		GL_TEST_ERROR("end")
 	}
-	void Attribute::set(double v, double v2, double v3, double v4)
+	void Attribute::set(double v, double v2, double v3, double v4) throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		glVertexAttrib4d( m_attribute_id , v , v2 , v3 , v4 );
 		GL_TEST_ERROR("end")
 	}
-	void Attribute::set(short v)
+	void Attribute::set(short v) throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		glVertexAttrib1s( m_attribute_id , v );
 		GL_TEST_ERROR("end")
 	}
-	void Attribute::set(short v, short v2)
+	void Attribute::set(short v, short v2) throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		glVertexAttrib2s( m_attribute_id , v , v2 );
 		GL_TEST_ERROR("end")
 	}
-	void Attribute::set(short v, short v2, short v3)
+	void Attribute::set(short v, short v2, short v3) throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		glVertexAttrib3s( m_attribute_id , v , v2 , v3 );
 		GL_TEST_ERROR("end")
 	}
-	void Attribute::set(short v, short v2, short v3, short v4)
+	void Attribute::set(short v, short v2, short v3, short v4) throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		glVertexAttrib4s( m_attribute_id , v , v2 , v3 , v4 );
 		GL_TEST_ERROR("end")
 	}
 
-	void Attribute::set(float *v)
+	void Attribute::set(float *v) throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		glVertexAttrib1fv( m_attribute_id , v );
 		GL_TEST_ERROR("end")
 	}
-	void Attribute::set2(float *v)
+	void Attribute::set2(float *v) throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		glVertexAttrib2fv( m_attribute_id , v );
 		GL_TEST_ERROR("end")
 	}
-	void Attribute::set3(float *v)
+	void Attribute::set3(float *v) throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		glVertexAttrib3fv( m_attribute_id , v );
 		GL_TEST_ERROR("end")
 	}
-	void Attribute::set4(float *v)
+	void Attribute::set4(float *v) throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		glVertexAttrib4fv( m_attribute_id , v );
 		GL_TEST_ERROR("end")
 	}
 
-	void Attribute::set(double *v)
+	void Attribute::set(double *v) throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		glVertexAttrib1dv( m_attribute_id , v );
 		GL_TEST_ERROR("end")
 	}
-	void Attribute::set2(double *v)
+	void Attribute::set2(double *v) throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		glVertexAttrib2dv( m_attribute_id , v );
 		GL_TEST_ERROR("end")
 	}
-	void Attribute::set3(double *v)
+	void Attribute::set3(double *v) throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		glVertexAttrib3dv( m_attribute_id , v );
 		GL_TEST_ERROR("end")
 	}
-	void Attribute::set4(double *v)
+	void Attribute::set4(double *v) throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		glVertexAttrib4dv( m_attribute_id , v );
 		GL_TEST_ERROR("end")
 	}
 
-	void Attribute::set(short *v)
+	void Attribute::set(short *v) throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		glVertexAttrib1sv( m_attribute_id , v );
 		GL_TEST_ERROR("end")
 	}
-	void Attribute::set2(short *v)
+	void Attribute::set2(short *v) throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		glVertexAttrib2sv( m_attribute_id , v );
 		GL_TEST_ERROR("end")
 	}
-	void Attribute::set3(short *v)
+	void Attribute::set3(short *v) throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		glVertexAttrib3sv( m_attribute_id , v );
 		GL_TEST_ERROR("end")
 	}
-	void Attribute::set4(short *v)
+	void Attribute::set4(short *v) throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		glVertexAttrib4sv( m_attribute_id , v );
 		GL_TEST_ERROR("end")
 	}
 
-	void Attribute::set4(int *v)
+	void Attribute::set4(int *v) throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		glVertexAttrib4iv( m_attribute_id , v );
 		GL_TEST_ERROR("end")
 	}
-	void Attribute::set4(char *v)
+	void Attribute::set4(char *v) throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		glVertexAttrib4bv( m_attribute_id , (GLbyte*)v );
 		GL_TEST_ERROR("end")
 	}
-	void Attribute::set4(unsigned char *v)
+	void Attribute::set4(unsigned char *v) throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		glVertexAttrib4ubv( m_attribute_id , v );
 		GL_TEST_ERROR("end")
 	}
-	void Attribute::set4(unsigned short *v)
+	void Attribute::set4(unsigned short *v) throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		glVertexAttrib4usv( m_attribute_id , v );
 		GL_TEST_ERROR("end")
 	}
-	void Attribute::set4(uint *v)
+	void Attribute::set4(uint *v) throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		glVertexAttrib4uiv( m_attribute_id , v );
@@ -270,43 +270,43 @@ namespace bolt
 	}
 
 	// normalized
-	void Attribute::setN(unsigned char v, unsigned char v2, unsigned char v3, unsigned char v4)
+	void Attribute::setN(unsigned char v, unsigned char v2, unsigned char v3, unsigned char v4) throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		glVertexAttrib4Nub( m_attribute_id , v , v2 , v3 , v4 );
 		GL_TEST_ERROR("end")
 	}
-	void Attribute::set4N(char *v)
+	void Attribute::set4N(char *v) throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		glVertexAttrib4Nbv( m_attribute_id , (GLbyte*)v );
 		GL_TEST_ERROR("end")
 	}
-	void Attribute::set4N(short *v)
+	void Attribute::set4N(short *v) throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		glVertexAttrib4Nsv( m_attribute_id , v );
 		GL_TEST_ERROR("end")
 	}
-	void Attribute::set4N(int *v)
+	void Attribute::set4N(int *v) throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		glVertexAttrib4Niv( m_attribute_id , v );
 		GL_TEST_ERROR("end")
 	}
-	void Attribute::set4N(unsigned char *v)
+	void Attribute::set4N(unsigned char *v) throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		glVertexAttrib4Nubv( m_attribute_id , v );
 		GL_TEST_ERROR("end")
 	}
-	void Attribute::set4N(unsigned short *v)
+	void Attribute::set4N(unsigned short *v) throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		glVertexAttrib4Nusv( m_attribute_id , v );
 		GL_TEST_ERROR("end")
 	}
-	void Attribute::set4N(uint *v)
+	void Attribute::set4N(uint *v) throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		glVertexAttrib4Nuiv( m_attribute_id , v );

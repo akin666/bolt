@@ -43,10 +43,17 @@ namespace bolt
 
 	GTexture::~GTexture()
 	{
-		destroy();
+		try
+		{
+			destroy();
+		}
+		catch ( ... )
+		{
+			// "#!%!¤!!
+		}
 	}
 
-	void GTexture::destroy()
+	void GTexture::destroy() throw (GraphicsException)
 	{
 		if( texture_id != GL_NULL )
 		{
@@ -56,12 +63,12 @@ namespace bolt
 		}
 	}
 
-	void GTexture::initialize( const unsigned char *data ) throw (std::exception)
+	void GTexture::initialize( const unsigned char *data ) throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin");
 		if( texture_id != GL_NULL )
 		{
-			throw std::runtime_error("Texture already initialized.");
+			throw GraphicsException("Texture already initialized.");
 		}
 
 		glGenTextures( 1 , &texture_id );
@@ -75,7 +82,7 @@ namespace bolt
 		if( !testMemory() )
 		{
 			destroy();
-			throw std::runtime_error("Texture does not fit into memory.");
+			throw GraphicsException("Texture does not fit into memory.");
 		}
 
 		int para;
@@ -221,7 +228,7 @@ namespace bolt
 		return texture_id != GL_NULL;
 	}
 
-	bool GTexture::testMemory()
+	bool GTexture::testMemory() throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin");
 		// ColorMode
@@ -307,7 +314,7 @@ namespace bolt
 		return true;
 	}
 
-	GTexture& GTexture::setMinificationFilter( TextureFilter filter )
+	GTexture& GTexture::setMinificationFilter( TextureFilter filter ) throw (GraphicsException)
 	{
 		if( texture_id != GL_NULL && filter != minificationFilter )
 		{
@@ -334,7 +341,7 @@ namespace bolt
 		return *this;
 	}
 
-	GTexture& GTexture::setMagnificationFilter( TextureFilter filter )
+	GTexture& GTexture::setMagnificationFilter( TextureFilter filter ) throw (GraphicsException)
 	{
 		if( texture_id != GL_NULL && filter != magnificationFilter )
 		{
@@ -362,7 +369,7 @@ namespace bolt
 		return *this;
 	}
 
-	GTexture& GTexture::setSWrapMode( WrapMode wrap )
+	GTexture& GTexture::setSWrapMode( WrapMode wrap ) throw (GraphicsException)
 	{
 		if( texture_id != GL_NULL && wrap != sWrap )
 		{
@@ -384,7 +391,7 @@ namespace bolt
 		return *this;
 	}
 
-	GTexture& GTexture::setTWrapMode( WrapMode wrap )
+	GTexture& GTexture::setTWrapMode( WrapMode wrap ) throw (GraphicsException)
 	{
 		if( texture_id != GL_NULL && wrap != tWrap )
 		{
@@ -454,7 +461,7 @@ namespace bolt
 		return magnificationFilter;
 	}
 
-	void GTexture::generateMipMap()
+	void GTexture::generateMipMap() throw (GraphicsException)
 	{
 		if( texture_id != GL_NULL )
 		{
@@ -491,21 +498,21 @@ namespace bolt
 		return texture_id;
 	}
 
-	void GTexture::bind()
+	void GTexture::bind() throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin");
 		glBindTexture( GL_TEXTURE_2D , texture_id );
 		GL_TEST_ERROR("end");
 	}
 
-	void GTexture::release()
+	void GTexture::release() throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin");
 		glBindTexture( GL_TEXTURE_2D , GL_NULL );
 		GL_TEST_ERROR("end");
 	}
 
-	void GTexture::resize( glm::ivec2 newDimensions ) throw (std::exception)
+	void GTexture::resize( glm::ivec2 newDimensions ) throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin");
 
@@ -551,7 +558,7 @@ namespace bolt
 		{
 			while( glGetError() != GL_NO_ERROR );
 			glBindTexture(GL_TEXTURE_2D, GL_NULL );
-			throw std::runtime_error("Could not allocate memory for texture.");
+			throw GraphicsException("Could not allocate memory for texture.");
 		}
 
 		// resize
@@ -594,7 +601,7 @@ namespace bolt
 		GL_TEST_ERROR("end");
 	}
 
-	void GTexture::renderSubTexture( glm::ivec2 pos , glm::ivec2 dim , const unsigned char *data )
+	void GTexture::renderSubTexture( glm::ivec2 pos , glm::ivec2 dim , const unsigned char *data ) throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin");
 
@@ -641,7 +648,7 @@ namespace bolt
 		GL_TEST_ERROR("end");
 	}
 
-	void GTexture::renderSubTexture( glm::ivec2 pos , glm::ivec2 dim , BufferObject& bo )
+	void GTexture::renderSubTexture( glm::ivec2 pos , glm::ivec2 dim , BufferObject& bo ) throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin");
 		glm::ivec2 pos2( pos.x + dim.x , pos.y + dim.y );
@@ -688,7 +695,7 @@ namespace bolt
 		GL_TEST_ERROR("end");
 	}
 
-	void GTexture::renderSubArea( glm::ivec2 pos , glm::ivec2 dim , const unsigned char color )
+	void GTexture::renderSubArea( glm::ivec2 pos , glm::ivec2 dim , const unsigned char color ) throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin");
 
@@ -704,22 +711,22 @@ namespace bolt
 		GL_TEST_ERROR("end");
 	}
 
-	void GTexture::resize( int new_width , int new_height ) throw (std::exception)
+	void GTexture::resize( int new_width , int new_height ) throw (GraphicsException)
 	{
 		return resize( glm::ivec2(new_width,new_height) );
 	}
 
-	void GTexture::renderSubTexture( int x , int y , int width , int height , const unsigned char *data )
+	void GTexture::renderSubTexture( int x , int y , int width , int height , const unsigned char *data ) throw (GraphicsException)
 	{
 		renderSubTexture( glm::ivec2(x,y) , glm::ivec2(width,height) , data );
 	}
 
-	void GTexture::renderSubTexture( int x , int y , int width , int height , BufferObject& bo )
+	void GTexture::renderSubTexture( int x , int y , int width , int height , BufferObject& bo ) throw (GraphicsException)
 	{
 		renderSubTexture( glm::ivec2(x,y) , glm::ivec2(width,height) , bo );
 	}
 
-	void GTexture::renderSubArea( int x , int y , int width , int height , const unsigned char color )
+	void GTexture::renderSubArea( int x , int y , int width , int height , const unsigned char color ) throw (GraphicsException)
 	{
 		renderSubArea( glm::ivec2(x,y) , glm::ivec2(width,height) , color );
 	}

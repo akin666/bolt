@@ -8,7 +8,7 @@
 #include "testapplicationgame.hpp"
 #include <singleton>
 #include <log>
-#include <component/common/fencecontroller.hpp>
+#include <application/application.hpp>
 
 #include <resource/dictionary.hpp>
 #include <resource/registry.hpp>
@@ -40,11 +40,17 @@ void TestApplicationGame::initialize() throw (std::exception)
 		shaderProgram = NULL;
 	}
 
+	times = 10;
+
 	initialized = true;
 }
 
 void TestApplicationGame::start( bolt::ControllerNode& node )
 {
+	if( --times <= 0 )
+	{
+		bolt::getSingleton<bolt::Application>()->exit();
+	}
 	LOG_OUT << "TestApplicationGame start" << std::endl;
 }
 

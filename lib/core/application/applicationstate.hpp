@@ -31,7 +31,7 @@ public:
 	// Commands.
 	virtual void suspend(); // suspend the application, going into background.
 	virtual void resume();	// resume the application state
-	virtual void kill();	// kill instruction
+	virtual void exit();	// kill instruction
 	virtual void restart(); // instruct the application to do hard restart
 
 	virtual void memoryWarning( uint level = 0 ); // running out of memory.

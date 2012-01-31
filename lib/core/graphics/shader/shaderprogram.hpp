@@ -10,7 +10,7 @@
 
 #include <common>
 #include <string>
-#include <exception>
+#include <graphics/graphicsexception.hpp>
 #include <map>
 
 namespace bolt
@@ -32,20 +32,20 @@ namespace bolt
 
 		uint getId();
 
-		Attribute *insertAttribute( std::string key ) throw (std::exception);
-		Uniform *insertUniform( std::string key ) throw (std::exception);
+		Attribute *insertAttribute( std::string key ) throw (GraphicsException);
+		Uniform *insertUniform( std::string key ) throw (GraphicsException);
 
-		Attribute *getAttribute( std::string key ) throw (std::exception);
-		Uniform *getUniform( std::string key ) throw (std::exception);
+		Attribute *getAttribute( std::string key ) throw (GraphicsException);
+		Uniform *getUniform( std::string key ) throw (GraphicsException);
 
-		void bind() throw (std::exception);
-		static void bindDefault();
+		void bind() throw (GraphicsException);
+		static void bindDefault() throw (GraphicsException);
 
 		// Shader creation functionality:
-		void attach( Shader *piece ) throw (std::exception);
-		void link() throw (std::exception);
+		void attach( Shader *piece ) throw (GraphicsException);
+		void link() throw (GraphicsException);
 
-		std::string getError();
+		std::string getError() throw (GraphicsException);
 
 		bool linked();
 	};

@@ -21,7 +21,8 @@ namespace bolt
 
 	Framebuffer::~Framebuffer()
 	{
-		if( m_id != 0 ) {
+		if( m_id != 0 )
+		{
 			glDeleteFramebuffers( 1 , &m_id );
 			m_id = 0;
 		}
@@ -29,12 +30,12 @@ namespace bolt
 		GL_TEST_ERROR("Framebuffer Destructor")
 	}
 
-	void Framebuffer::attachTexture( GTexture& texture )
+	void Framebuffer::attachTexture( GTexture& texture ) throw (GraphicsException)
 	{
 		attachTexture( texture.getWidth() , texture.getHeight() , texture.getTextureId() );
 	}
 
-	void Framebuffer::attachTexture( unsigned int width , unsigned int height , unsigned int texture_id )
+	void Framebuffer::attachTexture( unsigned int width , unsigned int height , unsigned int texture_id ) throw (GraphicsException)
 	{
 		m_width = width;
 		m_height = height;
@@ -45,7 +46,7 @@ namespace bolt
 		GL_TEST_ERROR("Framebuffer attachTexture")
 	}
 
-	void Framebuffer::attachDepth()
+	void Framebuffer::attachDepth() throw (GraphicsException)
 	{
 		bind();
 		glGenRenderbuffers(1, &m_depth);
@@ -57,7 +58,7 @@ namespace bolt
 		GL_TEST_ERROR("Framebuffer attachDepth")
 	}
 
-	void Framebuffer::removeDepth()
+	void Framebuffer::removeDepth() throw (GraphicsException)
 	{
 		if( m_depth == 0 )
 		{
@@ -75,7 +76,7 @@ namespace bolt
 		return m_depth;
 	}
 
-	void Framebuffer::bind()
+	void Framebuffer::bind() throw (GraphicsException)
 	{
 		if( m_id == 0 )
 		{
@@ -98,7 +99,7 @@ namespace bolt
 		return m_height;
 	}
 
-	bool Framebuffer::invariant()
+	bool Framebuffer::invariant() throw (GraphicsException)
 	{
 		GLenum status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER);
 
@@ -121,7 +122,7 @@ namespace bolt
 		return true;
 	}
 
-	void Framebuffer::bindDefault()
+	void Framebuffer::bindDefault() throw (GraphicsException)
 	{
 		glBindFramebuffer( GL_FRAMEBUFFER , 0 );
 

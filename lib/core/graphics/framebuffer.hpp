@@ -9,6 +9,7 @@
 #define FRAMEBUFFER_H_
 
 #include "texture/gtexture.hpp"
+#include "graphicsexception.hpp"
 
 namespace bolt
 {
@@ -23,21 +24,21 @@ namespace bolt
 		Framebuffer();
 		virtual ~Framebuffer();
 
-		void attachTexture( GTexture& texture );
-		void attachTexture( unsigned int width , unsigned int height , unsigned int texture_id );
-		void attachDepth();
+		void attachTexture( GTexture& texture ) throw (GraphicsException);
+		void attachTexture( unsigned int width , unsigned int height , unsigned int texture_id ) throw (GraphicsException);
+		void attachDepth() throw (GraphicsException);
 
-		void removeDepth();
+		void removeDepth() throw (GraphicsException);
 		unsigned int getDepthId();
 
-		void bind();
+		void bind() throw (GraphicsException);
 
 		int getWidth();
 		int getHeight();
 
-		bool invariant();
+		bool invariant() throw (GraphicsException);
 
-		static void bindDefault();
+		static void bindDefault() throw (GraphicsException);
 	};
 }
 

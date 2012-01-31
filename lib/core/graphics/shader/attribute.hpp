@@ -10,8 +10,8 @@
 
 #include <iostream>
 #include <opengl>
-#include <exception>
 #include <common>
+#include <graphics/graphicsexception.hpp>
 
 namespace bolt
 {
@@ -26,57 +26,57 @@ namespace bolt
 		virtual ~Attribute();
 
 		void setProgram( uint program );
-		void attach( std::string name ) throw (std::exception);
+		void attach( std::string name ) throw (GraphicsException);
 		std::string getName();
 
-		void setPointer( int size , GLenum type , void *ptr );
-		void setPointer( int data_size , GLenum data_type , GLsizei stride );
+		void setPointer( int size , GLenum type , void *ptr ) throw (GraphicsException);
+		void setPointer( int data_size , GLenum data_type , GLsizei stride ) throw (GraphicsException);
 
-		void enable();
-		void disable();
+		void enable() throw (GraphicsException);
+		void disable() throw (GraphicsException);
 
-		void set( float v );
-		void set( float v , float v2 );
-		void set( float v , float v2 , float v3 );
-		void set( float v , float v2 , float v3 , float v4 );
-		void set( double v );
-		void set( double v , double v2 );
-		void set( double v , double v2 , double v3 );
-		void set( double v , double v2 , double v3 , double v4 );
-		void set( short v );
-		void set( short v , short v2 );
-		void set( short v , short v2 , short v3 );
-		void set( short v , short v2 , short v3 , short v4 );
+		void set( float v ) throw (GraphicsException);
+		void set( float v , float v2 ) throw (GraphicsException);
+		void set( float v , float v2 , float v3 ) throw (GraphicsException);
+		void set( float v , float v2 , float v3 , float v4 ) throw (GraphicsException);
+		void set( double v ) throw (GraphicsException);
+		void set( double v , double v2 ) throw (GraphicsException);
+		void set( double v , double v2 , double v3 ) throw (GraphicsException);
+		void set( double v , double v2 , double v3 , double v4 ) throw (GraphicsException);
+		void set( short v ) throw (GraphicsException);
+		void set( short v , short v2 ) throw (GraphicsException);
+		void set( short v , short v2 , short v3 ) throw (GraphicsException);
+		void set( short v , short v2 , short v3 , short v4 ) throw (GraphicsException);
 
-		void set( float *v );
-		void set2( float *v );
-		void set3( float *v );
-		void set4( float *v );
+		void set( float *v ) throw (GraphicsException);
+		void set2( float *v ) throw (GraphicsException);
+		void set3( float *v ) throw (GraphicsException);
+		void set4( float *v ) throw (GraphicsException);
 
-		void set( double *v );
-		void set2( double *v );
-		void set3( double *v );
-		void set4( double *v );
+		void set( double *v ) throw (GraphicsException);
+		void set2( double *v ) throw (GraphicsException);
+		void set3( double *v ) throw (GraphicsException);
+		void set4( double *v ) throw (GraphicsException);
 
-		void set( short *v );
-		void set2( short *v );
-		void set3( short *v );
-		void set4( short *v );
+		void set( short *v ) throw (GraphicsException);
+		void set2( short *v ) throw (GraphicsException);
+		void set3( short *v ) throw (GraphicsException);
+		void set4( short *v ) throw (GraphicsException);
 
-		void set4( int *v );
-		void set4( char *v );
-		void set4( unsigned char *v );
-		void set4( unsigned short *v );
-		void set4( uint *v );
+		void set4( int *v ) throw (GraphicsException);
+		void set4( char *v ) throw (GraphicsException);
+		void set4( unsigned char *v ) throw (GraphicsException);
+		void set4( unsigned short *v ) throw (GraphicsException);
+		void set4( uint *v ) throw (GraphicsException);
 
 		// normalized
-		void setN( unsigned char v , unsigned char v2 , unsigned char v3 , unsigned char v4 );
-		void set4N( char *v );
-		void set4N( short *v );
-		void set4N( int *v );
-		void set4N( unsigned char *v );
-		void set4N( unsigned short *v );
-		void set4N( uint *v );
+		void setN( unsigned char v , unsigned char v2 , unsigned char v3 , unsigned char v4 ) throw (GraphicsException);
+		void set4N( char *v ) throw (GraphicsException);
+		void set4N( short *v ) throw (GraphicsException);
+		void set4N( int *v ) throw (GraphicsException);
+		void set4N( unsigned char *v ) throw (GraphicsException);
+		void set4N( unsigned short *v ) throw (GraphicsException);
+		void set4N( uint *v ) throw (GraphicsException);
 	};
 }
 

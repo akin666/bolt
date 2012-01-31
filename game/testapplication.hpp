@@ -14,7 +14,7 @@
 class TestApplication: public bolt::Application
 {
 protected:
-	int times;
+	int state;
 
 	bool initialized;
 
@@ -26,7 +26,7 @@ public:
 	virtual void initialize() throw (std::exception);
 	virtual void suspend();
 	virtual void resume();
-	virtual void kill();
+	virtual void exit();
 	virtual void restart();
 
 	virtual bool willContinue();

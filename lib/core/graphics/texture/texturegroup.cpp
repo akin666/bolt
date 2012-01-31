@@ -46,11 +46,11 @@ namespace bolt
 		return initialize( maxsize.x , maxsize.y , padding , mode );
 	}
 
-	void TextureGroup::request( Texture& texture ) throw (std::exception)
+	void TextureGroup::request( Texture& texture ) throw (GraphicsException)
 	{
 		if( texture.getDimension().x > max.x || texture.getDimension().y > max.y )
 		{
-			throw std::runtime_error("TextureGroup: texture dimensions, bigger than MAX dimensions.");
+			throw GraphicsException("TextureGroup: texture dimensions, bigger than MAX dimensions.");
 		}
 
 		for( typename std::vector<GTextureAtlas*>::iterator iter = atlases.begin() ; iter != atlases.end() ; ++iter )
@@ -70,13 +70,13 @@ namespace bolt
 		catch( std::exception& e )
 		{
 			delete tt;
-			throw std::runtime_error("TextureGroup: could not initialize texture.");
+			throw GraphicsException("TextureGroup: could not initialize texture.");
 		}
 
 		if( !tt->request( texture.getDimension() , texture.getPosition() ) )
 		{
 			delete tt;
-			throw std::runtime_error("TextureGroup: could not grant request, even from new atlas texture.");
+			throw GraphicsException("TextureGroup: could not grant request, even from new atlas texture.");
 		}
 
 		atlases.push_back( tt );

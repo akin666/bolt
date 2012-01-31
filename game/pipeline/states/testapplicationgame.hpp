@@ -23,6 +23,8 @@ protected:
 	bool initialized;
 	bolt::StringSet dependecies;
 	bolt::ShaderProgram *shaderProgram;
+
+	int times;
 public:
 	TestApplicationGame();
 	virtual ~TestApplicationGame();

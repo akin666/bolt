@@ -20,7 +20,7 @@ namespace bolt
 	{
 	}
 
-	void GTextureAtlas::initialize( const glm::ivec2& dimensions , const int padding , const ColorMode mode ) throw (std::exception)
+	void GTextureAtlas::initialize( const glm::ivec2& dimensions , const int padding , const ColorMode mode ) throw (GraphicsException)
 	{
 		if( !initialized )
 		{
@@ -39,7 +39,7 @@ namespace bolt
 		}
 	}
 
-	void GTextureAtlas::resize( const glm::ivec2& val ) throw (std::exception)
+	void GTextureAtlas::resize( const glm::ivec2& val ) throw (GraphicsException)
 	{
 		//	// TODO! reverting ATLAS back to previous state
 		//	// GTexture probably doesn't change if it fails

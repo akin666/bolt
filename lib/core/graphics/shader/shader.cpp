@@ -21,7 +21,11 @@ namespace bolt
 
 	Shader::~Shader()
 	{
-		reset();
+		try {
+			reset();
+		} catch( ... ) {
+			// ...
+		}
 	}
 
 	uint state;
@@ -50,7 +54,7 @@ namespace bolt
 		}
 	}
 
-	void Shader::createId()
+	void Shader::createId() throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		if( id == GL_NULL )
@@ -174,19 +178,19 @@ namespace bolt
 		return data.size();
 	}
 
-	void Shader::load() throw (std::exception)
+	void Shader::load() throw (GraphicsException)
 	{
 		if( data.size() == 0 )
 		{
 			LOG_ERROR << "Failed to load shader, no data set." << std::endl;
-			throw std::runtime_error("Failed to load shader.");
+			throw GraphicsException("Failed to load shader.");
 		}
 
 		createId();
 
 		if( id == GL_NULL )
 		{
-			throw std::runtime_error("Failed to create shader id.");
+			throw GraphicsException("Failed to create shader id.");
 		}
 
 		setCompiled( false );
@@ -202,7 +206,7 @@ namespace bolt
 		setLoaded( true );
 	}
 
-	void Shader::compile() throw (std::exception)
+	void Shader::compile() throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		glCompileShader( id );
@@ -231,10 +235,10 @@ namespace bolt
 		}
 		GL_TEST_ERROR("end2")
 
-		throw std::runtime_error("Failed to compile shader.");
+		throw GraphicsException("Failed to compile shader.");
 	}
 
-	void Shader::reset()
+	void Shader::reset() throw (GraphicsException)
 	{
 		if( id != GL_NULL )
 		{

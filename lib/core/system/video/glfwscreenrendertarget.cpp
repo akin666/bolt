@@ -31,7 +31,7 @@ GLFWScreenRenderTarget::~GLFWScreenRenderTarget()
 {
 }
 
-void GLFWScreenRenderTarget::bind() throw (std::exception)
+void GLFWScreenRenderTarget::bind() throw (GraphicsException)
 {
 	GL_TEST_ERROR("begin");
 	glBindFramebuffer( GL_FRAMEBUFFER , 0 );
@@ -49,11 +49,11 @@ void GLFWScreenRenderTarget::setFullscreen( bool val )
 	// ehm.. initialized already, so, we need to switch?
 }
 
-void GLFWScreenRenderTarget::initialize() throw (std::exception)
+void GLFWScreenRenderTarget::initialize() throw (GraphicsException)
 {
 	if( initialized )
 	{
-		throw std::runtime_error("GLFWScreenRenderTarget already initialized!.");
+		throw GraphicsException("GLFWScreenRenderTarget already initialized!.");
 	}
 
 	if (glfwOpenWindow(
@@ -67,7 +67,7 @@ void GLFWScreenRenderTarget::initialize() throw (std::exception)
 			mode.getStencilBits(),
 			( fullscreen ? GLFW_FULLSCREEN : GLFW_WINDOW ) ) != GL_TRUE )
 	{
-		throw std::runtime_error("GLFWScreenRenderTarget Failed to open window!.");
+		throw GraphicsException("GLFWScreenRenderTarget Failed to open window!.");
 	}
 
 	initialized = true;

@@ -23,6 +23,7 @@
 #define BUFFEROBJECT_H_
 
 #include "graphics.hpp"
+#include "graphicsexception.hpp"
 
 namespace bolt
 {
@@ -36,18 +37,18 @@ namespace bolt
 		virtual ~BufferObject();
 
 		bool hasInitialized();
-		void initialize();
-		void reserve( const unsigned int bytesize , Graphics::Residence residence = Graphics::gpu , Graphics::Updates updates = Graphics::multipleTimes );
-		void set( const unsigned int bytesize , const void *data , Graphics::Residence residence = Graphics::gpu , Graphics::Updates updates = Graphics::multipleTimes );
+		void initialize() throw (GraphicsException);
+		void reserve( const unsigned int bytesize , Graphics::Residence residence = Graphics::gpu , Graphics::Updates updates = Graphics::multipleTimes ) throw (GraphicsException);
+		void set( const unsigned int bytesize , const void *data , Graphics::Residence residence = Graphics::gpu , Graphics::Updates updates = Graphics::multipleTimes ) throw (GraphicsException);
 
 		unsigned int size() const;
 		unsigned int getID() const;
 
-		void bind( const Graphics::BindStyle style = Graphics::read ) const;
-		void release( const Graphics::BindStyle style = Graphics::read ) const;
+		void bind( const Graphics::BindStyle style = Graphics::read ) const throw (GraphicsException);
+		void release( const Graphics::BindStyle style = Graphics::read ) const throw (GraphicsException);
 
-		unsigned char *bindMemoryMap( const Graphics::BindStyle style = Graphics::read ) const;
-		void releaseMemoryMap( const Graphics::BindStyle style = Graphics::read ) const;
+		unsigned char *bindMemoryMap( const Graphics::BindStyle style = Graphics::read ) const throw (GraphicsException);
+		void releaseMemoryMap( const Graphics::BindStyle style = Graphics::read ) const throw (GraphicsException);
 	};
 }
 

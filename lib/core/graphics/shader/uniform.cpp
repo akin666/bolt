@@ -27,7 +27,7 @@ namespace bolt
 		m_program_id = program;
 	}
 
-	void Uniform::attach( std::string name ) throw (std::exception)
+	void Uniform::attach( std::string name ) throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		m_name = name;
@@ -36,7 +36,7 @@ namespace bolt
 
 		if( m_uniform_id < GL_NULL )
 		{
-			throw std::runtime_error( std::string("Uniform not found ") + name );
+			throw GraphicsException( std::string("Uniform not found ") + name );
 		}
 
 		GL_TEST_ERROR("end")
@@ -47,153 +47,153 @@ namespace bolt
 		return m_name;
 	}
 
-	void Uniform::set(float v)
+	void Uniform::set(float v) throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		glUniform1f( m_uniform_id , v );
 		GL_TEST_ERROR("end")
 	}
-	void Uniform::set(float v, float v2)
+	void Uniform::set(float v, float v2) throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		glUniform2f( m_uniform_id , v , v2 );
 		GL_TEST_ERROR("end")
 	}
-	void Uniform::set(float v, float v2, float v3)
+	void Uniform::set(float v, float v2, float v3) throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		glUniform3f( m_uniform_id , v , v2 , v3 );
 		GL_TEST_ERROR("end")
 	}
-	void Uniform::set(float v, float v2, float v3, float v4)
+	void Uniform::set(float v, float v2, float v3, float v4) throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		glUniform4f( m_uniform_id , v , v2 , v3 , v4 );
 		GL_TEST_ERROR("end")
 	}
-	void Uniform::set(int v)
+	void Uniform::set(int v) throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		glUniform1i( m_uniform_id , v );
 		GL_TEST_ERROR("end")
 	}
-	void Uniform::set(int v, int v2)
+	void Uniform::set(int v, int v2) throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		glUniform2i( m_uniform_id , v , v2 );
 		GL_TEST_ERROR("end")
 	}
-	void Uniform::set(int v, int v2, int v3)
+	void Uniform::set(int v, int v2, int v3) throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		glUniform3i( m_uniform_id , v , v2 , v3 );
 		GL_TEST_ERROR("end")
 	}
-	void Uniform::set(int v, int v2, int v3, int v4)
+	void Uniform::set(int v, int v2, int v3, int v4) throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		glUniform4i( m_uniform_id , v , v2 , v3 , v4 );
 		GL_TEST_ERROR("end")
 	}
-	void Uniform::set(float *v, int size)
+	void Uniform::set(float *v, int size) throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		glUniform1fv( m_uniform_id , size , v );
 		GL_TEST_ERROR("end")
 	}
-	void Uniform::set2(float *v, int size)
+	void Uniform::set2(float *v, int size) throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		glUniform2fv( m_uniform_id , size , v );
 		GL_TEST_ERROR("end")
 	}
-	void Uniform::set3(float *v, int size)
+	void Uniform::set3(float *v, int size) throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		glUniform3fv( m_uniform_id , size , v );
 		GL_TEST_ERROR("end")
 	}
-	void Uniform::set4(float *v, int size)
+	void Uniform::set4(float *v, int size) throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		glUniform4fv( m_uniform_id , size , v );
 		GL_TEST_ERROR("end")
 	}
-	void Uniform::set(int *v, int size)
+	void Uniform::set(int *v, int size) throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		glUniform1iv( m_uniform_id , size , v );
 		GL_TEST_ERROR("end")
 	}
-	void Uniform::set2(int *v, int size)
+	void Uniform::set2(int *v, int size) throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		glUniform2iv( m_uniform_id , size , v );
 		GL_TEST_ERROR("end")
 	}
-	void Uniform::set3(int *v, int size)
+	void Uniform::set3(int *v, int size) throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		glUniform3iv( m_uniform_id , size , v );
 		GL_TEST_ERROR("end")
 	}
-	void Uniform::set4(int *v, int size)
+	void Uniform::set4(int *v, int size) throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		glUniform4iv( m_uniform_id , size , v );
 		GL_TEST_ERROR("end")
 	}
-	void Uniform::setMatrix4( const float *v , int size )
+	void Uniform::setMatrix4( const float *v , int size ) throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		glUniformMatrix4fv( m_uniform_id , size , GL_FALSE , v );
 		GL_TEST_ERROR("end")
 	}
 
-	void Uniform::set( const glm::mat4x4& matrix )
+	void Uniform::set( const glm::mat4x4& matrix ) throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		glUniformMatrix4fv( m_uniform_id , 1 , GL_FALSE , &matrix[0][0] );
 		GL_TEST_ERROR("end")
 	}
-	void Uniform::set( const glm::vec2& vec )
+	void Uniform::set( const glm::vec2& vec ) throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		glUniform2f( m_uniform_id , vec.x , vec.y );
 		GL_TEST_ERROR("end")
 	}
-	void Uniform::set( const glm::vec3& vec )
+	void Uniform::set( const glm::vec3& vec ) throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		glUniform3f( m_uniform_id , vec.x , vec.y , vec.z );
 		GL_TEST_ERROR("end")
 	}
-	void Uniform::set( const glm::vec4& vec )
+	void Uniform::set( const glm::vec4& vec ) throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		glUniform4f( m_uniform_id , vec.x , vec.y , vec.z , vec.w );
 		GL_TEST_ERROR("end")
 	}
-	void Uniform::set( const glm::ivec2& vec )
+	void Uniform::set( const glm::ivec2& vec ) throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		glUniform2i( m_uniform_id , vec.x , vec.y );
 		GL_TEST_ERROR("end")
 	}
-	void Uniform::set( const glm::ivec3& vec )
+	void Uniform::set( const glm::ivec3& vec ) throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		glUniform3i( m_uniform_id , vec.x , vec.y , vec.z );
 		GL_TEST_ERROR("end")
 	}
-	void Uniform::set( const glm::ivec4& vec )
+	void Uniform::set( const glm::ivec4& vec ) throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		glUniform4i( m_uniform_id , vec.x , vec.y , vec.z , vec.w );
 		GL_TEST_ERROR("end")
 	}
 
-	void Uniform::bindTexture( int texture_unit , uint texture_id )
+	void Uniform::bindTexture( int texture_unit , uint texture_id ) throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		// Bind the texture
@@ -205,7 +205,7 @@ namespace bolt
 		GL_TEST_ERROR("end")
 	}
 
-	void Uniform::bindTexture( const Texture& texture , int texture_unit )
+	void Uniform::bindTexture( const Texture& texture , int texture_unit ) throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		// Bind the texture

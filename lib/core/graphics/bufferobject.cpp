@@ -24,7 +24,7 @@ namespace bolt
 		}
 	}
 
-	void BufferObject::initialize()
+	void BufferObject::initialize() throw (GraphicsException)
 	{
 		// create ID.
 		if( id == GL_NULL )
@@ -38,12 +38,12 @@ namespace bolt
 		return id != GL_NULL;
 	}
 
-	void BufferObject::reserve( const unsigned int bytesize , Graphics::Residence residence , Graphics::Updates updates )
+	void BufferObject::reserve( const unsigned int bytesize , Graphics::Residence residence , Graphics::Updates updates ) throw (GraphicsException)
 	{
 		set( bytesize , 0 , residence , updates );
 	}
 
-	void BufferObject::set( const unsigned int bytesize , const void *data , Graphics::Residence residence , Graphics::Updates updates )
+	void BufferObject::set( const unsigned int bytesize , const void *data , Graphics::Residence residence , Graphics::Updates updates ) throw (GraphicsException)
 	{
 		GL_TEST_ERROR("BufferObject:set START.");
 		initialize();
@@ -58,7 +58,7 @@ namespace bolt
 	}
 
 
-	void BufferObject::bind( const Graphics::BindStyle style ) const
+	void BufferObject::bind( const Graphics::BindStyle style ) const throw (GraphicsException)
 	{
 		int bindStyle;
 
@@ -73,7 +73,7 @@ namespace bolt
 		glBindBuffer( bindStyle , id );
 	}
 
-	void BufferObject::release( const Graphics::BindStyle style ) const
+	void BufferObject::release( const Graphics::BindStyle style ) const throw (GraphicsException)
 	{
 		int bindStyle;
 
@@ -88,7 +88,7 @@ namespace bolt
 		glBindBuffer( bindStyle , GL_NULL );
 	}
 
-	unsigned char *BufferObject::bindMemoryMap( const Graphics::BindStyle style ) const
+	unsigned char *BufferObject::bindMemoryMap( const Graphics::BindStyle style ) const throw (GraphicsException)
 	{
 		GL_TEST_ERROR("BufferObject:bindMemoryMap START.");
 		int buffstyle;
@@ -108,7 +108,7 @@ namespace bolt
 		return ptr;
 	}
 
-	void BufferObject::releaseMemoryMap( const Graphics::BindStyle style ) const
+	void BufferObject::releaseMemoryMap( const Graphics::BindStyle style ) const throw (GraphicsException)
 	{
 		glUnmapBuffer( (style == Graphics::write ? GL_PIXEL_PACK_BUFFER : GL_PIXEL_UNPACK_BUFFER ) );
 	}

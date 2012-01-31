@@ -28,7 +28,7 @@ VideoMode& RenderTarget::getVideoMode()
 	return mode;
 }
 
-void RenderTarget::bind() throw (std::exception)
+void RenderTarget::bind() throw (GraphicsException)
 {
 }
 

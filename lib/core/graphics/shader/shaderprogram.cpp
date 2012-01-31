@@ -48,7 +48,7 @@ namespace bolt
 		return m_id;
 	}
 
-	Attribute *ShaderProgram::insertAttribute( std::string key ) throw (std::exception)
+	Attribute *ShaderProgram::insertAttribute( std::string key ) throw (GraphicsException)
 	{
 		Attribute *att = NULL;
 
@@ -65,10 +65,10 @@ namespace bolt
 			delete att;
 			att = NULL;
 		}
-		throw std::runtime_error("Insert attribute failed.");
+		throw GraphicsException("Insert attribute failed.");
 	}
 
-	Uniform *ShaderProgram::insertUniform( std::string key ) throw (std::exception)
+	Uniform *ShaderProgram::insertUniform( std::string key ) throw (GraphicsException)
 	{
 		Uniform *uni = NULL;
 		try
@@ -84,10 +84,10 @@ namespace bolt
 			delete uni;
 			uni = NULL;
 		}
-		throw std::runtime_error("Insert uniform failed.");
+		throw GraphicsException("Insert uniform failed.");
 	}
 
-	Attribute *ShaderProgram::getAttribute( std::string key ) throw (std::exception)
+	Attribute *ShaderProgram::getAttribute( std::string key ) throw (GraphicsException)
 	{
 		std::map< std::string , Attribute * >::iterator iter = attributes.find( key );
 
@@ -100,7 +100,7 @@ namespace bolt
 
 			if( m_fff < 0 )
 			{
-				throw std::runtime_error(std::string("[attribute location not found] ") + key );
+				throw GraphicsException(std::string("[attribute location not found] ") + key );
 				return NULL;
 			}
 
@@ -110,7 +110,7 @@ namespace bolt
 		return iter->second;
 	}
 
-	Uniform *ShaderProgram::getUniform( std::string key ) throw (std::exception)
+	Uniform *ShaderProgram::getUniform( std::string key ) throw (GraphicsException)
 	{
 		std::map< std::string , Uniform * >::iterator iter = uniforms.find( key );
 
@@ -123,7 +123,7 @@ namespace bolt
 
 			if( m_fff < 0 )
 			{
-				throw std::runtime_error(std::string("[uniform location not found] ") + key );
+				throw GraphicsException(std::string("[uniform location not found] ") + key );
 				return NULL;
 			}
 
@@ -133,14 +133,14 @@ namespace bolt
 		return iter->second;
 	}
 
-	void ShaderProgram::bind() throw (std::exception)
+	void ShaderProgram::bind() throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		glUseProgram( m_id );
 		GL_TEST_ERROR("end")
 	}
 
-	void ShaderProgram::bindDefault()
+	void ShaderProgram::bindDefault() throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		glUseProgram( 0 );
@@ -148,12 +148,12 @@ namespace bolt
 	}
 
 	// Shader creation functionality:
-	void ShaderProgram::attach( Shader *piece ) throw (std::exception)
+	void ShaderProgram::attach( Shader *piece ) throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		if( piece == NULL )
 		{
-			throw std::runtime_error("Error, cannot attach NULL shader to program");
+			throw GraphicsException("Error, cannot attach NULL shader to program");
 		}
 		tryCreatingShaderProgram( m_id );
 		linking = false;
@@ -162,7 +162,7 @@ namespace bolt
 		GL_TEST_ERROR("end")
 	}
 
-	void ShaderProgram::link() throw (std::exception)
+	void ShaderProgram::link() throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		glLinkProgram( m_id );
@@ -178,7 +178,7 @@ namespace bolt
 		}
 	}
 
-	std::string ShaderProgram::getError()
+	std::string ShaderProgram::getError() throw (GraphicsException)
 	{
 		GL_TEST_ERROR("begin")
 		if( m_id == GL_NULL )

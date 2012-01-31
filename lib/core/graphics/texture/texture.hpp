@@ -10,6 +10,7 @@
 
 #include <glm/glm>
 #include "gtexture.hpp"
+#include <graphics/graphicsexception.hpp>
 
 namespace bolt
 {
@@ -36,8 +37,8 @@ namespace bolt
 
 		GTexture *getG();
 
-		void bind();
-		void release();
+		void bind() throw (GraphicsException);
+		void release() throw (GraphicsException);
 		void setTexture( GTexture *texture );
 
 		unsigned int getId() const;

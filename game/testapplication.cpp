@@ -68,7 +68,7 @@ void TestApplication::initialize() throw (std::exception)
 
 
 	// Setup rest.
-	times = 100;
+	state = 1;
 
 	bolt::Pipeline *pipeline = bolt::getSingleton<bolt::Pipeline>();
 
@@ -101,8 +101,9 @@ void TestApplication::resume()
 {
 }
 
-void TestApplication::kill()
+void TestApplication::exit()
 {
+	state = -1;
 }
 
 void TestApplication::restart()
@@ -111,7 +112,7 @@ void TestApplication::restart()
 
 bool TestApplication::willContinue()
 {
-	return times > 0;
+	return state > 0;
 }
 
 bool TestApplication::willRestart()
@@ -186,8 +187,6 @@ void TestApplication::run()
 		}
 	}
 	*/
-
-	--times;
 
 	// Bind default screen
 	bolt::getSingleton<bolt::Video>()->getRenderTarget().bind();

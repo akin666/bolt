@@ -9,9 +9,9 @@
 #define SHADER_H_
 
 #include <string>
-#include <exception>
 #include <common>
 #include <data>
+#include <graphics/graphicsexception.hpp>
 
 namespace bolt
 {
@@ -56,10 +56,10 @@ namespace bolt
 		uint size();
 	public:
 		// GL commands! only call from GL thread.
-		void createId();
-		void compile() throw (std::exception);
-		void load() throw (std::exception);
-		void reset();
+		void createId() throw (GraphicsException);
+		void compile() throw (GraphicsException);
+		void load() throw (GraphicsException);
+		void reset() throw (GraphicsException);
 	};
 }
 
