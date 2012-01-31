@@ -43,6 +43,15 @@ namespace bolt
 
 	GTexture::~GTexture()
 	{
+		// http://www.parashift.com/c++-faq-lite/exceptions.html#faq-17.9
+//		Write a message to a log-file. Or call Aunt Tilda. But do not throw an exception!
+//		Here's why (buckle your seat-belts):
+//		The C++ rule is that you must never throw an exception from a destructor that is being called during the "stack unwinding" process of another exception. For example, if someone says throw Foo(), the stack will be unwound so all the stack frames between the throw Foo() and the } catch (Foo e) { will get popped. This is called stack unwinding.
+//		During stack unwinding, all the local objects in all those stack frames are destructed. If one of those destructors throws an exception (say it throws a Bar object), the C++ runtime system is in a no-win situation: should it ignore the Bar and end up in the } catch (Foo e) { where it was originally headed? Should it ignore the Foo and look for a } catch (Bar e) { handler? There is no good answer — either choice loses information.
+//		So the C++ language guarantees that it will call terminate() at this point, and terminate() kills the process. Bang you're dead.
+//		The easy way to prevent this is never throw an exception from a destructor. But if you really want to be clever, you can say never throw an exception from a destructor while processing another exception. But in this second case, you're in a difficult situation: the destructor itself needs code to handle both throwing an exception and doing "something else", and the caller has no guarantees as to what might happen when the destructor detects an error (it might throw an exception, it might do "something else"). So the whole solution is harder to write. So the easy thing to do is always do "something else". That is, never throw an exception from a destructor.
+//		Of course the word never should be "in quotes" since there is always some situation somewhere where the rule won't hold. But certainly at least 99% of the time this is a good rule of thumb.
+
 		try
 		{
 			destroy();
