@@ -6,6 +6,7 @@
  */
 
 #include "keyboardcontroller.hpp"
+#include <component/entity.hpp>
 
 namespace bolt
 {

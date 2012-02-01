@@ -19,7 +19,7 @@ class NameProperty: public bolt::Property
 public:
 	const static std::string KEY;
 protected:
-	std::map< bolt::Entity , std::string > data;
+	std::map< uint , std::string > data;
 public:
 	NameProperty();
 	virtual ~NameProperty();

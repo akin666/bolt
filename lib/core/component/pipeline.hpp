@@ -14,10 +14,10 @@
 #include <tque>
 #include "tools/controllernode.hpp"
 #include <merge>
-#include "entity.hpp"
 
 namespace bolt
 {
+class Entity;
 class Controller;
 class Pipeline
 {

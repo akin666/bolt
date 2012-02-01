@@ -6,6 +6,7 @@
  */
 
 #include "joystickcontroller.hpp"
+#include <component/entity.hpp>
 
 namespace bolt
 {

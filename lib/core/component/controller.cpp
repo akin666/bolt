@@ -6,6 +6,7 @@
  */
 
 #include "controller.hpp"
+#include "entity.hpp"
 
 namespace bolt
 {

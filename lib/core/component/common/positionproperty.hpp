@@ -26,7 +26,7 @@ public:
 	};
 
 protected:
-	std::map< bolt::Entity , Data > data;
+	std::map< uint , Data > data;
 public:
 	PositionProperty();
 	virtual ~PositionProperty();

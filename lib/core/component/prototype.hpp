@@ -9,7 +9,6 @@
 #define PROTOTYPE_HPP_
 
 #include <set>
-#include "entity.hpp"
 #include "controller.hpp"
 
 namespace bolt
@@ -17,6 +16,7 @@ namespace bolt
 
 typedef std::set<Controller*> ControllerSet;
 
+class Entity;
 class Prototype
 {
 protected:

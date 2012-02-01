@@ -27,24 +27,24 @@ void NameProperty::initialize() throw (std::exception)
 void NameProperty::attach( bolt::Entity& entity )
 {
 	// already attached?
-	if( data.find( entity ) != data.end() )
+	if( data.find( entity.getId() ) != data.end() )
 	{
 		return;
 	}
 
-	data[entity] = "";
+	data[entity.getId()] = "";
 }
 
 void NameProperty::detach( bolt::Entity& entity )
 {
-	if( data.find( entity ) != data.end() )
+	if( data.find( entity.getId() ) != data.end() )
 	{
-		data.erase( entity );
+		data.erase( entity.getId() );
 	}
 }
 
 std::string& NameProperty::get( bolt::Entity& entity )
 {
-	return data[entity];
+	return data[entity.getId()];
 }
 }

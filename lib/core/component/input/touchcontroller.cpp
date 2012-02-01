@@ -6,6 +6,7 @@
  */
 
 #include "touchcontroller.hpp"
+#include <component/entity.hpp>
 
 namespace bolt
 {

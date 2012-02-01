@@ -8,6 +8,7 @@
 #include "pipeline.hpp"
 #include "controller.hpp"
 #include "tools/controllernode.hpp"
+#include "entity.hpp"
 
 namespace bolt
 {
@@ -53,7 +54,7 @@ void Pipeline::removeEntity( Entity& entity )
 
 	for( std::map<std::string , ControllerNode*>::iterator iter = nameMap.begin() ; iter != nameMap.end() ; ++iter )
 	{
-		iter->second->controller.detach( entity );
+		iter->second->get().detach( entity );
 	}
 }
 

@@ -9,15 +9,16 @@
 #define CONTROLLER_HPP_
 
 #include <exception>
-#include "entity.hpp"
 #include <set>
 #include <string>
+#include <common>
 
 namespace bolt
 {
 
 typedef std::set<std::string> StringSet;
 
+class Entity;
 class ComponentWork;
 class ControllerNode;
 class Controller

@@ -5,7 +5,7 @@
  *      Author: akin
  */
 
-#include "entity.cpp"
+#include "entity.hpp"
 
 namespace bolt
 {
