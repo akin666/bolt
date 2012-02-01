@@ -10,13 +10,13 @@
 
 #include <set>
 #include "controller.hpp"
+#include "entity.hpp"
 
 namespace bolt
 {
 
 typedef std::set<Controller*> ControllerSet;
 
-class Entity;
 class Prototype
 {
 protected:

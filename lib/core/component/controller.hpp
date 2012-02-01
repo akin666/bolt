@@ -12,13 +12,13 @@
 #include <set>
 #include <string>
 #include <common>
+#include "entity.hpp"
 
 namespace bolt
 {
 
 typedef std::set<std::string> StringSet;
 
-class Entity;
 class ComponentWork;
 class ControllerNode;
 class Controller
