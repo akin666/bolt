@@ -19,6 +19,7 @@ protected:
 	bolt::StringSet dependecies;
 
 	bool loadComplete;
+	bool loadBGComplete;
 public:
 	LoadController();
 	virtual ~LoadController();

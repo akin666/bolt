@@ -16,6 +16,7 @@
 #include <data>
 #include <graphics/shader/shader.hpp>
 #include <graphics/shader/shaderprogram.hpp>
+#include "../backgroundrenderer.hpp"
 
 #include "testapplicationgame.hpp"
 
@@ -47,6 +48,14 @@ void LoadController::initialize() throw (std::exception)
 
 	initialized = true;
 	loadComplete = false;
+
+	// Load the BGRenderer & shaders to it..
+	bolt::resource::link( "backgroundVS" , "resources/shader/postprocess/post.vs" );
+	bolt::resource::link( "backgroundFS" , "resources/shader/postprocess/inverse.fs" );
+	bolt::resource::load( "backgroundVS" );
+	bolt::resource::load( "backgroundFS" );
+
+	loadBGComplete = false;
 }
 
 void LoadController::start( bolt::ControllerNode& node )
@@ -89,6 +98,52 @@ void LoadController::start( bolt::ControllerNode& node )
 		}
 	}
 
+	if( !loadBGComplete )
+	{
+		if( bolt::resource::hasObject<bolt::Shader>( "backgroundVS" ) &&
+			bolt::resource::hasObject<bolt::Shader>( "backgroundFS" )  )
+		{
+			// It has both Shaders.. Create em, Link em and create program!
+			bolt::ShaderProgram *program = new bolt::ShaderProgram;
+
+			bolt::Shader *vertex = bolt::resource::getObject<bolt::Shader>( "backgroundVS" );
+			bolt::Shader *fragment = bolt::resource::getObject<bolt::Shader>( "backgroundFS" );
+
+			vertex->load();
+			fragment->load();
+
+			vertex->compile();
+			fragment->compile();
+
+			program->attach( vertex );
+			program->attach( fragment );
+
+			program->link();
+
+			if( program->linked() )
+			{
+				bolt::resource::link( "BackgroundShader" );
+				bolt::resource::setObject<bolt::ShaderProgram>( "BackgroundShader" , program );
+
+				loadBGComplete = true;
+
+				// Create BackgroundRenderer & attach it also. here.
+				bolt::BackgroundRenderer *bgrender = bolt::createSingleton<bolt::BackgroundRenderer>();
+				bgrender->initialize();
+				bgrender->setShaderProgram( program );
+
+				// attach the backgroundrenderer to the pipeline.
+				bolt::getSingleton<bolt::Pipeline>()->attach( bgrender );
+
+				LOG_OUT << "BackgroundShader Shader program is loaded! " << std::endl;
+			}
+			else
+			{
+				delete program;
+			}
+		}
+	}
+
 	/*
 	if( bolt::createSingleton<bolt::resource::Registry<bolt::TextData> >()->hasObject( "config" ))
 	{
@@ -101,7 +156,7 @@ void LoadController::start( bolt::ControllerNode& node )
 	}
 	*/
 
-	if( loadComplete )
+	if( loadComplete && loadBGComplete )
 	{
 		LOG_OUT << "Load phase Completed." << std::endl;
 		// TestApplication!
