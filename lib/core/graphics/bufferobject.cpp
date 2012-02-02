@@ -64,10 +64,11 @@ namespace bolt
 
 		switch( style )
 		{
-			case Graphics::write : bindStyle = GL_PIXEL_PACK_BUFFER; break;
-			case Graphics::read : bindStyle = GL_PIXEL_UNPACK_BUFFER; break;
-			case Graphics::arrayBuffer : bindStyle = GL_ARRAY_BUFFER; break;
-			default : bindStyle = GL_PIXEL_PACK_BUFFER; break;
+			case Graphics::write : bindStyle = 				GL_PIXEL_PACK_BUFFER; break;
+			case Graphics::read : bindStyle = 				GL_PIXEL_UNPACK_BUFFER; break;
+			case Graphics::arrayBuffer : bindStyle = 		GL_ARRAY_BUFFER; break;
+			case Graphics::elementArrayBuffer : bindStyle=	GL_ELEMENT_ARRAY_BUFFER; break;
+			default : bindStyle = 							GL_PIXEL_PACK_BUFFER; break;
 		}
 
 		glBindBuffer( bindStyle , id );
@@ -79,10 +80,11 @@ namespace bolt
 
 		switch( style )
 		{
-			case Graphics::write : bindStyle = GL_PIXEL_PACK_BUFFER; break;
-			case Graphics::read : bindStyle = GL_PIXEL_UNPACK_BUFFER; break;
-			case Graphics::arrayBuffer : bindStyle = GL_ARRAY_BUFFER; break;
-			default : bindStyle = GL_PIXEL_PACK_BUFFER; break;
+			case Graphics::write : bindStyle = 				GL_PIXEL_PACK_BUFFER; break;
+			case Graphics::read : bindStyle = 				GL_PIXEL_UNPACK_BUFFER; break;
+			case Graphics::arrayBuffer : bindStyle = 		GL_ARRAY_BUFFER; break;
+			case Graphics::elementArrayBuffer : bindStyle=	GL_ELEMENT_ARRAY_BUFFER; break;
+			default : bindStyle = 							GL_PIXEL_PACK_BUFFER; break;
 		}
 
 		glBindBuffer( bindStyle , GL_NULL );
@@ -95,10 +97,10 @@ namespace bolt
 
 		switch( style )
 		{
-			case Graphics::read : buffstyle = GL_READ_ONLY; break;
-			case Graphics::write : buffstyle = GL_WRITE_ONLY; break;
-			case Graphics::readAndWrite : buffstyle = GL_READ_WRITE; break;
-			default: buffstyle = GL_READ_ONLY; break;
+			case Graphics::read : buffstyle = 			GL_READ_ONLY; break;
+			case Graphics::write : buffstyle = 			GL_WRITE_ONLY; break;
+			case Graphics::readAndWrite : buffstyle = 	GL_READ_WRITE; break;
+			default: buffstyle = 						GL_READ_ONLY; break;
 		}
 
 		GLubyte* ptr = (GLubyte*)glMapBufferARB( (style == Graphics::write ? GL_PIXEL_PACK_BUFFER : GL_PIXEL_UNPACK_BUFFER ) , buffstyle );

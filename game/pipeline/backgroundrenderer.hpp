@@ -9,6 +9,7 @@
 #define BACKGROUNDRENDERER_HPP_
 
 #include <component/controller.hpp>
+#include <graphics/bufferobject.hpp>
 
 namespace bolt
 {
@@ -19,6 +20,9 @@ public:
 	const static std::string KEY;
 protected:
 	ShaderProgram *program;
+
+	BufferObject vertexBuffer;
+	BufferObject indexBuffer;
 public:
 	BackgroundRenderer();
 	virtual ~BackgroundRenderer();

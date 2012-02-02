@@ -18,7 +18,8 @@ namespace bolt
 			read = 0,
 			write = 1,
 			readAndWrite = 2,
-			arrayBuffer = 3
+			arrayBuffer = 3,
+			elementArrayBuffer = 4
 		};
 
 		enum Residence

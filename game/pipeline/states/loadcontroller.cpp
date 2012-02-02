@@ -50,8 +50,8 @@ void LoadController::initialize() throw (std::exception)
 	loadComplete = false;
 
 	// Load the BGRenderer & shaders to it..
-	bolt::resource::link( "backgroundVS" , "resources/shader/postprocess/post.vs" );
-	bolt::resource::link( "backgroundFS" , "resources/shader/postprocess/inverse.fs" );
+	bolt::resource::link( "backgroundVS" , "resources/shader/background/screen.vs" );
+	bolt::resource::link( "backgroundFS" , "resources/shader/background/inverse.fs" );
 	bolt::resource::load( "backgroundVS" );
 	bolt::resource::load( "backgroundFS" );
 

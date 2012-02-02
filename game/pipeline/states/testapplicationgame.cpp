@@ -40,7 +40,7 @@ void TestApplicationGame::initialize() throw (std::exception)
 		shaderProgram = NULL;
 	}
 
-	times = 10;
+	times = 40;
 
 	initialized = true;
 }
@@ -49,8 +49,8 @@ void TestApplicationGame::start( bolt::ControllerNode& node )
 {
 	if( --times <= 0 )
 	{
+		LOG_OUT << "TestApplicationGame exit" << std::endl;
 		bolt::getSingleton<bolt::Application>()->exit();
 	}
-	LOG_OUT << "TestApplicationGame start" << std::endl;
 }
 
