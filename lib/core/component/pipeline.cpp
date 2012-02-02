@@ -170,8 +170,8 @@ void Pipeline::run() throw (std::exception)
 		{
 			current = *iter;
 
-			// already running or finished, do not run again.
-			if( current->getCycle() >= cycle || current->isRunning() )
+			// already finished, do not run again.
+			if( current->getCycle() >= cycle )
 			{
 				continue;
 			}

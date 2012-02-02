@@ -527,7 +527,7 @@ namespace bolt
 
 		BufferObject bo;
 
-		bo.reserve( dimensions.x*dimensions.y*bytes , Graphics::gpu , Graphics::multipleTimes );
+		bo.reserve( dimensions.x*dimensions.y*bytes , Graphics::write , Graphics::gpu , Graphics::multipleTimes );
 
 		glBindTexture(GL_TEXTURE_2D, texture_id );
 
@@ -637,7 +637,7 @@ namespace bolt
 
 		BufferObject bo;
 
-		bo.set( dim.x*dim.y*bytes , data , Graphics::cpu , Graphics::once );
+		bo.set( dim.x*dim.y*bytes , data , Graphics::write , Graphics::cpu , Graphics::once );
 
 		// stream from PBO
 		bo.bind( Graphics::read );

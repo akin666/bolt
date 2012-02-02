@@ -40,31 +40,47 @@ void BackgroundRenderer::getDependencies(bolt::StringSet & dep)
 
 void BackgroundRenderer::initialize() throw (std::exception)
 {
-	float screen_vertices[12] = {
-			-1.0f,	-1.0f,	0.0f,
-			-1.0f,	1.0f,	0.0f,
-			1.0f,	-1.0f,	0.0f,
-			1.0f,	1.0f,	0.0f
-	};
-
-	unsigned int screen_indices[4] = {
-			0,1,2,3
-	};
-
-	vertexBuffer.set( 12*sizeof(float) , screen_vertices , Graphics::gpu , Graphics::once );
-	indexBuffer.set( 4*sizeof(unsigned int) , screen_indices , Graphics::gpu , Graphics::once );
 }
 
+int initti = 0;
 void BackgroundRenderer::start( bolt::ControllerNode& node )
 {
 	if( program != NULL )
 	{
+		if( initti == 0 )
+		{
+
+			float screen_vertices[12] = {
+					-1.0f,	-1.0f,	0.0f,
+					-1.0f,	1.0f,	0.0f,
+					1.0f,	-1.0f,	0.0f,
+					1.0f,	1.0f,	0.0f
+			};
+
+			unsigned int screen_indices[4] = {
+					0,1,2,3
+			};
+
+		    glEnableClientState( GL_VERTEX_ARRAY );
+		    glEnableClientState( GL_INDEX_ARRAY );
+
+			vertexBuffer.set( 12*sizeof(float) , screen_vertices , Graphics::arrayBuffer , Graphics::gpu , Graphics::once );
+			indexBuffer.set( 4*sizeof(unsigned int) , screen_indices , Graphics::elementArrayBuffer , Graphics::gpu , Graphics::once );
+
+			initti = 1;
+		}
+
+		glClearColor(0.0f,0.3f,0.5,1.0f);
+		glClearDepth(1000.0f);
+		glDepthFunc(GL_LEQUAL);
+		glEnable(GL_DEPTH_TEST);
+		glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+
 		// Render a QUAD using shader program..
 		program->bind();
+		GL_TEST_ERROR("start");
 
-		glDisable( GL_DEPTH_TEST );
-
-	    glLoadIdentity();
+		glViewport( 0 , 0 , 800 , 600 );
 
 	    vertexBuffer.bind( Graphics::arrayBuffer );
 	    indexBuffer.bind( Graphics::elementArrayBuffer );
@@ -73,6 +89,7 @@ void BackgroundRenderer::start( bolt::ControllerNode& node )
 		glVertexPointer( 3, GL_FLOAT , 3*sizeof(float) , 0 );
 
 		glDrawElements(GL_TRIANGLE_STRIP, 4 , GL_UNSIGNED_INT, 0 );
+		GL_TEST_ERROR("end");
 	}
 }
 

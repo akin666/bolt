@@ -120,12 +120,14 @@ namespace bolt
 		vertexBuffer.set(
 				vertexCount * sizeof(glm::vec3) ,
 				&vertexes[0],
+				Graphics::write,
 				Graphics::gpu,
 				Graphics::once );
 
 		textureBuffer.set(
 				vertexCount * sizeof(glm::vec2) ,
 				&textureCoordinates[0],
+				Graphics::write,
 				Graphics::gpu,
 				Graphics::once );
 
