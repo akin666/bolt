@@ -11,6 +11,7 @@
 #include <component/common/fencecontroller.hpp>
 #include <opengl>
 #include <graphics/shader/shaderprogram.hpp>
+#include <graphics/shader/uniform.hpp>
 #include <component/common/fencecontroller.hpp>
 
 namespace bolt
@@ -30,6 +31,9 @@ BackgroundRenderer::~BackgroundRenderer()
 void BackgroundRenderer::setShaderProgram( ShaderProgram *app )
 {
 	program = app;
+
+	resolution = app->getUniform("resolution");
+	time = app->getUniform("time");
 }
 
 void BackgroundRenderer::getDependencies(bolt::StringSet & dep)
@@ -40,47 +44,43 @@ void BackgroundRenderer::getDependencies(bolt::StringSet & dep)
 
 void BackgroundRenderer::initialize() throw (std::exception)
 {
+	float screen_vertices[12] = {
+			-1.0f,	-1.0f,	0.0f,
+			-1.0f,	1.0f,	0.0f,
+			1.0f,	-1.0f,	0.0f,
+			1.0f,	1.0f,	0.0f
+	};
+
+	unsigned int screen_indices[4] = {
+			0,1,2,3
+	};
+
+    glEnableClientState( GL_VERTEX_ARRAY );
+    glEnableClientState( GL_INDEX_ARRAY );
+
+	vertexBuffer.set( 12*sizeof(float) , screen_vertices , Graphics::arrayBuffer , Graphics::gpu , Graphics::once );
+	indexBuffer.set( 4*sizeof(unsigned int) , screen_indices , Graphics::elementArrayBuffer , Graphics::gpu , Graphics::once );
 }
 
-int initti = 0;
 void BackgroundRenderer::start( bolt::ControllerNode& node )
 {
 	if( program != NULL )
 	{
-		if( initti == 0 )
-		{
-
-			float screen_vertices[12] = {
-					-1.0f,	-1.0f,	0.0f,
-					-1.0f,	1.0f,	0.0f,
-					1.0f,	-1.0f,	0.0f,
-					1.0f,	1.0f,	0.0f
-			};
-
-			unsigned int screen_indices[4] = {
-					0,1,2,3
-			};
-
-		    glEnableClientState( GL_VERTEX_ARRAY );
-		    glEnableClientState( GL_INDEX_ARRAY );
-
-			vertexBuffer.set( 12*sizeof(float) , screen_vertices , Graphics::arrayBuffer , Graphics::gpu , Graphics::once );
-			indexBuffer.set( 4*sizeof(unsigned int) , screen_indices , Graphics::elementArrayBuffer , Graphics::gpu , Graphics::once );
-
-			initti = 1;
-		}
-
-		glClearColor(0.0f,0.3f,0.5,1.0f);
-		glClearDepth(1000.0f);
-		glDepthFunc(GL_LEQUAL);
-		glEnable(GL_DEPTH_TEST);
-		glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
-
 		// Render a QUAD using shader program..
 		program->bind();
 		GL_TEST_ERROR("start");
 
-		glViewport( 0 , 0 , 800 , 600 );
+
+		float currentTime = myTime.getCurrentTime() * 0.001f;
+		glm::vec2 windowResolution;
+
+		windowResolution.x = 800;
+		windowResolution.y = 600;
+
+		time->set( currentTime );
+		resolution->set( windowResolution );
+
+		glViewport( 0 , 0 , windowResolution.x , windowResolution.y );
 
 	    vertexBuffer.bind( Graphics::arrayBuffer );
 	    indexBuffer.bind( Graphics::elementArrayBuffer );

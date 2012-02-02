@@ -40,7 +40,7 @@ void TestApplicationGame::initialize() throw (std::exception)
 		shaderProgram = NULL;
 	}
 
-	times = 40;
+	times = 1000;
 
 	initialized = true;
 }

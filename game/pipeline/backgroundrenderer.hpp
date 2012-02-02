@@ -10,16 +10,23 @@
 
 #include <component/controller.hpp>
 #include <graphics/bufferobject.hpp>
+#include <system/clock.hpp>
 
 namespace bolt
 {
 class ShaderProgram;
+class Uniform;
 class BackgroundRenderer : public bolt::Controller
 {
 public:
 	const static std::string KEY;
 protected:
 	ShaderProgram *program;
+
+	Clock myTime;
+
+	Uniform *resolution;
+	Uniform *time;
 
 	BufferObject vertexBuffer;
 	BufferObject indexBuffer;
