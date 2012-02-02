@@ -19,8 +19,10 @@ namespace bolt
 	{
 		if( id != GL_NULL )
 		{
+			GL_TEST_ERROR("begin");
 			glDeleteBuffers( 1 , &id );
 			id = GL_NULL;
+			GL_TEST_ERROR("end");
 		}
 	}
 
@@ -29,7 +31,9 @@ namespace bolt
 		// create ID.
 		if( id == GL_NULL )
 		{
+			GL_TEST_ERROR("begin");
 			glGenBuffers( 1 , &id );
+			GL_TEST_ERROR("end");
 		}
 	}
 
@@ -45,12 +49,12 @@ namespace bolt
 
 	void BufferObject::set( unsigned int bytesize , const void *data , Graphics::BindStyle style , Graphics::Residence residence , Graphics::Updates updates ) throw (GraphicsException)
 	{
-		GL_TEST_ERROR("BufferObject:set START.");
+		GL_TEST_ERROR("begin");
 		initialize();
 
 		int hint = Graphics::resolveResidenceUpdates( residence , updates );
 
-		bind( Graphics::write );
+		bind( style );
 
 		int bindStyle;
 		switch( style )
@@ -62,15 +66,17 @@ namespace bolt
 			default : bindStyle = 							GL_PIXEL_PACK_BUFFER; break;
 		}
 
-		glBufferData( /*GL_PIXEL_PACK_BUFFER*/bindStyle , bytesize , data , hint );
-		release( Graphics::write );
+		glBufferData( bindStyle , bytesize , data , hint );
+		GL_TEST_ERROR("mid");
+		release( style );
 
-		GL_TEST_ERROR("BufferObject:set END.");
+		GL_TEST_ERROR("end");
 	}
 
 
 	void BufferObject::bind( Graphics::BindStyle style ) const throw (GraphicsException)
 	{
+		GL_TEST_ERROR("begin");
 		int bindStyle;
 
 		switch( style )
@@ -83,10 +89,12 @@ namespace bolt
 		}
 
 		glBindBuffer( bindStyle , id );
+		GL_TEST_ERROR("end");
 	}
 
 	void BufferObject::release( Graphics::BindStyle style ) const throw (GraphicsException)
 	{
+		GL_TEST_ERROR("begin");
 		int bindStyle;
 
 		switch( style )
@@ -99,11 +107,12 @@ namespace bolt
 		}
 
 		glBindBuffer( bindStyle , GL_NULL );
+		GL_TEST_ERROR("end");
 	}
 
 	unsigned char *BufferObject::bindMemoryMap( Graphics::BindStyle style ) const throw (GraphicsException)
 	{
-		GL_TEST_ERROR("BufferObject:bindMemoryMap START.");
+		GL_TEST_ERROR("begin");
 		int buffstyle;
 
 		switch( style )
@@ -116,14 +125,16 @@ namespace bolt
 
 		GLubyte* ptr = (GLubyte*)glMapBufferARB( (style == Graphics::write ? GL_PIXEL_PACK_BUFFER : GL_PIXEL_UNPACK_BUFFER ) , buffstyle );
 
-		GL_TEST_ERROR("BufferObject:bindMemoryMap END.");
+		GL_TEST_ERROR("end");
 
 		return ptr;
 	}
 
 	void BufferObject::releaseMemoryMap( Graphics::BindStyle style ) const throw (GraphicsException)
 	{
+		GL_TEST_ERROR("begin");
 		glUnmapBuffer( (style == Graphics::write ? GL_PIXEL_PACK_BUFFER : GL_PIXEL_UNPACK_BUFFER ) );
+		GL_TEST_ERROR("end");
 	}
 
 	unsigned int BufferObject::getID() const
