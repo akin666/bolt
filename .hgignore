@@ -1,5 +1,13 @@
 
 syntax: regexp
 ^Debug$
+
+
 syntax: regexp
-^resources$
+^resources/fonts$
+syntax: regexp
+^resources/sound$
+syntax: regexp
+^resources/SPC game$
+syntax: regexp
+^resources/textures test$
