@@ -6,6 +6,7 @@
  */
 
 #include "rendertarget.hpp"
+#include <singleton>
 
 namespace bolt
 {
@@ -30,6 +31,7 @@ VideoMode& RenderTarget::getVideoMode()
 
 void RenderTarget::bind() throw (GraphicsException)
 {
+	Singleton<RenderTarget>::set( this );
 }
 
 } /* namespace bolt */

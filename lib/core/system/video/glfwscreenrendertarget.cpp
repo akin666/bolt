@@ -33,6 +33,9 @@ GLFWScreenRenderTarget::~GLFWScreenRenderTarget()
 
 void GLFWScreenRenderTarget::bind() throw (GraphicsException)
 {
+	// all rendertargets should call this thing.
+	RenderTarget::bind();
+
 	GL_TEST_ERROR("begin");
 	glBindFramebuffer( GL_FRAMEBUFFER , 0 );
 	GL_TEST_ERROR("end");

@@ -13,6 +13,7 @@
 #include <graphics/shader/shaderprogram.hpp>
 #include <graphics/shader/uniform.hpp>
 #include <component/common/fencecontroller.hpp>
+#include <graphics/rendertarget.hpp>
 
 namespace bolt
 {
@@ -74,8 +75,10 @@ void BackgroundRenderer::start( bolt::ControllerNode& node )
 		float currentTime = myTime.getCurrentTime() * 0.001f;
 		glm::vec2 windowResolution;
 
-		windowResolution.x = 800;
-		windowResolution.y = 600;
+		VideoMode& videomode = Singleton<RenderTarget>::get()->getVideoMode();
+
+		windowResolution.x = videomode.getWidth();
+		windowResolution.y = videomode.getHeight();
 
 		time->set( currentTime );
 		resolution->set( windowResolution );

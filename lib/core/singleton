@@ -34,17 +34,25 @@ public:
 		return tmp;
 	}
 
-	static void set( CType *ct ) throw (std::exception)
+	static void set( CType *ct )
 	{
-		if( isSet() )
-		{
-			throw std::runtime_error("Singleton already set!.");
-		}
 		singleton = ct;
 	}
 
 	static CType *get()
 	{
+		return singleton;
+	}
+
+	static void safeSet( CType *ct )
+	{
+		std::lock_guard<std::mutex> lock(mutex);
+		singleton = ct;
+	}
+
+	static CType *safeGet()
+	{
+		std::lock_guard<std::mutex> lock(mutex);
 		return singleton;
 	}
 	
@@ -70,13 +78,13 @@ std::mutex Singleton<CType>::mutex;
 // setSingleton<MyClass>( new MyOtherClass );
 // unsetSingleton<MyClass>();
 template <class CType>
-CType *getSingleton()
+CType *getSingleton() throw (std::exception)
 {
 	return Singleton<CType>::get();
 }
 
 template <class CType>
-CType *createSingleton()
+CType *createSingleton() throw (std::exception)
 {
 	return Singleton<CType>::create();
 }
@@ -88,7 +96,7 @@ void setSingleton( CType *ct ) throw (std::exception)
 }
 
 template <class CType>
-void unsetSingleton()
+void unsetSingleton() throw (std::exception)
 {
 	Singleton<CType>::unset();
 }
