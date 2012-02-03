@@ -18,6 +18,7 @@ MeshAnimation *currentMuumi = getSingleton<Handle<MeshAnimation> >()->objectFor(
 #include <thread>
 #include <exception>
 #include <stdexcept>
+#include <merge>
 
 namespace bolt
 {
@@ -27,25 +28,34 @@ namespace resource
 template <class HType>
 class Registry
 {
+public:
+	static const uint EMPTY = 			0x0000;
+	static const uint LOADING = 		0x0001;
+	static const uint LOADED = 			0x0002;
+	static const uint ERROR = 			0x0004;
+	static const uint FILE_ERROR =		0x0008;
 protected:
-	std::mutex mutex;
 	typedef std::map<uint, HType*> KeyTypeMap;
+	typedef std::map<uint, uint> KeyStatusMap;
 
-	KeyTypeMap handles;
+	Merge< std::mutex , KeyTypeMap > handles;
+	Merge< std::mutex , KeyStatusMap > states;
 public:
 	Registry( HType *nullObject = NULL )
 	{
-		std::lock_guard<std::mutex> lock(mutex);
+		std::lock_guard<std::mutex> lock(handles);
+		std::lock_guard<std::mutex> lock2(states);
 
 		if( nullObject != NULL )
 		{
 			handles[ Dictionary::nullId ] = nullObject;
+			states[ Dictionary::nullId ] = LOADED;
 		}
 	}
 	
 	HType *getObject( uint key ) throw (std::exception)
 	{
-		std::lock_guard<std::mutex> lock(mutex);
+		std::lock_guard<std::mutex> lock(handles);
 
 		typename KeyTypeMap::iterator iter = handles.find( key );
 		if( iter == handles.end() )
@@ -63,7 +73,7 @@ public:
 
 	bool hasObject( uint key )
 	{
-		std::lock_guard<std::mutex> lock(mutex);
+		std::lock_guard<std::mutex> lock(handles);
 
 		typename KeyTypeMap::iterator iter = handles.find( key );
 		return iter != handles.end();
@@ -71,24 +81,50 @@ public:
 
 	void setObject( uint key , HType *object )
 	{
-		std::lock_guard<std::mutex> lock(mutex);
+		std::lock_guard<std::mutex> lock(handles);
 
 		handles[ key ] = object;
 	}
 
 	HType *resetObject( uint key )
 	{
-		std::lock_guard<std::mutex> lock(mutex);
+		std::lock_guard<std::mutex> lock(handles);
+		std::lock_guard<std::mutex> lock2(states);
 
 		HType *tmp = NULL;
-		typename KeyTypeMap::iterator iter = handles.find( key );
-		if( iter != handles.end() )
+		typename KeyTypeMap::iterator hiter = handles.find( key );
+		if( hiter != handles.end() )
 		{
-			tmp = iter->second;
-			handles.erase( iter );
+			tmp = hiter->second;
+			handles.erase( hiter );
+		}
+		typename KeyStatusMap::iterator siter = states.find( key );
+		if( siter != states.end() )
+		{
+			states.erase( siter );
 		}
 
 		return tmp;
+	}
+
+	void setObjectState(  uint key , uint state )
+	{
+		std::lock_guard<std::mutex> lock(states);
+
+		states[ key ] = state;
+	}
+
+	uint getObjectState(  uint key )
+	{
+		std::lock_guard<std::mutex> lock(states);
+
+		typename KeyStatusMap::iterator siter = states.find( key );
+		if( siter != states.end() )
+		{
+			return siter->second;
+		}
+
+		return EMPTY;
 	}
 
 	// Convenience functions.
@@ -119,16 +155,28 @@ public:
 		uint key = getSingleton<Dictionary>()->resolveKey( alias );
 		return resetObject( key );
 	}
+
+	void setObjectStateFor( std::string alias , uint state )
+	{
+		uint key = getSingleton<Dictionary>()->resolveKey( alias );
+		setObjectState( key , state );
+	}
+
+	uint getObjectStateFor( std::string alias )
+	{
+		uint key = getSingleton<Dictionary>()->resolveKey( alias );
+		return getObjectState( key );
+	}
 };
 
 // Sugar coating.
 template <class CType>
-void setObject( std::string alias , CType *object )
+void setObject( std::string alias , CType *object ) throw (std::exception)
 {
 	getSingleton<Registry<CType> >()->setObjectFor( alias , object );
 }
 template <class CType>
-void setObject( uint key , CType *object )
+void setObject( uint key , CType *object ) throw (std::exception)
 {
 	getSingleton<Registry<CType> >()->setObject( key , object );
 }
@@ -143,22 +191,22 @@ CType *getObject( uint key ) throw (std::exception)
 	return getSingleton<Registry<CType> >()->objectFor( key );
 }
 template <class CType>
-bool hasObject( std::string alias )
+bool hasObject( std::string alias ) throw (std::exception)
 {
 	return getSingleton<Registry<CType> >()->hasObject( alias );
 }
 template <class CType>
-bool hasObject( uint key )
+bool hasObject( uint key ) throw (std::exception)
 {
 	return getSingleton<Registry<CType> >()->hasObject( key );
 }
 template <class CType>
-CType *resetObject( std::string alias )
+CType *resetObject( std::string alias ) throw (std::exception)
 {
 	return getSingleton<Registry<CType> >()->resetObject( alias );
 }
 template <class CType>
-CType *resetObject( uint key )
+CType *resetObject( uint key ) throw (std::exception)
 {
 	return getSingleton<Registry<CType> >()->resetObject( key );
 }
