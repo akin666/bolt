@@ -34,6 +34,7 @@ public:
 	static const uint LOADED = 			0x0002;
 	static const uint ERROR = 			0x0004;
 	static const uint FILE_ERROR =		0x0008;
+	static const uint EXCEPTION =		0x0010;
 protected:
 	typedef std::map<uint, HType*> KeyTypeMap;
 	typedef std::map<uint, uint> KeyStatusMap;
