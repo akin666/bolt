@@ -44,8 +44,8 @@ void PositionProperty::detach( bolt::Entity& entity )
 	}
 }
 
-PositionProperty::Data& PositionProperty::get( bolt::Entity& entity )
+PositionProperty::Data& PositionProperty::get( bolt::uint entity )
 {
-	return data[entity.getId()];
+	return data[entity];
 }
 }

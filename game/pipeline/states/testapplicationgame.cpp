@@ -19,6 +19,8 @@
 
 #include "../simplerenderercontroller.hpp"
 
+#include <cmath>
+
 const std::string TestApplicationGame::KEY("testapplication");
 
 TestApplicationGame::TestApplicationGame()
@@ -52,14 +54,20 @@ void TestApplicationGame::initialize() throw (std::exception)
 	pipeline->attach( renderer );
 
 	renderer->attach( box );
+	renderer->attach( box2 );
 
-	bolt::PositionProperty::Data& boxData = bolt::getSingleton<bolt::PositionProperty>()->get( box );
+	bolt::PositionProperty::Data& boxData = bolt::getSingleton<bolt::PositionProperty>()->get( box.getId() );
+	bolt::PositionProperty::Data& box2Data = bolt::getSingleton<bolt::PositionProperty>()->get( box2.getId() );
 
 	boxData.position.x = 0.0f;
 	boxData.position.y = 0.0f;
-	boxData.position.z = 0.0f;
+	boxData.position.z = -10.0f;
 
-	times = 500;
+	box2Data.position.x = 10.0f;
+	box2Data.position.y = 10.0f;
+	box2Data.position.z = -10.0f;
+
+	times = 1500;
 
 	initialized = true;
 }
@@ -71,5 +79,16 @@ void TestApplicationGame::start( bolt::ControllerNode& node )
 		LOG_OUT << "TestApplicationGame exit" << std::endl;
 		bolt::getSingleton<bolt::Application>()->exit();
 	}
+
+	// Modify box position data..
+
+	bolt::PositionProperty::Data& boxData = bolt::getSingleton<bolt::PositionProperty>()->get( box.getId() );
+	bolt::PositionProperty::Data& box2Data = bolt::getSingleton<bolt::PositionProperty>()->get( box2.getId() );
+
+	boxData.position.x = sin( times * 0.05f ) * 5.0f;
+	boxData.position.y = cos( times * 0.05f ) * 5.0f;
+
+	box2Data.position.x = -sin( times * 0.1f ) * 5.0f;
+	box2Data.position.z = -cos( times * 0.1f ) * 5.0f - 10;
 }
 

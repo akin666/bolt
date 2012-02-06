@@ -36,7 +36,7 @@ public:
 	virtual void attach( bolt::Entity& entity );
 	virtual void detach( bolt::Entity& entity );
 
-	Data& get( bolt::Entity& entity );
+	Data& get( bolt::uint entity );
 };
 }
 

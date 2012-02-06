@@ -35,8 +35,8 @@ LoadController::~LoadController()
 void LoadController::initialize() throw (std::exception)
 {
 	bolt::resource::link( "config" , "resources/config/default.cfg" );
-	bolt::resource::link( "genericVertexShader" , "resources/shader/generic.vs" );
-	bolt::resource::link( "genericFragmentShader" , "resources/shader/generic.fs" );
+	bolt::resource::link( "genericVertexShader" , "resources/shader/test/blank.vs" );
+	bolt::resource::link( "genericFragmentShader" , "resources/shader/test/blank.fs" );
 
 	// create shaderprogram registry.
 	bolt::createSingleton<bolt::resource::Registry<bolt::ShaderProgram> >();

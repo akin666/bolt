@@ -11,6 +11,8 @@
 #include <component/controller.hpp>
 #include <graphics/bufferobject.hpp>
 #include <glm/glm>
+#include <set>
+#include <common>
 
 class SimpleRendererController: public bolt::Controller
 {
@@ -26,6 +28,10 @@ protected:
 
 	glm::mat4 model;
 	glm::mat4 lense;
+
+	typedef std::set< bolt::uint > EntitySet;
+
+	EntitySet entities;
 public:
 	SimpleRendererController();
 	virtual ~SimpleRendererController();

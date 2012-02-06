@@ -29,36 +29,37 @@ const std::string SimpleRendererController::KEY("simplerenderer");
 /*
  * Vertex array
  */
+float SRCnum = 3;
 float SRCvertices[] = {
-      -1,-1, 1, // vertex v0
-       1,-1, 1, // vertex v1
-       1,-1,-1, // vertex v2
-      -1,-1,-1, // vertex v3
+      -SRCnum,-SRCnum, SRCnum, // vertex v0
+       SRCnum,-SRCnum, SRCnum, // vertex v1
+       SRCnum,-SRCnum,-SRCnum, // vertex v2
+      -SRCnum,-SRCnum,-SRCnum, // vertex v3
 
-      -1, 1, 1, // vertex v4
-       1, 1, 1, // vertex v5
-       1, 1,-1, // vertex v6
-      -1, 1,-1, // vertex v7
+      -SRCnum, SRCnum, SRCnum, // vertex v4
+       SRCnum, SRCnum, SRCnum, // vertex v5
+       SRCnum, SRCnum,-SRCnum, // vertex v6
+      -SRCnum, SRCnum,-SRCnum, // vertex v7
 
-      -1,-1, 1, // vertex v0 8
-       1,-1, 1, // vertex v1 9
-       1, 1, 1, // vertex v2 10
-      -1, 1, 1, // vertex v3 11
+      -SRCnum,-SRCnum, SRCnum, // vertex v0 8
+       SRCnum,-SRCnum, SRCnum, // vertex v1 9
+       SRCnum, SRCnum, SRCnum, // vertex v2 10
+      -SRCnum, SRCnum, SRCnum, // vertex v3 11
 
-      -1,-1,-1, // vertex v0 12
-       1,-1,-1, // vertex v1 13
-       1, 1,-1, // vertex v2 14
-      -1, 1,-1, // vertex v3 15
+      -SRCnum,-SRCnum,-SRCnum, // vertex v0 12
+       SRCnum,-SRCnum,-SRCnum, // vertex v1 13
+       SRCnum, SRCnum,-SRCnum, // vertex v2 14
+      -SRCnum, SRCnum,-SRCnum, // vertex v3 15
 
-       1,-1,-1, // vertex v0 16
-       1, 1,-1, // vertex v1 17
-       1, 1, 1, // vertex v2 18
-       1,-1, 1, // vertex v3 19
+       SRCnum,-SRCnum,-SRCnum, // vertex v0 16
+       SRCnum, SRCnum,-SRCnum, // vertex v1 17
+       SRCnum, SRCnum, SRCnum, // vertex v2 18
+       SRCnum,-SRCnum, SRCnum, // vertex v3 19
 
-      -1,-1,-1, // vertex v0 20
-      -1, 1,-1, // vertex v1 21
-      -1, 1, 1, // vertex v2 22
-      -1,-1, 1, // vertex v3 23
+      -SRCnum,-SRCnum,-SRCnum, // vertex v0 20
+      -SRCnum, SRCnum,-SRCnum, // vertex v1 21
+      -SRCnum, SRCnum, SRCnum, // vertex v2 22
+      -SRCnum,-SRCnum, SRCnum, // vertex v3 23
       };
 
 /*
@@ -152,21 +153,26 @@ void SimpleRendererController::initialize() throw (std::exception)
 
 	bolt::createSingleton<bolt::PositionProperty>()->initialize();
 
-	lense = glm::gtc::matrix_transform::frustum( -200 ,
-			200,
-			-200,
-			200,
-			1,
-			100
-		);
+
+	glm::vec2 windowResolution;
+
+	bolt::VideoMode& videomode = bolt::Singleton<bolt::RenderTarget>::get()->getVideoMode();
+
+	windowResolution.x = videomode.getWidth();
+	windowResolution.y = videomode.getHeight();
+
+	const float aspectRatio = windowResolution.y/windowResolution.x;
+
+	lense = glm::frustum(
+			-1.0f,
+			 1.0f,
+			-aspectRatio,
+			 aspectRatio,
+			0.5f,
+			100.0f
+			);
 
 	model = glm::translate( glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -10 ) );
-
-
-//	glm::perspective(45.0f, 4.0f / 3.0f, 0.1f, 100.f);
-//	glm::mat4 ViewTranslate = glm::translate(
-//	glm::mat4(1.0f),
-//	glm::vec3(0.0f, 0.0f, -Translate));
 }
 
 void SimpleRendererController::getDependencies(bolt::StringSet & dep)
@@ -174,24 +180,33 @@ void SimpleRendererController::getDependencies(bolt::StringSet & dep)
 	dep = dependecies;
 }
 
-void SimpleRendererController::attach(bolt::Entity & entity)
+void SimpleRendererController::attach(bolt::Entity& entity)
 {
 	bolt::getSingleton<bolt::PositionProperty>()->attach( entity );
+
+	if( entities.find( entity.getId() ) != entities.end() )
+	{
+		return;
+	}
+
+	entities.insert( entity.getId() );
 }
 
-void SimpleRendererController::detach(bolt::Entity & entity)
+void SimpleRendererController::detach(bolt::Entity& entity)
 {
 	bolt::getSingleton<bolt::PositionProperty>()->detach( entity );
+
+	entities.erase( entity.getId() );
 }
 
 void SimpleRendererController::start(bolt::ControllerNode& node)
 {
 	// do the rendering here.
-
-	if( bolt::resource::hasObject<bolt::ShaderProgram>( "GenericShader" ) )
+	if( entities.size() > 0 && bolt::resource::hasObject<bolt::ShaderProgram>( "GenericShader" ) )
 	{
+		GL_TEST_ERROR("start");
+
 	    glEnableClientState( GL_VERTEX_ARRAY );
-//	    glEnableClientState( GL_TEXTURE_COORD_ARRAY );
 	    glEnableClientState( GL_INDEX_ARRAY );
 
 	    // Bind program & set node there..
@@ -202,66 +217,25 @@ void SimpleRendererController::start(bolt::ControllerNode& node)
 	    bolt::Uniform *umodel = program->getUniform( "model" );
 	    bolt::Uniform *ulense = program->getUniform( "lense" );
 
-	    bolt::Attribute *avertex = program->getAttribute( "vertex" );
-	    bolt::Attribute *acoordinates = program->getAttribute( "textureCoordinates" );
-
 	    umodel->set( model );
-	    umodel->set( lense );
+	    ulense->set( lense );
 
 		vertexBuffer.bind( bolt::Graphics::arrayBuffer );
 		glVertexPointer( 3, GL_FLOAT , 3*sizeof(float) , 0 );
-		//avertex->setPointer( 3 , GL_FLOAT , 0 );
-
-//		textureBuffer.bind( bolt::Graphics::arrayBuffer );
-//		acoordinates->setPointer( 2 , GL_FLOAT , 0 );
 
 	    indexBuffer.bind( bolt::Graphics::elementArrayBuffer );
 
-		glDrawArrays( GL_TRIANGLES , 0 , 36 );
-	    /*
-		modelo->set( model );
+	    bolt::PositionProperty *pproperty = bolt::getSingleton<bolt::PositionProperty>();
 
-		vertex->enable();
-		coordinates->enable();
+	    for( EntitySet::iterator iter = entities.begin() ; iter != entities.end() ; ++iter )
+	    {
+		    umodel->set( glm::translate( glm::mat4(1.0f), pproperty->get( *iter ).position ) );
+			glDrawArrays( GL_TRIANGLES , 0 , 36 );
 
-		tex->bindTexture( 0 , texture->getG()->getTextureId() );
+			GL_TEST_ERROR("mid");
+	    }
 
-		vertexBuffer.bind( bolt::Graphics::arrayBuffer );
-		vertex->setPointer( 3 , GL_FLOAT , 0 );
-
-		textureBuffer.bind( bolt::Graphics::arrayBuffer );
-		coordinates->setPointer( 2 , GL_FLOAT , 0 );
-
-			glDrawArrays( glPrimitive , 0 , vertexCount );
-
-	    Uniform *gg = program->getUniform("resolution");
-		GL_TEST_ERROR("start");
-
-
-		float currentTime = myTime.getCurrentTime() * 0.001f;
-		glm::vec2 windowResolution;
-
-		VideoMode& videomode = Singleton<RenderTarget>::get()->getVideoMode();
-
-		windowResolution.x = videomode.getWidth();
-		windowResolution.y = videomode.getHeight();
-
-		time->set( currentTime );
-		resolution->set( windowResolution );
-
-		glViewport( 0 , 0 , windowResolution.x , windowResolution.y );
-
-	    vertexBuffer.bind( Graphics::arrayBuffer );
-	    indexBuffer.bind( Graphics::elementArrayBuffer );
-
-	    // point to vertex data..
-		glVertexPointer( 3, GL_FLOAT , 3*sizeof(float) , 0 );
-
-		glDrawElements(GL_TRIANGLE_STRIP, 4 , GL_UNSIGNED_INT, 0 );
 		GL_TEST_ERROR("end");
-		*/
-
-	    glDisableClientState( GL_TEXTURE_COORD_ARRAY );
 	}
 }
 

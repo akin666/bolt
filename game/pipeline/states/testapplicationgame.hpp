@@ -25,6 +25,7 @@ protected:
 	bolt::ShaderProgram *shaderProgram;
 
 	bolt::Entity box;
+	bolt::Entity box2;
 
 	int times;
 public:
