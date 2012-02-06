@@ -12,7 +12,6 @@
 #include <opengl>
 #include <graphics/shader/shaderprogram.hpp>
 #include <graphics/shader/uniform.hpp>
-#include <component/common/fencecontroller.hpp>
 #include <graphics/rendertarget.hpp>
 
 namespace bolt
@@ -52,12 +51,9 @@ void BackgroundRenderer::initialize() throw (std::exception)
 			1.0f,	1.0f,	0.0f
 	};
 
-	unsigned int screen_indices[4] = {
+	uint screen_indices[4] = {
 			0,1,2,3
 	};
-
-    glEnableClientState( GL_VERTEX_ARRAY );
-    glEnableClientState( GL_INDEX_ARRAY );
 
 	vertexBuffer.set( 12*sizeof(float) , screen_vertices , Graphics::arrayBuffer , Graphics::gpu , Graphics::once );
 	indexBuffer.set( 4*sizeof(unsigned int) , screen_indices , Graphics::elementArrayBuffer , Graphics::gpu , Graphics::once );
@@ -84,6 +80,9 @@ void BackgroundRenderer::start( bolt::ControllerNode& node )
 		resolution->set( windowResolution );
 
 		glViewport( 0 , 0 , windowResolution.x , windowResolution.y );
+
+	    glEnableClientState( GL_VERTEX_ARRAY );
+	    glEnableClientState( GL_INDEX_ARRAY );
 
 	    vertexBuffer.bind( Graphics::arrayBuffer );
 	    indexBuffer.bind( Graphics::elementArrayBuffer );

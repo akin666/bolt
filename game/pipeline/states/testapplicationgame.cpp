@@ -10,9 +10,14 @@
 #include <log>
 #include <application/application.hpp>
 
+#include <component/pipeline.hpp>
+#include <component/common/positionproperty.hpp>
+
 #include <resource/dictionary.hpp>
 #include <resource/registry.hpp>
 #include <graphics/shader/shaderprogram.hpp>
+
+#include "../simplerenderercontroller.hpp"
 
 const std::string TestApplicationGame::KEY("testapplication");
 
@@ -40,7 +45,21 @@ void TestApplicationGame::initialize() throw (std::exception)
 		shaderProgram = NULL;
 	}
 
-	times = 1000;
+	bolt::Pipeline *pipeline = bolt::getSingleton<bolt::Pipeline>();
+
+	SimpleRendererController *renderer = new SimpleRendererController();
+	renderer->initialize();
+	pipeline->attach( renderer );
+
+	renderer->attach( box );
+
+	bolt::PositionProperty::Data& boxData = bolt::getSingleton<bolt::PositionProperty>()->get( box );
+
+	boxData.position.x = 0.0f;
+	boxData.position.y = 0.0f;
+	boxData.position.z = 0.0f;
+
+	times = 500;
 
 	initialized = true;
 }

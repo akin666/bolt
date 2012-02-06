@@ -12,7 +12,6 @@
 #include <system/audio.hpp>
 #include <component/common/fencecontroller.hpp>
 #include <component/pipeline.hpp>
-#include "pipeline/simplerenderercontroller.hpp"
 #include "pipeline/states/loadcontroller.hpp"
 #include "pipeline/states/testapplicationgame.hpp"
 #include <config/fileconfig.hpp>
@@ -79,16 +78,13 @@ void TestApplication::initialize() throw (std::exception)
 
 	bolt::FenceController *logicFence = new bolt::FenceController( bolt::FenceController::LOGIC , fenceDependencies );
 
-	SimpleRendererController *renderer = new SimpleRendererController();
 	LoadController *loader = new LoadController();
 
 	logicFence->initialize();
 	loader->initialize();
-	renderer->initialize();
 
 	pipeline->attach( logicFence );
 	pipeline->attach( loader );
-	pipeline->attach( renderer );
 
 	initialized = true;
 }

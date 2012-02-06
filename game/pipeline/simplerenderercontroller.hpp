@@ -9,6 +9,7 @@
 #define SIMPLETENDERERCONTROLLER_HPP_
 
 #include <component/controller.hpp>
+#include <graphics/bufferobject.hpp>
 
 class SimpleRendererController: public bolt::Controller
 {
@@ -17,6 +18,10 @@ public:
 protected:
 	bool initialized;
 	bolt::StringSet dependecies;
+
+	bolt::BufferObject vertexBuffer;
+	bolt::BufferObject textureBuffer;
+	bolt::BufferObject indexBuffer;
 public:
 	SimpleRendererController();
 	virtual ~SimpleRendererController();

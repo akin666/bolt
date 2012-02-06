@@ -24,6 +24,8 @@ protected:
 	bolt::StringSet dependecies;
 	bolt::ShaderProgram *shaderProgram;
 
+	bolt::Entity box;
+
 	int times;
 public:
 	TestApplicationGame();
