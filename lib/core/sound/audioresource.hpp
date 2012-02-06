@@ -43,6 +43,8 @@ public:
 
 	virtual void seek( uint position ) throw (std::exception);
 	virtual uint read( void *data , uint byteLength ) throw (std::exception);
+	virtual uint position() throw (std::exception);
+	virtual uint remaining() throw (std::exception);
 };
 
 } /* namespace bolt */

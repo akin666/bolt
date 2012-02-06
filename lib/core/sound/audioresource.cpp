@@ -51,4 +51,14 @@ uint AudioResource::read(void *data, uint byteLength) throw (std::exception)
 	return 0;
 }
 
+uint AudioResource::position()
+{
+	return 0;
+}
+
+uint AudioResource::remaining()
+{
+	return 0;
+}
+
 } /* namespace bolt */
