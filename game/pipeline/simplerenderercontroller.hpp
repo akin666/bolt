@@ -10,6 +10,7 @@
 
 #include <component/controller.hpp>
 #include <graphics/bufferobject.hpp>
+#include <glm/glm>
 
 class SimpleRendererController: public bolt::Controller
 {
@@ -22,6 +23,9 @@ protected:
 	bolt::BufferObject vertexBuffer;
 	bolt::BufferObject textureBuffer;
 	bolt::BufferObject indexBuffer;
+
+	glm::mat4 model;
+	glm::mat4 lense;
 public:
 	SimpleRendererController();
 	virtual ~SimpleRendererController();

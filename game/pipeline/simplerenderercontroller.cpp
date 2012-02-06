@@ -20,6 +20,10 @@
 
 #include <resource/registry.hpp>
 
+#include <glm/gtc/matrix_transform.hpp>
+
+#include "backgroundrenderer.hpp"
+
 const std::string SimpleRendererController::KEY("simplerenderer");
 
 /*
@@ -144,8 +148,25 @@ void SimpleRendererController::initialize() throw (std::exception)
 	indexBuffer.set( 36*sizeof(unsigned int) , SRCindices , bolt::Graphics::elementArrayBuffer , bolt::Graphics::gpu , bolt::Graphics::once );
 
 	dependecies.insert( bolt::FenceController::LOGIC );
+	dependecies.insert( bolt::BackgroundRenderer::KEY );
 
 	bolt::createSingleton<bolt::PositionProperty>()->initialize();
+
+	lense = glm::gtc::matrix_transform::frustum( -200 ,
+			200,
+			-200,
+			200,
+			1,
+			100
+		);
+
+	model = glm::translate( glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -10 ) );
+
+
+//	glm::perspective(45.0f, 4.0f / 3.0f, 0.1f, 100.f);
+//	glm::mat4 ViewTranslate = glm::translate(
+//	glm::mat4(1.0f),
+//	glm::vec3(0.0f, 0.0f, -Translate));
 }
 
 void SimpleRendererController::getDependencies(bolt::StringSet & dep)
@@ -169,10 +190,8 @@ void SimpleRendererController::start(bolt::ControllerNode& node)
 
 	if( bolt::resource::hasObject<bolt::ShaderProgram>( "GenericShader" ) )
 	{
-		return;
-
 	    glEnableClientState( GL_VERTEX_ARRAY );
-	    glEnableClientState( GL_TEXTURE_COORD_ARRAY );
+//	    glEnableClientState( GL_TEXTURE_COORD_ARRAY );
 	    glEnableClientState( GL_INDEX_ARRAY );
 
 	    // Bind program & set node there..
@@ -186,14 +205,17 @@ void SimpleRendererController::start(bolt::ControllerNode& node)
 	    bolt::Attribute *avertex = program->getAttribute( "vertex" );
 	    bolt::Attribute *acoordinates = program->getAttribute( "textureCoordinates" );
 
-		vertexBuffer.bind( bolt::Graphics::arrayBuffer );
-		avertex->setPointer( 3 , GL_FLOAT , 0 );
+	    umodel->set( model );
+	    umodel->set( lense );
 
-		textureBuffer.bind( bolt::Graphics::arrayBuffer );
-		acoordinates->setPointer( 2 , GL_FLOAT , 0 );
+		vertexBuffer.bind( bolt::Graphics::arrayBuffer );
+		glVertexPointer( 3, GL_FLOAT , 3*sizeof(float) , 0 );
+		//avertex->setPointer( 3 , GL_FLOAT , 0 );
+
+//		textureBuffer.bind( bolt::Graphics::arrayBuffer );
+//		acoordinates->setPointer( 2 , GL_FLOAT , 0 );
 
 	    indexBuffer.bind( bolt::Graphics::elementArrayBuffer );
-
 
 		glDrawArrays( GL_TRIANGLES , 0 , 36 );
 	    /*
