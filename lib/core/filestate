@@ -1,0 +1,82 @@
+/*
+ * filestate
+ *
+ *  Created on: 9.1.2119
+ *      Author: akin
+ */
+
+#ifndef FILESTATE_HPP_
+#define FILESTATE_HPP_
+
+#include <iostream> // include <world>
+#include <common>
+#include <data>
+
+namespace bolt
+{
+template <class CType, class DataType>
+class FileState
+{
+protected:
+	// States..
+protected:
+	Data<DataType> data; 	// does own.
+	CType *target; 			// DOES NOT OWN!
+public:
+	FileState()
+	: target( NULL )
+	{
+	}
+	
+	FileState( CType *t )
+	: target( t )
+	{
+	}
+	
+	FileState( const FileState<CType,DataType>& other )
+	{
+		*this = other;
+	}
+	
+	~Data()
+	{
+		clear();
+	}
+	
+	void clear()
+	{
+	}
+
+	CType *access()
+	{
+		return data->access();
+	}
+	
+	uint size() const
+	{
+		return data->size();
+	}
+	
+	// release ownership of ptr!
+	void set( CType *ptr , uint len )
+	{
+		data->set( ptr , len );
+	}
+	
+	void set( uint len )
+	{
+		data->set( len );
+	}
+	
+	Data<CType>& operator = ( const Data<CType>& other )
+	{
+		data = other.data;
+		target = other.target;
+		
+		return *this;
+	}
+};
+
+}
+
+#endif /* DATA_HPP_ */

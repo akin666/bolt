@@ -14,6 +14,7 @@
 
 #include <graphics/shader/shaderprogram.hpp>
 #include <graphics/shader/uniform.hpp>
+#include <graphics/shader/attribute.hpp>
 #include <graphics/rendertarget.hpp>
 #include <graphics/graphics.hpp>
 
@@ -168,6 +169,8 @@ void SimpleRendererController::start(bolt::ControllerNode& node)
 
 	if( bolt::resource::hasObject<bolt::ShaderProgram>( "GenericShader" ) )
 	{
+		return;
+
 	    glEnableClientState( GL_VERTEX_ARRAY );
 	    glEnableClientState( GL_TEXTURE_COORD_ARRAY );
 	    glEnableClientState( GL_INDEX_ARRAY );
@@ -177,7 +180,38 @@ void SimpleRendererController::start(bolt::ControllerNode& node)
 
 	    program->bind();
 
+	    bolt::Uniform *umodel = program->getUniform( "model" );
+	    bolt::Uniform *ulense = program->getUniform( "lense" );
+
+	    bolt::Attribute *avertex = program->getAttribute( "vertex" );
+	    bolt::Attribute *acoordinates = program->getAttribute( "textureCoordinates" );
+
+		vertexBuffer.bind( bolt::Graphics::arrayBuffer );
+		avertex->setPointer( 3 , GL_FLOAT , 0 );
+
+		textureBuffer.bind( bolt::Graphics::arrayBuffer );
+		acoordinates->setPointer( 2 , GL_FLOAT , 0 );
+
+	    indexBuffer.bind( bolt::Graphics::elementArrayBuffer );
+
+
+		glDrawArrays( GL_TRIANGLES , 0 , 36 );
 	    /*
+		modelo->set( model );
+
+		vertex->enable();
+		coordinates->enable();
+
+		tex->bindTexture( 0 , texture->getG()->getTextureId() );
+
+		vertexBuffer.bind( bolt::Graphics::arrayBuffer );
+		vertex->setPointer( 3 , GL_FLOAT , 0 );
+
+		textureBuffer.bind( bolt::Graphics::arrayBuffer );
+		coordinates->setPointer( 2 , GL_FLOAT , 0 );
+
+			glDrawArrays( glPrimitive , 0 , vertexCount );
+
 	    Uniform *gg = program->getUniform("resolution");
 		GL_TEST_ERROR("start");
 
