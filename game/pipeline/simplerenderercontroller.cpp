@@ -44,7 +44,7 @@ float cube_v[] = {
     -SRCnum,  SRCnum, -SRCnum,
   };
 
-short cube_i[] = {
+unsigned short cube_i[] = {
   // front
   0, 1, 2,
   2, 3, 0,
@@ -121,7 +121,7 @@ void SimpleRendererController::initialize() throw (std::exception)
 
 	vertexBuffer.set( 24*sizeof(float) , cube_v , bolt::Graphics::arrayBuffer , bolt::Graphics::gpu , bolt::Graphics::once );
 //	textureBuffer.set( 48*sizeof(float) , SRCtexCoords , bolt::Graphics::arrayBuffer , bolt::Graphics::gpu , bolt::Graphics::once );
-	indexBuffer.set( 36*sizeof(short) , cube_i , bolt::Graphics::elementArrayBuffer , bolt::Graphics::gpu , bolt::Graphics::once );
+	indexBuffer.set( 36*sizeof(unsigned short) , cube_i , bolt::Graphics::elementArrayBuffer , bolt::Graphics::gpu , bolt::Graphics::once );
 
 	dependecies.insert( bolt::FenceController::LOGIC );
 	dependecies.insert( bolt::BackgroundRenderer::KEY );
@@ -143,8 +143,8 @@ void SimpleRendererController::initialize() throw (std::exception)
 			 1.0f,
 			-aspectRatio,
 			 aspectRatio,
-			0.5f,
-			100.0f
+			1.0f,
+			20.0f
 			);
 }
 
@@ -205,10 +205,14 @@ void SimpleRendererController::start(bolt::ControllerNode& node)
 
 	    bolt::PositionProperty *pproperty = bolt::getSingleton<bolt::PositionProperty>();
 
+	    int size;
+	    glGetBufferParameteriv(GL_ELEMENT_ARRAY_BUFFER, GL_BUFFER_SIZE, &size);
+
 	    for( EntitySet::iterator iter = entities.begin() ; iter != entities.end() ; ++iter )
 	    {
 		    umodel->set( glm::translate( glm::mat4(1.0f), pproperty->get( *iter ).position ) );
-			glDrawArrays( GL_TRIANGLES , 0 , 36 );
+			//glDrawArrays( GL_TRIANGLES , 0 , 36 );
+			glDrawElements(GL_TRIANGLES, 36 , GL_UNSIGNED_SHORT, 0);
 
 			GL_TEST_ERROR("mid");
 	    }
