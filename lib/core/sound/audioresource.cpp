@@ -51,12 +51,12 @@ uint AudioResource::read(void *data, uint byteLength) throw (std::exception)
 	return 0;
 }
 
-uint AudioResource::position()
+uint AudioResource::position() throw (std::exception)
 {
 	return 0;
 }
 
-uint AudioResource::remaining()
+uint AudioResource::remaining() throw (std::exception)
 {
 	return 0;
 }

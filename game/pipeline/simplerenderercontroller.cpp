@@ -29,43 +29,46 @@ const std::string SimpleRendererController::KEY("simplerenderer");
 /*
  * Vertex array
  */
-float SRCnum = 3;
-float SRCvertices[] = {
-      -SRCnum,-SRCnum, SRCnum, // vertex v0
-       SRCnum,-SRCnum, SRCnum, // vertex v1
-       SRCnum,-SRCnum,-SRCnum, // vertex v2
-      -SRCnum,-SRCnum,-SRCnum, // vertex v3
+static const float SRCnum = 1;
 
-      -SRCnum, SRCnum, SRCnum, // vertex v4
-       SRCnum, SRCnum, SRCnum, // vertex v5
-       SRCnum, SRCnum,-SRCnum, // vertex v6
-      -SRCnum, SRCnum,-SRCnum, // vertex v7
+float cube_v[] = {
+    // front
+    -SRCnum, -SRCnum,  SRCnum,
+     SRCnum, -SRCnum,  SRCnum,
+     SRCnum,  SRCnum,  SRCnum,
+    -SRCnum,  SRCnum,  SRCnum,
+    // back
+    -SRCnum, -SRCnum, -SRCnum,
+     SRCnum, -SRCnum, -SRCnum,
+     SRCnum,  SRCnum, -SRCnum,
+    -SRCnum,  SRCnum, -SRCnum,
+  };
 
-      -SRCnum,-SRCnum, SRCnum, // vertex v0 8
-       SRCnum,-SRCnum, SRCnum, // vertex v1 9
-       SRCnum, SRCnum, SRCnum, // vertex v2 10
-      -SRCnum, SRCnum, SRCnum, // vertex v3 11
-
-      -SRCnum,-SRCnum,-SRCnum, // vertex v0 12
-       SRCnum,-SRCnum,-SRCnum, // vertex v1 13
-       SRCnum, SRCnum,-SRCnum, // vertex v2 14
-      -SRCnum, SRCnum,-SRCnum, // vertex v3 15
-
-       SRCnum,-SRCnum,-SRCnum, // vertex v0 16
-       SRCnum, SRCnum,-SRCnum, // vertex v1 17
-       SRCnum, SRCnum, SRCnum, // vertex v2 18
-       SRCnum,-SRCnum, SRCnum, // vertex v3 19
-
-      -SRCnum,-SRCnum,-SRCnum, // vertex v0 20
-      -SRCnum, SRCnum,-SRCnum, // vertex v1 21
-      -SRCnum, SRCnum, SRCnum, // vertex v2 22
-      -SRCnum,-SRCnum, SRCnum, // vertex v3 23
-      };
+short cube_i[] = {
+  // front
+  0, 1, 2,
+  2, 3, 0,
+  // top
+  1, 5, 6,
+  6, 2, 1,
+  // back
+  7, 6, 5,
+  5, 4, 7,
+  // bottom
+  4, 0, 3,
+  3, 7, 4,
+  // left
+  4, 5, 1,
+  1, 0, 4,
+  // right
+  3, 2, 6,
+  6, 7, 3,
+};
 
 /*
  * TextureCoordinate array (matching those vertexes defined above)
  */
-float SRCtexCoords[]={
+float cube_t[]={
         0.0, 0.0, // mapping coordinates for vertex v0
         1.0, 0.0, // mapping coordinates for vertex v1
         1.0, 1.0, // mapping coordinates for vertex v2
@@ -97,34 +100,6 @@ float SRCtexCoords[]={
         0.0, 0.0  // mapping coordinates for vertex v23
         };
 
-/*
- * Indices array that forms the quads i will be using..
- */
-unsigned int SRCindices[] = {
-		// q1
-		0,1,3,
-		3,2,1,
-
-		// q2
-		4,5,7,
-		7,6,5,
-
-		// q3
-		8,9,11,
-		11,10,9,
-
-		// q4
-		12,13,15,
-		15,14,13,
-
-		// q5
-		16,17,19,
-		19,18,17,
-
-		// q6
-		20,21,23,
-		23,22,21,
-        };
 
 SimpleRendererController::SimpleRendererController()
 : bolt::Controller( KEY , false ),
@@ -144,9 +119,9 @@ void SimpleRendererController::initialize() throw (std::exception)
 		return;
 	}
 
-	vertexBuffer.set( 72*sizeof(float) , SRCvertices , bolt::Graphics::arrayBuffer , bolt::Graphics::gpu , bolt::Graphics::once );
-	textureBuffer.set( 48*sizeof(float) , SRCtexCoords , bolt::Graphics::arrayBuffer , bolt::Graphics::gpu , bolt::Graphics::once );
-	indexBuffer.set( 36*sizeof(unsigned int) , SRCindices , bolt::Graphics::elementArrayBuffer , bolt::Graphics::gpu , bolt::Graphics::once );
+	vertexBuffer.set( 24*sizeof(float) , cube_v , bolt::Graphics::arrayBuffer , bolt::Graphics::gpu , bolt::Graphics::once );
+//	textureBuffer.set( 48*sizeof(float) , SRCtexCoords , bolt::Graphics::arrayBuffer , bolt::Graphics::gpu , bolt::Graphics::once );
+	indexBuffer.set( 36*sizeof(short) , cube_i , bolt::Graphics::elementArrayBuffer , bolt::Graphics::gpu , bolt::Graphics::once );
 
 	dependecies.insert( bolt::FenceController::LOGIC );
 	dependecies.insert( bolt::BackgroundRenderer::KEY );
@@ -171,8 +146,6 @@ void SimpleRendererController::initialize() throw (std::exception)
 			0.5f,
 			100.0f
 			);
-
-	model = glm::translate( glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -10 ) );
 }
 
 void SimpleRendererController::getDependencies(bolt::StringSet & dep)
@@ -206,6 +179,11 @@ void SimpleRendererController::start(bolt::ControllerNode& node)
 	{
 		GL_TEST_ERROR("start");
 
+		glEnable(GL_DEPTH_TEST);
+		glClear( GL_DEPTH_BUFFER_BIT );
+		// Accept fragment if it closer to the camera than the former one
+		glDepthFunc(GL_LESS);
+
 	    glEnableClientState( GL_VERTEX_ARRAY );
 	    glEnableClientState( GL_INDEX_ARRAY );
 
@@ -235,6 +213,7 @@ void SimpleRendererController::start(bolt::ControllerNode& node)
 			GL_TEST_ERROR("mid");
 	    }
 
+		glDisable(GL_DEPTH_TEST);
 		GL_TEST_ERROR("end");
 	}
 }

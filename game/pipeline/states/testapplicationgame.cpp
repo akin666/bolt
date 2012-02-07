@@ -67,7 +67,7 @@ void TestApplicationGame::initialize() throw (std::exception)
 	box2Data.position.y = 10.0f;
 	box2Data.position.z = -10.0f;
 
-	times = 1500;
+	times = 500;
 
 	initialized = true;
 }
