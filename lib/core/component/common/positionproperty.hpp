@@ -10,7 +10,7 @@
 
 #include <component/property.hpp>
 #include <map>
-#include <glm/glm>
+#include <glm/ext.hpp>
 
 namespace bolt
 {
@@ -23,8 +23,8 @@ public:
 	{
 	public:
 		glm::vec3 position;
+		glm::gtc::quaternion::quat rotation;
 	};
-
 protected:
 	std::map< uint , Data > data;
 public:

@@ -16,7 +16,7 @@
 #include <data>
 #include <graphics/shader/shader.hpp>
 #include <graphics/shader/shaderprogram.hpp>
-#include "../backgroundrenderer.hpp"
+#include "../pipeline/backgroundrenderer.hpp"
 
 #include "testapplicationgame.hpp"
 

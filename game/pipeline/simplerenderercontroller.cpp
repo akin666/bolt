@@ -65,42 +65,6 @@ unsigned short cube_i[] = {
   6, 7, 3,
 };
 
-/*
- * TextureCoordinate array (matching those vertexes defined above)
- */
-float cube_t[]={
-        0.0, 0.0, // mapping coordinates for vertex v0
-        1.0, 0.0, // mapping coordinates for vertex v1
-        1.0, 1.0, // mapping coordinates for vertex v2
-        0.0, 1.0, // mapping coordinates for vertex v3
-
-        0.0, 1.0, // mapping coordinates for vertex v4
-        1.0, 1.0, // mapping coordinates for vertex v5
-        1.0, 0.0, // mapping coordinates for vertex v6
-        0.0, 0.0, // mapping coordinates for vertex v7
-
-        0.0, 1.0, // mapping coordinates for vertex v8
-        1.0, 1.0, // mapping coordinates for vertex v9
-        1.0, 0.0, // mapping coordinates for vertex v10
-        0.0, 0.0, // mapping coordinates for vertex v11
-
-        0.0, 1.0, // mapping coordinates for vertex v12
-        1.0, 1.0, // mapping coordinates for vertex v13
-        1.0, 0.0, // mapping coordinates for vertex v14
-        0.0, 0.0, // mapping coordinates for vertex v15
-
-        0.0, 1.0, // mapping coordinates for vertex v16
-        1.0, 1.0, // mapping coordinates for vertex v17
-        1.0, 0.0, // mapping coordinates for vertex v18
-        0.0, 0.0, // mapping coordinates for vertex v19
-
-        0.0, 1.0, // mapping coordinates for vertex v20
-        1.0, 1.0, // mapping coordinates for vertex v21
-        1.0, 0.0, // mapping coordinates for vertex v22
-        0.0, 0.0  // mapping coordinates for vertex v23
-        };
-
-
 SimpleRendererController::SimpleRendererController()
 : bolt::Controller( KEY , false ),
   initialized( false )
@@ -120,7 +84,6 @@ void SimpleRendererController::initialize() throw (std::exception)
 	}
 
 	vertexBuffer.set( 24*sizeof(float) , cube_v , bolt::Graphics::arrayBuffer , bolt::Graphics::gpu , bolt::Graphics::once );
-//	textureBuffer.set( 48*sizeof(float) , SRCtexCoords , bolt::Graphics::arrayBuffer , bolt::Graphics::gpu , bolt::Graphics::once );
 	indexBuffer.set( 36*sizeof(unsigned short) , cube_i , bolt::Graphics::elementArrayBuffer , bolt::Graphics::gpu , bolt::Graphics::once );
 
 	dependecies.insert( bolt::FenceController::LOGIC );
@@ -210,7 +173,9 @@ void SimpleRendererController::start(bolt::ControllerNode& node)
 
 	    for( EntitySet::iterator iter = entities.begin() ; iter != entities.end() ; ++iter )
 	    {
-		    umodel->set( glm::translate( glm::mat4(1.0f), pproperty->get( *iter ).position ) );
+	    	bolt::PositionProperty::Data& data = pproperty->get( *iter );
+	    	glm::mat4 currentMatrix = glm::translate( glm::mat4(1.0f), data.position );
+		    umodel->set( currentMatrix * glm::gtc::quaternion::mat4_cast( data.rotation ) );
 			//glDrawArrays( GL_TRIANGLES , 0 , 36 );
 			glDrawElements(GL_TRIANGLES, 36 , GL_UNSIGNED_SHORT, 0);
 

@@ -12,8 +12,8 @@
 #include <system/audio.hpp>
 #include <component/common/fencecontroller.hpp>
 #include <component/pipeline.hpp>
-#include "pipeline/states/loadcontroller.hpp"
-#include "pipeline/states/testapplicationgame.hpp"
+#include "states/loadcontroller.hpp"
+#include "states/testapplicationgame.hpp"
 #include <config/fileconfig.hpp>
 
 TestApplication::TestApplication()

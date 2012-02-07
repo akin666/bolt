@@ -17,7 +17,7 @@
 #include <resource/registry.hpp>
 #include <graphics/shader/shaderprogram.hpp>
 
-#include "../simplerenderercontroller.hpp"
+#include "../pipeline/simplerenderercontroller.hpp"
 
 #include <cmath>
 
@@ -87,8 +87,10 @@ void TestApplicationGame::start( bolt::ControllerNode& node )
 
 	boxData.position.x = sin( times * 0.05f ) * 2.0f;
 	boxData.position.y = cos( times * 0.05f ) * 2.0f;
+	boxData.rotation = glm::gtc::quaternion::rotate( boxData.rotation , -2.5f , glm::vec3( 1,0,1 ) );
 
 	box2Data.position.x = -sin( times * 0.1f ) * 2.0f;
 	box2Data.position.z = -cos( times * 0.1f ) * 2.0f - 10;
+	box2Data.rotation = glm::gtc::quaternion::rotate( box2Data.rotation , -2.5f , glm::vec3( 0,1,0 ) );
 }
 
