@@ -13,10 +13,10 @@
 
 // if components are not initialized/set, SET EM!
 #include <singleton>
-#include <component/input/touchcontroller.hpp>
-#include <component/input/keyboardcontroller.hpp>
-#include <component/input/mousecontroller.hpp>
-#include <component/input/joystickcontroller.hpp>
+#include <input/touch.hpp>
+#include <input/keyboard.hpp>
+#include <input/mouse.hpp>
+#include <input/joystick.hpp>
 
 namespace bolt
 {
@@ -24,10 +24,10 @@ namespace bolt
 // GLFW INPUT HANDLING
 namespace GLFWInputHandling
 {
-	TouchController *touch = NULL;
-	KeyboardController *keyboard = NULL;
-	MouseController *mouse = NULL;
-	JoystickController *joystick = NULL;
+	Touch *touch = NULL;
+	Keyboard *keyboard = NULL;
+	Mouse* mouse = NULL;
+	Joystick *joystick = NULL;
 
 	int mouseX = 0;
 	int mouseY = 0;
@@ -36,31 +36,31 @@ namespace GLFWInputHandling
 	void setup()
 	{
 		// Setup components, IF needed.
-		touch = getSingleton<TouchController>();
-		keyboard = getSingleton<KeyboardController>();
-		mouse = getSingleton<MouseController>();
-		joystick = getSingleton<JoystickController>();
+		touch = getSingleton<Touch>();
+		keyboard = getSingleton<Keyboard>();
+		mouse = getSingleton<Mouse>();
+		joystick = getSingleton<Joystick>();
 
 		// Setup input components
 		if( touch == NULL )
 		{
-			touch = new TouchController();
-			setSingleton<TouchController>(touch);
+			touch = new Touch();
+			setSingleton<Touch>(touch);
 		}
 		if( keyboard == NULL )
 		{
-			keyboard = new KeyboardController();
-			setSingleton<KeyboardController>(keyboard);
+			keyboard = new Keyboard();
+			setSingleton<Keyboard>(keyboard);
 		}
 		if( mouse == NULL )
 		{
-			mouse = new MouseController();
-			setSingleton<MouseController>(mouse);
+			mouse = new Mouse();
+			setSingleton<Mouse>(mouse);
 		}
 		if( joystick == NULL )
 		{
-			joystick = new JoystickController();
-			setSingleton<JoystickController>(joystick);
+			joystick = new Joystick();
+			setSingleton<Joystick>(joystick);
 		}
 
 		glfwGetMousePos( &mouseX , &mouseY );

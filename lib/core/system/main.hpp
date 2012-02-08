@@ -32,7 +32,12 @@
 namespace bolt
 {
 
-template < class ApplicationPolicy , class VideoPolicy , class AudioPolicy , class LogPolicy , class ResourceLoader , class ResourceDictionary >
+template < 	class ApplicationPolicy ,
+			class VideoPolicy ,
+			class AudioPolicy ,
+			class LogPolicy ,
+			class ResourceLoader ,
+			class ResourceDictionary >
 class Main
 {
 protected:
@@ -86,7 +91,10 @@ void Main< ApplicationPolicy, VideoPolicy, AudioPolicy , LogPolicy , ResourceLoa
 	// plenty of slaves to do my bidding.
 	int workers = ThreadPool::getHardwareThreadCount() * 2 + 1.0;
 
+	// Workers initialize first, so, that everyone, and everything can use them, right from the start.
 	pool.initialize( workers );
+
+	// Application should initialize all, 'before video, audio, before WORLD is created stuff'
 	application.initialize();
 	audio.initialize();
 	video.initialize();

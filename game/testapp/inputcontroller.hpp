@@ -1,25 +1,22 @@
 /*
- * MouseController.hpp
+ * inputcontroller.hpp
  *
- *  Created on: 20.1.2012
+ *  Created on: 9.2.2012
  *      Author: akin
  */
 
-#ifndef MOUSECONTROLLER_HPP_
-#define MOUSECONTROLLER_HPP_
+#ifndef INPUTCONTROLLER_HPP_
+#define INPUTCONTROLLER_HPP_
 
+#include <input/keyboard.hpp>
+#include <input/mouse.hpp>
 #include <component/controller.hpp>
-#include <common>
 
-namespace bolt
-{
-class MouseController: public bolt::Controller
+class InputController : public bolt::Keyboard , public bolt::Mouse , public bolt::Controller
 {
 public:
-	const static std::string KEY;
-public:
-	MouseController();
-	virtual ~MouseController();
+	InputController();
+	virtual ~InputController();
 
 	virtual void initialize() throw (std::exception);
 
@@ -30,10 +27,14 @@ public:
 
 	virtual void start( bolt::ControllerNode& node );
 
+	// Keyboard
+	virtual void handleKeyboard( unsigned int key , float state );
+	virtual void handleKeyboardCharacter( unsigned int key , float state );
+
+	// Mouse
 	virtual void handleMouseMove( float x , float y );
 	virtual void handleMouseButton( bolt::Button button , float state );
 	virtual void handleMouseWheel( float val );
 };
-}
 
-#endif /* MOUSECONTROLLER_HPP_ */
+#endif /* INPUTCONTROLLER_HPP_ */

@@ -36,6 +36,11 @@ void TestApplication::initialize() throw (std::exception)
 		return;
 	}
 
+	// Input configuration
+	input.initialize();
+	bolt::setSingleton<bolt::Keyboard>( &input );
+	bolt::setSingleton<bolt::Mouse>( &input );
+
 	// Load Configuration.
 	bolt::FileConfig *config = new bolt::FileConfig( "resources/config/default.cfg" );
 	bolt::setSingleton<bolt::Config>( config );
@@ -85,6 +90,7 @@ void TestApplication::initialize() throw (std::exception)
 
 	pipeline->attach( logicFence );
 	pipeline->attach( loader );
+	pipeline->attach( &input );
 
 	initialized = true;
 }

@@ -10,6 +10,7 @@
 
 #include <application/application.hpp>
 #include <component/pipeline.hpp>
+#include "inputcontroller.hpp"
 
 class TestApplication: public bolt::Application
 {
@@ -17,6 +18,8 @@ protected:
 	int state;
 
 	bool initialized;
+
+	InputController input;
 
 	virtual void processArg( int index , std::string argument );
 public:
