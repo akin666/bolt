@@ -14,7 +14,7 @@
 #include <resource/default/defaultdictionary.hpp>
 #include <log.hpp>
 
-#include "game/testapplication.hpp"
+#include "game/testapp/testapplication.hpp"
 
 int main( int argc , char *argv[] )
 {
