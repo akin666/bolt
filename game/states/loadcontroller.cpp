@@ -16,7 +16,9 @@
 #include <data>
 #include <graphics/shader/shader.hpp>
 #include <graphics/shader/shaderprogram.hpp>
-#include "../pipeline/backgroundrenderer.hpp"
+
+#include <component/common/graphicsbackgroundcontroller.hpp>
+#include <component/common/fencecontroller.hpp>
 
 #include "testapplicationgame.hpp"
 
@@ -128,7 +130,12 @@ void LoadController::start( bolt::ControllerNode& node )
 				loadBGComplete = true;
 
 				// Create BackgroundRenderer & attach it also. here.
-				bolt::BackgroundRenderer *bgrender = bolt::createSingleton<bolt::BackgroundRenderer>();
+				bolt::StringSet strings;
+
+				strings.insert( bolt::FenceController::LOGIC );
+				bolt::GraphicsBackgroundController *bgrender = new bolt::GraphicsBackgroundController( bolt::GraphicsBackgroundController::KEY , strings );
+				bolt::setSingleton<bolt::GraphicsBackgroundController>( bgrender );
+
 				bgrender->initialize();
 				bgrender->setShaderProgram( program );
 

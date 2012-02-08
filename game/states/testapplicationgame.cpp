@@ -18,8 +18,7 @@
 #include <resource/registry.hpp>
 #include <graphics/shader/shaderprogram.hpp>
 #include <component/common/fencecontroller.hpp>
-
-#include "../pipeline/backgroundrenderer.hpp"
+#include <component/common/graphicsbackgroundcontroller.hpp>
 
 #include <cmath>
 
@@ -53,7 +52,7 @@ void TestApplicationGame::initialize() throw (std::exception)
 
 	bolt::StringSet depSet;
 	depSet.insert( bolt::FenceController::LOGIC );
-	depSet.insert( bolt::BackgroundRenderer::KEY );
+	depSet.insert( bolt::GraphicsBackgroundController::KEY );
 
 	bolt::GraphicsDebugController *renderer = new bolt::GraphicsDebugController( bolt::GraphicsDebugController::KEY , depSet );
 	renderer->initialize();

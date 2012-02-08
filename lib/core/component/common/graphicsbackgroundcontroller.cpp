@@ -1,14 +1,13 @@
 /*
- * backgroundrenderer.cpp
+ * graphicsbackgroundcontroller.cpp
  *
  *  Created on: 1.2.2012
  *      Author: akin
  */
 
-#include "backgroundrenderer.hpp"
+#include "graphicsbackgroundcontroller.hpp"
 #include <singleton>
 #include <component/common/positionproperty.hpp>
-#include <component/common/fencecontroller.hpp>
 #include <opengl>
 #include <graphics/shader/shaderprogram.hpp>
 #include <graphics/shader/uniform.hpp>
@@ -16,19 +15,20 @@
 
 namespace bolt
 {
-const std::string BackgroundRenderer::KEY("backgroundrenderer");
+const std::string GraphicsBackgroundController::KEY("graphicsbackgroundcontroller");
 
-BackgroundRenderer::BackgroundRenderer()
-: bolt::Controller( KEY , false ),
+GraphicsBackgroundController::GraphicsBackgroundController( std::string name , bolt::StringSet& dependencies )
+: bolt::Controller( name , false ),
+  dependencies( dependencies ),
   program( NULL )
 {
 }
 
-BackgroundRenderer::~BackgroundRenderer()
+GraphicsBackgroundController::~GraphicsBackgroundController()
 {
 }
 
-void BackgroundRenderer::setShaderProgram( ShaderProgram *app )
+void GraphicsBackgroundController::setShaderProgram( ShaderProgram *app )
 {
 	program = app;
 
@@ -36,13 +36,12 @@ void BackgroundRenderer::setShaderProgram( ShaderProgram *app )
 	time = app->getUniform("time");
 }
 
-void BackgroundRenderer::getDependencies(bolt::StringSet & dep)
+void GraphicsBackgroundController::getDependencies(bolt::StringSet & dep)
 {
-	dep.clear();
-	dep.insert( bolt::FenceController::LOGIC );
+	dep = dependencies;
 }
 
-void BackgroundRenderer::initialize() throw (std::exception)
+void GraphicsBackgroundController::initialize() throw (std::exception)
 {
 	float screen_vertices[12] = {
 			-1.0f,	-1.0f,	0.0f,
@@ -59,7 +58,7 @@ void BackgroundRenderer::initialize() throw (std::exception)
 	indexBuffer.set( 4*sizeof(unsigned int) , screen_indices , Graphics::elementArrayBuffer , Graphics::gpu , Graphics::once );
 }
 
-void BackgroundRenderer::start( bolt::ControllerNode& node )
+void GraphicsBackgroundController::start( bolt::ControllerNode& node )
 {
 	if( program != NULL )
 	{

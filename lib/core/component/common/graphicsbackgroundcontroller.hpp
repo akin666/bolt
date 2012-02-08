@@ -1,12 +1,12 @@
 /*
- * backgroundrenderer.hpp
+ * GraphicsBackgroundController.hpp
  *
  *  Created on: 1.2.2012
  *      Author: akin
  */
 
-#ifndef BACKGROUNDRENDERER_HPP_
-#define BACKGROUNDRENDERER_HPP_
+#ifndef GRAPHICSBACKGROUNDCONTROLLER_HPP_
+#define GRAPHICSBACKGROUNDCONTROLLER_HPP_
 
 #include <component/controller.hpp>
 #include <graphics/bufferobject.hpp>
@@ -16,11 +16,13 @@ namespace bolt
 {
 class ShaderProgram;
 class Uniform;
-class BackgroundRenderer : public bolt::Controller
+class GraphicsBackgroundController : public bolt::Controller
 {
 public:
 	const static std::string KEY;
 protected:
+	bolt::StringSet dependencies;
+
 	ShaderProgram *program;
 
 	Clock myTime;
@@ -31,8 +33,8 @@ protected:
 	BufferObject vertexBuffer;
 	BufferObject indexBuffer;
 public:
-	BackgroundRenderer();
-	virtual ~BackgroundRenderer();
+	GraphicsBackgroundController( std::string name , bolt::StringSet& dependencies );
+	virtual ~GraphicsBackgroundController();
 
 	void setShaderProgram( ShaderProgram *app );
 
@@ -43,4 +45,4 @@ public:
 };
 
 } /* namespace bolt */
-#endif /* BACKGROUNDRENDERER_HPP_ */
+#endif /* GRAPHICSBACKGROUNDCONTROLLER_HPP_ */
