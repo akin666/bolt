@@ -5,11 +5,10 @@
  *      Author: akin
  */
 
-#include "simplerenderercontroller.hpp"
+#include "graphicsdebugcontroller.hpp"
 #include <common>
 #include <singleton>
 #include <component/common/positionproperty.hpp>
-#include <component/common/fencecontroller.hpp>
 #include <opengl>
 
 #include <graphics/shader/shaderprogram.hpp>
@@ -22,9 +21,9 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "backgroundrenderer.hpp"
-
-const std::string SimpleRendererController::KEY("simplerenderer");
+namespace bolt
+{
+const std::string GraphicsDebugController::KEY("simplerenderer");
 
 /*
  * Vertex array
@@ -65,17 +64,18 @@ unsigned short cube_i[] = {
   6, 7, 3,
 };
 
-SimpleRendererController::SimpleRendererController()
-: bolt::Controller( KEY , false ),
-  initialized( false )
+GraphicsDebugController::GraphicsDebugController( std::string name , bolt::StringSet& dependencies )
+: bolt::Controller( name , false ),
+  initialized( false ),
+  dependencies(dependencies)
 {
 }
 
-SimpleRendererController::~SimpleRendererController()
+GraphicsDebugController::~GraphicsDebugController()
 {
 }
 
-void SimpleRendererController::initialize() throw (std::exception)
+void GraphicsDebugController::initialize() throw (std::exception)
 {
 	// already initialized?
 	if( initialized )
@@ -85,9 +85,6 @@ void SimpleRendererController::initialize() throw (std::exception)
 
 	vertexBuffer.set( 24*sizeof(float) , cube_v , bolt::Graphics::arrayBuffer , bolt::Graphics::gpu , bolt::Graphics::once );
 	indexBuffer.set( 36*sizeof(unsigned short) , cube_i , bolt::Graphics::elementArrayBuffer , bolt::Graphics::gpu , bolt::Graphics::once );
-
-	dependecies.insert( bolt::FenceController::LOGIC );
-	dependecies.insert( bolt::BackgroundRenderer::KEY );
 
 	bolt::createSingleton<bolt::PositionProperty>()->initialize();
 
@@ -111,12 +108,12 @@ void SimpleRendererController::initialize() throw (std::exception)
 			);
 }
 
-void SimpleRendererController::getDependencies(bolt::StringSet & dep)
+void GraphicsDebugController::getDependencies(bolt::StringSet & dep)
 {
-	dep = dependecies;
+	dep = dependencies;
 }
 
-void SimpleRendererController::attach(bolt::Entity& entity)
+void GraphicsDebugController::attach(bolt::Entity& entity)
 {
 	bolt::getSingleton<bolt::PositionProperty>()->attach( entity );
 
@@ -128,14 +125,14 @@ void SimpleRendererController::attach(bolt::Entity& entity)
 	entities.insert( entity.getId() );
 }
 
-void SimpleRendererController::detach(bolt::Entity& entity)
+void GraphicsDebugController::detach(bolt::Entity& entity)
 {
 	bolt::getSingleton<bolt::PositionProperty>()->detach( entity );
 
 	entities.erase( entity.getId() );
 }
 
-void SimpleRendererController::start(bolt::ControllerNode& node)
+void GraphicsDebugController::start(bolt::ControllerNode& node)
 {
 	// do the rendering here.
 	if( entities.size() > 0 && bolt::resource::hasObject<bolt::ShaderProgram>( "GenericShader" ) )
@@ -158,7 +155,6 @@ void SimpleRendererController::start(bolt::ControllerNode& node)
 	    bolt::Uniform *umodel = program->getUniform( "model" );
 	    bolt::Uniform *ulense = program->getUniform( "lense" );
 
-	    umodel->set( model );
 	    ulense->set( lense );
 
 		vertexBuffer.bind( bolt::Graphics::arrayBuffer );
@@ -186,6 +182,4 @@ void SimpleRendererController::start(bolt::ControllerNode& node)
 		GL_TEST_ERROR("end");
 	}
 }
-
-
-
+}

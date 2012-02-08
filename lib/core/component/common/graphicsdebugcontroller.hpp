@@ -1,12 +1,12 @@
 /*
- * SimpleRendererController.hpp
+ * GraphicsDebugController.hpp
  *
  *  Created on: 20.1.2012
  *      Author: akin
  */
 
-#ifndef SIMPLETENDERERCONTROLLER_HPP_
-#define SIMPLETENDERERCONTROLLER_HPP_
+#ifndef GRAPHICSDEBUGCONTROLLER_HPP_
+#define GRAPHICSDEBUGCONTROLLER_HPP_
 
 #include <component/controller.hpp>
 #include <graphics/bufferobject.hpp>
@@ -14,27 +14,27 @@
 #include <set>
 #include <common>
 
-class SimpleRendererController: public bolt::Controller
+namespace bolt
+{
+class GraphicsDebugController: public bolt::Controller
 {
 public:
 	const static std::string KEY;
 protected:
 	bool initialized;
-	bolt::StringSet dependecies;
+	bolt::StringSet dependencies;
 
 	bolt::BufferObject vertexBuffer;
-	bolt::BufferObject textureBuffer;
 	bolt::BufferObject indexBuffer;
 
-	glm::mat4 model;
 	glm::mat4 lense;
 
 	typedef std::set< bolt::uint > EntitySet;
 
 	EntitySet entities;
 public:
-	SimpleRendererController();
-	virtual ~SimpleRendererController();
+	GraphicsDebugController( std::string name , bolt::StringSet& dependencies );
+	virtual ~GraphicsDebugController();
 
 	virtual void initialize() throw (std::exception);
 
@@ -45,5 +45,6 @@ public:
 
 	virtual void start( bolt::ControllerNode& node );
 };
+}
 
-#endif /* SIMPLETENDERERCOMPONENT_HPP_ */
+#endif /* GraphicsDebugController */

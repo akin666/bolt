@@ -12,12 +12,14 @@
 
 #include <component/pipeline.hpp>
 #include <component/common/positionproperty.hpp>
+#include <component/common/graphicsdebugcontroller.hpp>
 
 #include <resource/dictionary.hpp>
 #include <resource/registry.hpp>
 #include <graphics/shader/shaderprogram.hpp>
+#include <component/common/fencecontroller.hpp>
 
-#include "../pipeline/simplerenderercontroller.hpp"
+#include "../pipeline/backgroundrenderer.hpp"
 
 #include <cmath>
 
@@ -49,7 +51,11 @@ void TestApplicationGame::initialize() throw (std::exception)
 
 	bolt::Pipeline *pipeline = bolt::getSingleton<bolt::Pipeline>();
 
-	SimpleRendererController *renderer = new SimpleRendererController();
+	bolt::StringSet depSet;
+	depSet.insert( bolt::FenceController::LOGIC );
+	depSet.insert( bolt::BackgroundRenderer::KEY );
+
+	bolt::GraphicsDebugController *renderer = new bolt::GraphicsDebugController( bolt::GraphicsDebugController::KEY , depSet );
 	renderer->initialize();
 	pipeline->attach( renderer );
 
