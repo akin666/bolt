@@ -24,10 +24,9 @@ namespace bolt
 // GLFW INPUT HANDLING
 namespace GLFWInputHandling
 {
-	Touch *touch = NULL;
-	Keyboard *keyboard = NULL;
-	Mouse* mouse = NULL;
-	Joystick *joystick = NULL;
+
+//Touch *touch = getSingleton<Touch>();
+//Joystick *joystick = getSingleton<Joystick>();
 
 	int mouseX = 0;
 	int mouseY = 0;
@@ -35,55 +34,37 @@ namespace GLFWInputHandling
 
 	void setup()
 	{
-		// Setup components, IF needed.
-		touch = getSingleton<Touch>();
-		keyboard = getSingleton<Keyboard>();
-		mouse = getSingleton<Mouse>();
-		joystick = getSingleton<Joystick>();
-
-		// Setup input components
-		if( touch == NULL )
-		{
-			touch = new Touch();
-			setSingleton<Touch>(touch);
-		}
-		if( keyboard == NULL )
-		{
-			keyboard = new Keyboard();
-			setSingleton<Keyboard>(keyboard);
-		}
-		if( mouse == NULL )
-		{
-			mouse = new Mouse();
-			setSingleton<Mouse>(mouse);
-		}
-		if( joystick == NULL )
-		{
-			joystick = new Joystick();
-			setSingleton<Joystick>(joystick);
-		}
-
 		glfwGetMousePos( &mouseX , &mouseY );
 		mouseWheel = glfwGetMouseWheel();
 	}
 
 	void keyboardCharCallback(int key, int action)
 	{
-		keyboard->handleKeyboardCharacter( (unsigned int)key , (action == GLFW_PRESS ? 1.0f : 0.0f ) );
+		Keyboard *keyboard = getSingleton<Keyboard>();
+		if(keyboard != NULL) keyboard->handleKeyboardCharacter( (unsigned int)key , (action == GLFW_PRESS ? 1.0f : 0.0f ) );
 	}
 
 	void keyboardCallback(int key, int action)
 	{
-		keyboard->handleKeyboard( (unsigned int)key , (action == GLFW_PRESS ? 1.0f : 0.0f ) );
+		Keyboard *keyboard = getSingleton<Keyboard>();
+		if(keyboard != NULL) keyboard->handleKeyboard( (unsigned int)key , (action == GLFW_PRESS ? 1.0f : 0.0f ) );
 	}
 
 	void mouseWheelCallback(int wheel)
 	{
-		mouse->handleMouseWheel( wheel - mouseWheel );
+		Mouse* mouse = getSingleton<Mouse>();
+		if(mouse != NULL) mouse->handleMouseWheel( wheel - mouseWheel );
 	}
 
 	void mouseButtonCallback(int button, int action)
 	{
+		Mouse* mouse = getSingleton<Mouse>();
+
+		if(mouse == NULL)
+		{
+			return;
+		}
+
 		Button resolver;
 		switch( button )
 		{
@@ -121,10 +102,21 @@ namespace GLFWInputHandling
 
 	void mouseMoveCallback(int x, int y)
 	{
-		mouse->handleMouseMove( x - mouseX , y - mouseY );
+		Mouse* mouse = getSingleton<Mouse>();
+		int diffX, diffY;
+
+		diffX = x - mouseX;
+		diffY = y - mouseY;
 
 		mouseX = x;
 		mouseY = y;
+
+		if(mouse == NULL)
+		{
+			return;
+		}
+
+		mouse->handleMouseMove( diffX , diffY );
 	}
 }
 // GLFW INPUT HANDLING
