@@ -72,9 +72,13 @@ void TestApplicationGame::initialize() throw (std::exception)
 	box2Data.position.y = 5.0f;
 	box2Data.position.z = -10.0f;
 
-	times = 500;
+	times = 1500;
+
+	bolt::setSingleton<bolt::Mouse>( this );
 
 	initialized = true;
+	right = false;
+	left = false;
 }
 
 void TestApplicationGame::start( bolt::ControllerNode& node )
@@ -85,17 +89,101 @@ void TestApplicationGame::start( bolt::ControllerNode& node )
 		bolt::getSingleton<bolt::Application>()->exit();
 	}
 
-	// Modify box position data..
-
 	bolt::PositionProperty::Data& boxData = bolt::getSingleton<bolt::PositionProperty>()->get( box.getId() );
 	bolt::PositionProperty::Data& box2Data = bolt::getSingleton<bolt::PositionProperty>()->get( box2.getId() );
 
-	boxData.position.x = sin( times * 0.05f ) * 2.0f;
-	boxData.position.y = cos( times * 0.05f ) * 2.0f;
+	// Go through mouse events.
+	MouseEvent *event;
+	while( (event = mouse.pop( bolt::TQue<MouseEvent*>::RETURN_NULL_IF_EMPTY )) != NULL )
+	{
+		switch( event->type )
+		{
+			case MouseEvent::MOVE :
+			{
+				if( right )
+				{
+					// 2
+					box2Data.position.x += event->x *0.05f;
+					box2Data.position.y += event->y *0.05f;
+				}
+				if( left )
+				{
+					// 1
+					boxData.position.x += event->x *0.05f;
+					boxData.position.y += event->y *0.05f;
+				}
+				break;
+			}
+			case MouseEvent::BUTTON :
+			{
+				switch( event->button )
+				{
+				case bolt::LEFT : left = event->state > 0.5f; break;
+				case bolt::RIGHT : right = event->state > 0.5f; break;
+				default: break;
+				}
+				break;
+			}
+			case MouseEvent::WHEEL :
+			{
+				break;
+			}
+		}
+
+		// recycle.
+		freeMouse.push( event );
+	}
+
+	// Modify box position data..
+//	boxData.position.x = sin( times * 0.05f ) * 2.0f;
+//	boxData.position.y = cos( times * 0.05f ) * 2.0f;
 	boxData.rotation = glm::gtc::quaternion::rotate( boxData.rotation , -2.5f , glm::vec3( 1,0,1 ) );
 
-	box2Data.position.x = -sin( times * 0.1f ) * 2.0f;
+//	box2Data.position.x = -sin( times * 0.1f ) * 2.0f;
 	box2Data.position.z = -cos( times * 0.1f ) * 2.0f - 10;
 	box2Data.rotation = glm::gtc::quaternion::rotate( box2Data.rotation , -2.5f , glm::vec3( 0,1,0 ) );
 }
+
+// Mous
+void TestApplicationGame::handleMouseMove( float x , float y )
+{
+	MouseEvent *e = freeMouse.pop( bolt::TQue<MouseEvent*>::RETURN_NULL_IF_EMPTY );
+	if( e == NULL )
+	{
+		e = new MouseEvent;
+	}
+
+	e->type = MouseEvent::MOVE;
+	e->x = x;
+	e->y = y;
+	mouse.push( e );
+}
+
+void TestApplicationGame::handleMouseButton( bolt::Button button , float state )
+{
+	MouseEvent *e = freeMouse.pop( bolt::TQue<MouseEvent*>::RETURN_NULL_IF_EMPTY );
+	if( e == NULL )
+	{
+		e = new MouseEvent;
+	}
+
+	e->type = MouseEvent::BUTTON;
+	e->button = button;
+	e->state = state;
+	mouse.push( e );
+}
+
+void TestApplicationGame::handleMouseWheel( float val )
+{
+	MouseEvent *e = freeMouse.pop( bolt::TQue<MouseEvent*>::RETURN_NULL_IF_EMPTY );
+	if( e == NULL )
+	{
+		e = new MouseEvent;
+	}
+
+	e->type = MouseEvent::WHEEL;
+	e->wheel = val;
+	mouse.push( e );
+}
+
 

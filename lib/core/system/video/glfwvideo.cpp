@@ -116,7 +116,8 @@ namespace GLFWInputHandling
 			return;
 		}
 
-		mouse->handleMouseMove( diffX , diffY );
+		// invert Y .. the up is UP .. not DOWN.
+		mouse->handleMouseMove( diffX , -diffY );
 	}
 }
 // GLFW INPUT HANDLING
