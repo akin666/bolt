@@ -16,6 +16,8 @@ class Camera
 public:
 	Camera();
 	virtual ~Camera();
+
+	glm::gtc::quaternion::quat projection;
 };
 
 } /* namespace bolt */

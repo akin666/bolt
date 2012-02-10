@@ -12,13 +12,10 @@ namespace bolt
 
 Position::Position()
 {
-	// TODO Auto-generated constructor stub
-
 }
 
 Position::~Position()
 {
-	// TODO Auto-generated destructor stub
 }
 
 } /* namespace bolt */
