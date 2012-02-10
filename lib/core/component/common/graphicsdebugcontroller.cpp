@@ -169,9 +169,9 @@ void GraphicsDebugController::start(bolt::ControllerNode& node)
 
 	    for( EntitySet::iterator iter = entities.begin() ; iter != entities.end() ; ++iter )
 	    {
-	    	bolt::PositionProperty::Data& data = pproperty->get( *iter );
-	    	glm::mat4 currentMatrix = glm::translate( glm::mat4(1.0f), data.position );
-		    umodel->set( currentMatrix * glm::gtc::quaternion::mat4_cast( data.rotation ) );
+	    	bolt::Position& data = pproperty->get( *iter );
+	    	glm::mat4 currentMatrix = glm::translate( glm::mat4(1.0f), data.point );
+		    umodel->set( currentMatrix * glm::gtc::quaternion::mat4_cast( data.orientation ) );
 			//glDrawArrays( GL_TRIANGLES , 0 , 36 );
 			glDrawElements(GL_TRIANGLES, 36 , GL_UNSIGNED_SHORT, 0);
 

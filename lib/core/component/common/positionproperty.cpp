@@ -37,14 +37,13 @@ void PositionProperty::attach( bolt::Entity& entity )
 
 void PositionProperty::detach( bolt::Entity& entity )
 {
-	// This property is not really detachable. once it has been attached, it cannot be detached.
 	if( data.find( entity.getId() ) != data.end() )
 	{
-	//	data.erase( entity );
+		data.erase( entity.getId() );
 	}
 }
 
-PositionProperty::Data& PositionProperty::get( bolt::uint entity )
+Position& PositionProperty::get( bolt::uint entity )
 {
 	return data[entity];
 }

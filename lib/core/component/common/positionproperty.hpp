@@ -10,7 +10,7 @@
 
 #include <component/property.hpp>
 #include <map>
-#include <glm/ext.hpp>
+#include <generic/position.hpp>
 
 namespace bolt
 {
@@ -18,15 +18,8 @@ class PositionProperty: public bolt::Property
 {
 public:
 	const static std::string KEY;
-
-	class Data
-	{
-	public:
-		glm::vec3 position;
-		glm::gtc::quaternion::quat rotation;
-	};
 protected:
-	std::map< uint , Data > data;
+	std::map< uint , Position > data;
 public:
 	PositionProperty();
 	virtual ~PositionProperty();
@@ -36,7 +29,7 @@ public:
 	virtual void attach( bolt::Entity& entity );
 	virtual void detach( bolt::Entity& entity );
 
-	Data& get( bolt::uint entity );
+	Position& get( bolt::uint entity );
 };
 }
 

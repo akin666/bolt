@@ -61,16 +61,16 @@ void TestApplicationGame::initialize() throw (std::exception)
 	renderer->attach( box );
 	renderer->attach( box2 );
 
-	bolt::PositionProperty::Data& boxData = bolt::getSingleton<bolt::PositionProperty>()->get( box.getId() );
-	bolt::PositionProperty::Data& box2Data = bolt::getSingleton<bolt::PositionProperty>()->get( box2.getId() );
+	bolt::Position& boxData = bolt::getSingleton<bolt::PositionProperty>()->get( box.getId() );
+	bolt::Position& box2Data = bolt::getSingleton<bolt::PositionProperty>()->get( box2.getId() );
 
-	boxData.position.x = 0.0f;
-	boxData.position.y = 5.0f;
-	boxData.position.z = -10.0f;
+	boxData.point.x = 0.0f;
+	boxData.point.y = 5.0f;
+	boxData.point.z = -10.0f;
 
-	box2Data.position.x = 10.0f;
-	box2Data.position.y = 5.0f;
-	box2Data.position.z = -10.0f;
+	box2Data.point.x = 10.0f;
+	box2Data.point.y = 5.0f;
+	box2Data.point.z = -10.0f;
 
 	times = 1500;
 
@@ -89,8 +89,8 @@ void TestApplicationGame::start( bolt::ControllerNode& node )
 		bolt::getSingleton<bolt::Application>()->exit();
 	}
 
-	bolt::PositionProperty::Data& boxData = bolt::getSingleton<bolt::PositionProperty>()->get( box.getId() );
-	bolt::PositionProperty::Data& box2Data = bolt::getSingleton<bolt::PositionProperty>()->get( box2.getId() );
+	bolt::Position& boxData = bolt::getSingleton<bolt::PositionProperty>()->get( box.getId() );
+	bolt::Position& box2Data = bolt::getSingleton<bolt::PositionProperty>()->get( box2.getId() );
 
 	// Go through mouse events.
 	MouseEvent *event;
@@ -103,14 +103,14 @@ void TestApplicationGame::start( bolt::ControllerNode& node )
 				if( right )
 				{
 					// 2
-					box2Data.position.x += event->x *0.05f;
-					box2Data.position.y += event->y *0.05f;
+					box2Data.point.x += event->x *0.05f;
+					box2Data.point.y += event->y *0.05f;
 				}
 				if( left )
 				{
 					// 1
-					boxData.position.x += event->x *0.05f;
-					boxData.position.y += event->y *0.05f;
+					boxData.point.x += event->x *0.05f;
+					boxData.point.y += event->y *0.05f;
 				}
 				break;
 			}
@@ -137,11 +137,11 @@ void TestApplicationGame::start( bolt::ControllerNode& node )
 	// Modify box position data..
 //	boxData.position.x = sin( times * 0.05f ) * 2.0f;
 //	boxData.position.y = cos( times * 0.05f ) * 2.0f;
-	boxData.rotation = glm::gtc::quaternion::rotate( boxData.rotation , -2.5f , glm::vec3( 1,0,1 ) );
+	boxData.orientation = glm::gtc::quaternion::rotate( boxData.orientation , -2.5f , glm::vec3( 1,0,1 ) );
 
 //	box2Data.position.x = -sin( times * 0.1f ) * 2.0f;
-	box2Data.position.z = -cos( times * 0.1f ) * 2.0f - 10;
-	box2Data.rotation = glm::gtc::quaternion::rotate( box2Data.rotation , -2.5f , glm::vec3( 0,1,0 ) );
+	box2Data.point.z = -cos( times * 0.1f ) * 2.0f - 10;
+	box2Data.orientation = glm::gtc::quaternion::rotate( box2Data.orientation , -2.5f , glm::vec3( 0,1,0 ) );
 }
 
 // Mous
