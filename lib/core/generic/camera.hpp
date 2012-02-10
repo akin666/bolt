@@ -8,6 +8,8 @@
 #ifndef CAMERA_HPP_
 #define CAMERA_HPP_
 
+#include <glm/ext.hpp>
+
 namespace bolt
 {
 
