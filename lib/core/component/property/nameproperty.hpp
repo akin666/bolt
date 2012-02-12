@@ -20,6 +20,7 @@ public:
 	const static std::string KEY;
 protected:
 	typedef std::map< uint , std::string > NameMap;
+
 	NameMap data;
 public:
 	NameProperty();

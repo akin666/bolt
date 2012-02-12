@@ -14,7 +14,6 @@
 
 namespace bolt
 {
-
 class CameraProperty : public bolt::Property
 {
 public:
@@ -23,8 +22,7 @@ protected:
 	typedef std::map< bolt::uint , Camera > CameraMap;
 
 	CameraMap data;
-
-	Entity entity;
+	Entity current;
 public:
 	CameraProperty();
 	virtual ~CameraProperty();

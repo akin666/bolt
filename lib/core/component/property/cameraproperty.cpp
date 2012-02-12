@@ -13,7 +13,7 @@ const std::string CameraProperty::KEY("camera");
 
 CameraProperty::CameraProperty()
 : bolt::Property( KEY ),
-  entity( Entity::null )
+  current( Entity::null )
 {
 }
 
@@ -51,12 +51,12 @@ Camera& CameraProperty::get( bolt::uint entity )
 
 Entity CameraProperty::getCurrent()
 {
-	return entity;
+	return current;
 }
 
 void CameraProperty::setCurrent( Entity& entity )
 {
-	this->entity = entity;
+	this->current = entity;
 }
 
 } /* namespace bolt */
