@@ -8,7 +8,7 @@
 #ifndef COMPOSITECONTROLLER_HPP_
 #define COMPOSITECONTROLLER_HPP_
 
-#include <component/controller.hpp>
+#include <pipeline/controller.hpp>
 #include <common>
 #include <vector>
 

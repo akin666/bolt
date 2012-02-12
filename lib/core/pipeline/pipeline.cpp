@@ -8,7 +8,6 @@
 #include "pipeline.hpp"
 #include "controller.hpp"
 #include "tools/controllernode.hpp"
-#include "entity.hpp"
 
 namespace bolt
 {

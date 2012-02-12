@@ -10,15 +10,15 @@
 #include <log>
 #include <application/application.hpp>
 
-#include <component/pipeline.hpp>
-#include <component/common/positionproperty.hpp>
-#include <component/common/graphicsdebugcontroller.hpp>
+#include <pipeline/pipeline.hpp>
+#include <component/property/positionproperty.hpp>
+#include <pipeline/controller/graphicsdebugcontroller.hpp>
 
 #include <resource/dictionary.hpp>
 #include <resource/registry.hpp>
 #include <graphics/shader/shaderprogram.hpp>
-#include <component/common/fencecontroller.hpp>
-#include <component/common/graphicsbackgroundcontroller.hpp>
+#include <pipeline/controller/fencecontroller.hpp>
+#include <pipeline/controller/graphicsbackgroundcontroller.hpp>
 
 #include <cmath>
 

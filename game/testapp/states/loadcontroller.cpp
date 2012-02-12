@@ -8,7 +8,7 @@
 #include "loadcontroller.hpp"
 #include <singleton>
 #include <log>
-#include <component/pipeline.hpp>
+#include <pipeline/pipeline.hpp>
 
 #include <resource/loader.hpp>
 #include <resource/dictionary.hpp>
@@ -17,8 +17,8 @@
 #include <graphics/shader/shader.hpp>
 #include <graphics/shader/shaderprogram.hpp>
 
-#include <component/common/graphicsbackgroundcontroller.hpp>
-#include <component/common/fencecontroller.hpp>
+#include <pipeline/controller/graphicsbackgroundcontroller.hpp>
+#include <pipeline/controller/fencecontroller.hpp>
 
 #include "testapplicationgame.hpp"
 

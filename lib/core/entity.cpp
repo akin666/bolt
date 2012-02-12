@@ -10,7 +10,9 @@
 namespace bolt
 {
 
-uint Entity::mId = 1;
+const uint Entity::nullId = 0;
+const Entity Entity::null( nullId );
+uint Entity::mId = nullId + 1;
 
 uint Entity::createId()
 {
@@ -19,6 +21,11 @@ uint Entity::createId()
 
 Entity::Entity()
 : id( createId() )
+{
+}
+
+Entity::Entity( uint genid )
+: id( genid )
 {
 }
 

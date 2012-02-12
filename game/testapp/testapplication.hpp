@@ -9,7 +9,7 @@
 #define TESTAPPLICATION_HPP_
 
 #include <application/application.hpp>
-#include <component/pipeline.hpp>
+#include <pipeline/pipeline.hpp>
 #include "inputcontroller.hpp"
 
 class TestApplication: public bolt::Application

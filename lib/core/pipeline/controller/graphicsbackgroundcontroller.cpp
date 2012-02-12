@@ -7,7 +7,7 @@
 
 #include "graphicsbackgroundcontroller.hpp"
 #include <singleton>
-#include <component/common/positionproperty.hpp>
+#include <component/property/positionproperty.hpp>
 #include <opengl>
 #include <graphics/shader/shaderprogram.hpp>
 #include <graphics/shader/uniform.hpp>

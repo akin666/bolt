@@ -19,7 +19,7 @@
 #include <application/application.hpp>
 #include "audio.hpp"
 #include "video.hpp"
-#include <component/pipeline.hpp>
+#include <pipeline/pipeline.hpp>
 
 #include <log.hpp>
 #include <event/eventhandler.hpp>

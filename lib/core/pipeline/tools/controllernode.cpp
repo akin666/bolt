@@ -8,7 +8,7 @@
 #include "controllernode.hpp"
 #include <threadpool>
 #include "controllerwork.hpp"
-#include <component/controller.hpp>
+#include <pipeline/controller.hpp>
 
 namespace bolt
 {

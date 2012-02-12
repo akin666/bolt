@@ -12,7 +12,7 @@
 #include <set>
 #include <string>
 #include <common>
-#include "entity.hpp"
+#include <entity.hpp>
 
 namespace bolt
 {

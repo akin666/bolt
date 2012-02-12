@@ -8,7 +8,7 @@
 #ifndef TESTAPPLICATIONGAME_HPP_
 #define TESTAPPLICATIONGAME_HPP_
 
-#include <component/controller.hpp>
+#include <pipeline/controller.hpp>
 #include <input/mouse.hpp>
 #include <tque>
 

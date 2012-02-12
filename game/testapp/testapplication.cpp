@@ -10,8 +10,7 @@
 #include <singleton>
 #include <system/video.hpp>
 #include <system/audio.hpp>
-#include <component/common/fencecontroller.hpp>
-#include <component/pipeline.hpp>
+#include <pipeline/controller/fencecontroller.hpp>
 #include "states/loadcontroller.hpp"
 #include "states/testapplicationgame.hpp"
 #include <config/fileconfig.hpp>

@@ -8,7 +8,7 @@
 #ifndef GRAPHICSDEBUGCONTROLLER_HPP_
 #define GRAPHICSDEBUGCONTROLLER_HPP_
 
-#include <component/controller.hpp>
+#include <pipeline/controller.hpp>
 #include <graphics/bufferobject.hpp>
 #include <glm/glm>
 #include <set>

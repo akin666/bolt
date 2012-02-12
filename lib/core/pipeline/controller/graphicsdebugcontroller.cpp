@@ -8,7 +8,7 @@
 #include "graphicsdebugcontroller.hpp"
 #include <common>
 #include <singleton>
-#include <component/common/positionproperty.hpp>
+#include <component/property/positionproperty.hpp>
 #include <opengl>
 
 #include <graphics/shader/shaderprogram.hpp>

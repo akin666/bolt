@@ -19,7 +19,9 @@ class PositionProperty: public bolt::Property
 public:
 	const static std::string KEY;
 protected:
-	std::map< uint , Position > data;
+	typedef std::map< uint , Position > PositionMap;
+
+	PositionMap data;
 public:
 	PositionProperty();
 	virtual ~PositionProperty();

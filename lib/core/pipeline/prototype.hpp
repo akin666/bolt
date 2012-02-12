@@ -10,7 +10,7 @@
 
 #include <set>
 #include "controller.hpp"
-#include "entity.hpp"
+#include <entity.hpp>
 
 namespace bolt
 {

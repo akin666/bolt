@@ -15,12 +15,16 @@ namespace bolt
 	class Entity
 	{
 	protected:
+		static const uint nullId;
 		static uint mId;
 		static uint createId();
 
 		uint id;
 	public:
+		static const Entity null;
+
 		Entity();
+		Entity( uint genid );
 		Entity( const Entity& other );
 
 		uint getId();

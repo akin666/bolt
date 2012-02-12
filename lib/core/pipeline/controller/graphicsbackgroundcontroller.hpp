@@ -8,7 +8,7 @@
 #ifndef GRAPHICSBACKGROUNDCONTROLLER_HPP_
 #define GRAPHICSBACKGROUNDCONTROLLER_HPP_
 
-#include <component/controller.hpp>
+#include <pipeline/controller.hpp>
 #include <graphics/bufferobject.hpp>
 #include <system/clock.hpp>
 

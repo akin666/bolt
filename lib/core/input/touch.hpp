@@ -8,7 +8,7 @@
 #ifndef TOUCH_HPP_
 #define TOUCH_HPP_
 
-#include <component/controller.hpp>
+#include <common>
 
 namespace bolt
 {

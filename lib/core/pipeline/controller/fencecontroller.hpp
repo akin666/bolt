@@ -8,7 +8,7 @@
 #ifndef FENCECONTROLLER_HPP_
 #define FENCECONTROLLER_HPP_
 
-#include <component/controller.hpp>
+#include <pipeline/controller.hpp>
 #include <common>
 
 namespace bolt

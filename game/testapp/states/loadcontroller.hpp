@@ -8,7 +8,7 @@
 #ifndef LOADCONTROLLER_HPP_
 #define LOADCONTROLLER_HPP_
 
-#include <component/controller.hpp>
+#include <pipeline/controller.hpp>
 
 class LoadController: public bolt::Controller
 {

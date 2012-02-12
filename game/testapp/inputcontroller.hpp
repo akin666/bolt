@@ -10,7 +10,7 @@
 
 #include <input/keyboard.hpp>
 #include <input/mouse.hpp>
-#include <component/controller.hpp>
+#include <pipeline/controller.hpp>
 
 class InputController : public bolt::Keyboard , public bolt::Mouse , public bolt::Controller
 {

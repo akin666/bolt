@@ -7,7 +7,6 @@
 
 #include "prototype.hpp"
 #include <iostream>
-#include "entity.hpp"
 
 namespace bolt
 {
