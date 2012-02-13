@@ -133,8 +133,8 @@ void GraphicsDebugController::start(bolt::ControllerNode& node)
 
 	    // get current camera data.
 		bolt::Entity currentCamera = bolt::createSingleton<bolt::CameraProperty>()->getCurrent();
-		glm::mat4 cameraLense = bolt::createSingleton<bolt::CameraProperty>()->toMatrix( currentCamera.getId() );
-		glm::mat4 cameraPosition = bolt::getSingleton<bolt::PositionProperty>()->toMatrix( currentCamera.getId() );
+		glm::mat4 cameraLense = bolt::createSingleton<bolt::CameraProperty>()->lenseMatrix( currentCamera.getId() );
+		glm::mat4 cameraPosition = bolt::createSingleton<bolt::CameraProperty>()->positionMatrix( currentCamera.getId() );
 
     	glm::mat4 tMatrix = cameraLense * cameraPosition;
     	// Get Lense & Camera position.. put them together.. etc. TODO!

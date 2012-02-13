@@ -6,6 +6,8 @@
  */
 
 #include "cameraproperty.hpp"
+#include "positionproperty.hpp"
+#include <singleton>
 
 namespace bolt
 {
@@ -44,9 +46,14 @@ void CameraProperty::detach( bolt::Entity& entity )
 	}
 }
 
-glm::mat4 CameraProperty::toMatrix( bolt::uint entity )
+glm::mat4 CameraProperty::lenseMatrix( bolt::uint entity )
 {
 	return data[entity].lense;
+}
+
+glm::mat4 CameraProperty::positionMatrix( bolt::uint entity )
+{
+	return glm::inverse( getSingleton<PositionProperty>()->toMatrix( entity ) );
 }
 
 Camera& CameraProperty::get( bolt::uint entity )

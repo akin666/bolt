@@ -73,13 +73,15 @@ void TestApplicationGame::initialize() throw (std::exception)
 
 	box2Data.point.x = 10.0f;
 	box2Data.point.y = 5.0f;
-	box2Data.point.z = -10.0f;
+	box2Data.point.z = 10.0f;
 
 
 
 	// Camera
 	bolt::Camera& cameraData = bolt::createSingleton<bolt::CameraProperty>()->get( camera.getId() );
 	bolt::Position& cameraPositionData = bolt::getSingleton<bolt::PositionProperty>()->get( camera.getId() );
+
+	cameraPositionData.point.z = 10.0f;
 
 	bolt::createSingleton<bolt::CameraProperty>()->setCurrent( camera );
 
@@ -98,7 +100,7 @@ void TestApplicationGame::initialize() throw (std::exception)
 			-aspectRatio,
 			 aspectRatio,
 			1.0f,
-			20.0f
+			40.0f
 			);
 
 	times = 1500;
@@ -134,14 +136,12 @@ void TestApplicationGame::start( bolt::ControllerNode& node )
 				if( right )
 				{
 					// 2
-					box2Data.point.x += event->x *0.05f;
-					box2Data.point.y += event->y *0.05f;
+					box2Data.point.x -= event->x *0.05f;
+					box2Data.point.y -= event->y *0.05f;
 				}
 				if( left )
 				{
-					// 1
-					boxData.point.x += event->x *0.05f;
-					boxData.point.y += event->y *0.05f;
+					cameraPositionData.orientation = glm::gtc::quaternion::rotate( cameraPositionData.orientation , 1.0f , glm::vec3( event->x,event->y,0 ) );
 				}
 				if( mid )
 				{
@@ -149,8 +149,6 @@ void TestApplicationGame::start( bolt::ControllerNode& node )
 					cameraPositionData.point.x += event->x * 0.05f;
 					cameraPositionData.point.y += event->y * 0.05f;
 				}
-
-
 
 				break;
 			}
@@ -185,6 +183,11 @@ void TestApplicationGame::start( bolt::ControllerNode& node )
 //	box2Data.position.x = -sin( times * 0.1f ) * 2.0f;
 	box2Data.point.z = -cos( times * 0.1f ) * 2.0f - 10;
 	box2Data.orientation = glm::gtc::quaternion::rotate( box2Data.orientation , -2.5f , glm::vec3( 0,1,0 ) );
+
+
+	LOG_OUT << "CamPos: " << cameraPositionData.point.z << std::endl;
+	LOG_OUT << "boxData p: " << boxData.point.z << std::endl;
+	LOG_OUT << "box2Data p: " << box2Data.point.z << std::endl;
 }
 
 // Mous
