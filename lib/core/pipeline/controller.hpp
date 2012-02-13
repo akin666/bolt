@@ -3,6 +3,14 @@
  *
  *  Created on: 16.1.2012
  *      Author: akin
+ *
+ *      Controller is like the controller from the ModelViewController pattern.
+ *      Controller adds some functionality to the entities.. and is designed to control the Property classes.
+ *      The design of controller is coupled deeply, with the Pipeline concept, and actually, pipeline, is just
+ *      a set of parallel and nonparallel controllers, that do some single task well..
+ *
+ *      The original idea, is to use the pipeline to control safe/nonsafe threading, so that, for example, PhysicsController
+ *      can modify PositionProperty data, while ScriptController can do something else, and not touch the PositionProperty data.
  */
 
 #ifndef CONTROLLER_HPP_
