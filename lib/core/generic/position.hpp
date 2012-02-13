@@ -21,6 +21,8 @@ public:
 
 	glm::vec3 point;
 	glm::gtc::quaternion::quat orientation;
+
+	glm::mat4 toMatrix();
 };
 
 } /* namespace bolt */

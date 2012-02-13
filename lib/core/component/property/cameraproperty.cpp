@@ -44,6 +44,11 @@ void CameraProperty::detach( bolt::Entity& entity )
 	}
 }
 
+glm::mat4 CameraProperty::toMatrix( bolt::uint entity )
+{
+	return data[entity].lense;
+}
+
 Camera& CameraProperty::get( bolt::uint entity )
 {
 	return data[entity];

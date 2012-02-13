@@ -34,6 +34,7 @@ protected:
 
 	bool left;
 	bool right;
+	bool mid;
 
 	class MouseEvent {
 	public:

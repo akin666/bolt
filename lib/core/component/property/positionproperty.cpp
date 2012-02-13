@@ -43,6 +43,11 @@ void PositionProperty::detach( bolt::Entity& entity )
 	}
 }
 
+glm::mat4 PositionProperty::toMatrix( bolt::uint entity )
+{
+	return data[entity].toMatrix();
+}
+
 Position& PositionProperty::get( bolt::uint entity )
 {
 	return data[entity];

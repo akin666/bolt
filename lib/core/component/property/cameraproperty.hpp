@@ -34,6 +34,8 @@ public:
 
 	Camera& get( bolt::uint entity );
 
+	glm::mat4 toMatrix( bolt::uint entity );
+
 	Entity getCurrent();
 	void setCurrent( Entity& entity );
 };

@@ -133,12 +133,10 @@ void GraphicsDebugController::start(bolt::ControllerNode& node)
 
 	    // get current camera data.
 		bolt::Entity currentCamera = bolt::createSingleton<bolt::CameraProperty>()->getCurrent();
-		bolt::Camera& cameraData = bolt::createSingleton<bolt::CameraProperty>()->get( currentCamera.getId() );
-    	bolt::Position& cameraPosition = bolt::getSingleton<bolt::PositionProperty>()->get( currentCamera.getId() );
-    	glm::mat4 cameraMoveMatrix = glm::translate( glm::mat4(1.0f), cameraPosition.point );
-    	cameraMoveMatrix = cameraMoveMatrix * glm::gtc::quaternion::mat4_cast( cameraPosition.orientation );
+		glm::mat4 cameraLense = bolt::createSingleton<bolt::CameraProperty>()->toMatrix( currentCamera.getId() );
+		glm::mat4 cameraPosition = bolt::getSingleton<bolt::PositionProperty>()->toMatrix( currentCamera.getId() );
 
-    	glm::mat4 tMatrix = cameraData.lense * cameraMoveMatrix;
+    	glm::mat4 tMatrix = cameraLense * cameraPosition;
     	// Get Lense & Camera position.. put them together.. etc. TODO!
 
 
@@ -161,9 +159,7 @@ void GraphicsDebugController::start(bolt::ControllerNode& node)
 
 	    for( EntitySet::iterator iter = entities.begin() ; iter != entities.end() ; ++iter )
 	    {
-	    	bolt::Position& data = pproperty->get( *iter );
-	    	glm::mat4 currentMatrix = glm::translate( glm::mat4(1.0f), data.point );
-		    umodel->set( currentMatrix * glm::gtc::quaternion::mat4_cast( data.orientation ) );
+		    umodel->set( pproperty->toMatrix( *iter ) );
 			//glDrawArrays( GL_TRIANGLES , 0 , 36 );
 			glDrawElements(GL_TRIANGLES, 36 , GL_UNSIGNED_SHORT, 0);
 

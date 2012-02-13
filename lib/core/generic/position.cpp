@@ -18,4 +18,9 @@ Position::~Position()
 {
 }
 
+glm::mat4 Position::toMatrix()
+{
+	return glm::translate( glm::mat4(1.0f), point ) * glm::gtc::quaternion::mat4_cast( orientation );
+}
+
 } /* namespace bolt */

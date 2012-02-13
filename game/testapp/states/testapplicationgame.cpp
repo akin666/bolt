@@ -108,6 +108,7 @@ void TestApplicationGame::initialize() throw (std::exception)
 	initialized = true;
 	right = false;
 	left = false;
+	mid = false;
 }
 
 void TestApplicationGame::start( bolt::ControllerNode& node )
@@ -142,6 +143,15 @@ void TestApplicationGame::start( bolt::ControllerNode& node )
 					boxData.point.x += event->x *0.05f;
 					boxData.point.y += event->y *0.05f;
 				}
+				if( mid )
+				{
+					// 1
+					cameraPositionData.point.x += event->x * 0.05f;
+					cameraPositionData.point.y += event->y * 0.05f;
+				}
+
+
+
 				break;
 			}
 			case MouseEvent::BUTTON :
@@ -150,6 +160,7 @@ void TestApplicationGame::start( bolt::ControllerNode& node )
 				{
 					case bolt::LEFT : left = event->state > 0.5f; break;
 					case bolt::RIGHT : right = event->state > 0.5f; break;
+					case bolt::MIDDLE : mid = event->state > 0.5f; break;
 					default: break;
 				}
 				break;

@@ -31,6 +31,7 @@ public:
 	virtual void attach( bolt::Entity& entity );
 	virtual void detach( bolt::Entity& entity );
 
+	glm::mat4 toMatrix( bolt::uint entity );
 	Position& get( bolt::uint entity );
 };
 }
