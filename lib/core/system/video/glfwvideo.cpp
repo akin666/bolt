@@ -53,7 +53,18 @@ namespace GLFWInputHandling
 	void mouseWheelCallback(int wheel)
 	{
 		Mouse* mouse = getSingleton<Mouse>();
-		if(mouse != NULL) mouse->handleMouseWheel( wheel - mouseWheel );
+		int diff;
+
+		diff = wheel - mouseWheel;
+		mouseWheel = wheel;
+
+		if(mouse == NULL)
+		{
+			return;
+		}
+
+		// invert Y .. the up is UP .. not DOWN.
+		mouse->handleMouseWheel( diff );
 	}
 
 	void mouseButtonCallback(int button, int action)

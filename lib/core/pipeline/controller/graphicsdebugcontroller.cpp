@@ -138,6 +138,7 @@ void GraphicsDebugController::start(bolt::ControllerNode& node)
     	glm::mat4 cameraMoveMatrix = glm::translate( glm::mat4(1.0f), cameraPosition.point );
     	cameraMoveMatrix = cameraMoveMatrix * glm::gtc::quaternion::mat4_cast( cameraPosition.orientation );
 
+    	glm::mat4 tMatrix = cameraData.lense * cameraMoveMatrix;
     	// Get Lense & Camera position.. put them together.. etc. TODO!
 
 
@@ -146,7 +147,7 @@ void GraphicsDebugController::start(bolt::ControllerNode& node)
 	    bolt::Uniform *umodel = program->getUniform( "model" );
 	    bolt::Uniform *ulense = program->getUniform( "lense" );
 
-	    ulense->set( cameraData.lense );
+	    ulense->set( tMatrix );
 
 		vertexBuffer.bind( bolt::Graphics::arrayBuffer );
 		glVertexPointer( 3, GL_FLOAT , 3*sizeof(float) , 0 );

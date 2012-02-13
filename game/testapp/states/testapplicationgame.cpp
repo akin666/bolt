@@ -78,8 +78,8 @@ void TestApplicationGame::initialize() throw (std::exception)
 
 
 	// Camera
-	bolt::Position& cameraPositionData = bolt::getSingleton<bolt::PositionProperty>()->get( camera.getId() );
 	bolt::Camera& cameraData = bolt::createSingleton<bolt::CameraProperty>()->get( camera.getId() );
+	bolt::Position& cameraPositionData = bolt::getSingleton<bolt::PositionProperty>()->get( camera.getId() );
 
 	bolt::createSingleton<bolt::CameraProperty>()->setCurrent( camera );
 
@@ -120,6 +120,7 @@ void TestApplicationGame::start( bolt::ControllerNode& node )
 
 	bolt::Position& boxData = bolt::getSingleton<bolt::PositionProperty>()->get( box.getId() );
 	bolt::Position& box2Data = bolt::getSingleton<bolt::PositionProperty>()->get( box2.getId() );
+	bolt::Position& cameraPositionData = bolt::getSingleton<bolt::PositionProperty>()->get( camera.getId() );
 
 	// Go through mouse events.
 	MouseEvent *event;
@@ -147,14 +148,16 @@ void TestApplicationGame::start( bolt::ControllerNode& node )
 			{
 				switch( event->button )
 				{
-				case bolt::LEFT : left = event->state > 0.5f; break;
-				case bolt::RIGHT : right = event->state > 0.5f; break;
-				default: break;
+					case bolt::LEFT : left = event->state > 0.5f; break;
+					case bolt::RIGHT : right = event->state > 0.5f; break;
+					default: break;
 				}
 				break;
 			}
 			case MouseEvent::WHEEL :
 			{
+				cameraPositionData.point.z += event->wheel * 0.5f;
+
 				break;
 			}
 		}
