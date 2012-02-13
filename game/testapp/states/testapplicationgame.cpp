@@ -20,6 +20,9 @@
 #include <pipeline/controller/fencecontroller.hpp>
 #include <pipeline/controller/graphicsbackgroundcontroller.hpp>
 
+#include <component/property/cameraproperty.hpp>
+#include <graphics/rendertarget.hpp>
+
 #include <cmath>
 
 const std::string TestApplicationGame::KEY("testapplication");
@@ -71,6 +74,32 @@ void TestApplicationGame::initialize() throw (std::exception)
 	box2Data.point.x = 10.0f;
 	box2Data.point.y = 5.0f;
 	box2Data.point.z = -10.0f;
+
+
+
+	// Camera
+	bolt::Position& cameraPositionData = bolt::getSingleton<bolt::PositionProperty>()->get( camera.getId() );
+	bolt::Camera& cameraData = bolt::createSingleton<bolt::CameraProperty>()->get( camera.getId() );
+
+	bolt::createSingleton<bolt::CameraProperty>()->setCurrent( camera );
+
+	glm::vec2 windowResolution;
+
+	bolt::VideoMode& videomode = bolt::Singleton<bolt::RenderTarget>::get()->getVideoMode();
+
+	windowResolution.x = videomode.getWidth();
+	windowResolution.y = videomode.getHeight();
+
+	const float aspectRatio = windowResolution.y/windowResolution.x;
+
+	cameraData.lense = glm::frustum(
+			-1.0f,
+			 1.0f,
+			-aspectRatio,
+			 aspectRatio,
+			1.0f,
+			20.0f
+			);
 
 	times = 1500;
 

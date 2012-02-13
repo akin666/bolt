@@ -9,12 +9,12 @@
 #include <common>
 #include <singleton>
 #include <component/property/positionproperty.hpp>
+#include <component/property/cameraproperty.hpp>
 #include <opengl>
 
 #include <graphics/shader/shaderprogram.hpp>
 #include <graphics/shader/uniform.hpp>
 #include <graphics/shader/attribute.hpp>
-#include <graphics/rendertarget.hpp>
 #include <graphics/graphics.hpp>
 
 #include <resource/registry.hpp>
@@ -87,25 +87,6 @@ void GraphicsDebugController::initialize() throw (std::exception)
 	indexBuffer.set( 36*sizeof(unsigned short) , cube_i , bolt::Graphics::elementArrayBuffer , bolt::Graphics::gpu , bolt::Graphics::once );
 
 	bolt::createSingleton<bolt::PositionProperty>()->initialize();
-
-
-	glm::vec2 windowResolution;
-
-	bolt::VideoMode& videomode = bolt::Singleton<bolt::RenderTarget>::get()->getVideoMode();
-
-	windowResolution.x = videomode.getWidth();
-	windowResolution.y = videomode.getHeight();
-
-	const float aspectRatio = windowResolution.y/windowResolution.x;
-
-	lense = glm::frustum(
-			-1.0f,
-			 1.0f,
-			-aspectRatio,
-			 aspectRatio,
-			1.0f,
-			20.0f
-			);
 }
 
 void GraphicsDebugController::getDependencies(bolt::StringSet & dep)
@@ -150,12 +131,22 @@ void GraphicsDebugController::start(bolt::ControllerNode& node)
 	    // Bind program & set node there..
 	    bolt::ShaderProgram *program = bolt::resource::getObject<bolt::ShaderProgram>( "GenericShader" );
 
+	    // get current camera data.
+		bolt::Entity currentCamera = bolt::createSingleton<bolt::CameraProperty>()->getCurrent();
+		bolt::Camera& cameraData = bolt::createSingleton<bolt::CameraProperty>()->get( currentCamera.getId() );
+    	bolt::Position& cameraPosition = bolt::getSingleton<bolt::PositionProperty>()->get( currentCamera.getId() );
+    	glm::mat4 cameraMoveMatrix = glm::translate( glm::mat4(1.0f), cameraPosition.point );
+    	cameraMoveMatrix = cameraMoveMatrix * glm::gtc::quaternion::mat4_cast( cameraPosition.orientation );
+
+    	// Get Lense & Camera position.. put them together.. etc. TODO!
+
+
 	    program->bind();
 
 	    bolt::Uniform *umodel = program->getUniform( "model" );
 	    bolt::Uniform *ulense = program->getUniform( "lense" );
 
-	    ulense->set( lense );
+	    ulense->set( cameraData.lense );
 
 		vertexBuffer.bind( bolt::Graphics::arrayBuffer );
 		glVertexPointer( 3, GL_FLOAT , 3*sizeof(float) , 0 );

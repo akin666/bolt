@@ -27,8 +27,6 @@ protected:
 	bolt::BufferObject vertexBuffer;
 	bolt::BufferObject indexBuffer;
 
-	glm::mat4 lense;
-
 	typedef std::set< bolt::uint > EntitySet;
 
 	EntitySet entities;

@@ -19,7 +19,7 @@ public:
 	Camera();
 	virtual ~Camera();
 
-	glm::gtc::quaternion::quat projection;
+	glm::mat4 lense;
 };
 
 } /* namespace bolt */
