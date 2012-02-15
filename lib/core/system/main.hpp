@@ -20,7 +20,7 @@
 #include "video.hpp"
 #include <pipeline/pipeline.hpp>
 
-#include <log.hpp>
+#include <log>
 #include <event/eventhandler.hpp>
 #include <exception/exceptionhandler.hpp>
 #include <threadpool>
@@ -114,6 +114,11 @@ int Main< ApplicationPolicy, VideoPolicy, AudioPolicy , LogPolicy , ResourceLoad
 			}
 			catch( std::exception& e ) {
 				application.handleException( e );
+			}
+			catch( ... ) {
+				// It did not go to the real exception handler.. this is bad!
+				LOG_ERROR << "Exception that is not of std::exception!" << std::endl;
+				application.exit();
 			}
 		}
 		while( application.willContinue() );
