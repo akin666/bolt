@@ -17,6 +17,7 @@
 #include <input/keyboard.hpp>
 #include <input/mouse.hpp>
 #include <input/joystick.hpp>
+#include <input/osinput.hpp>
 
 namespace bolt
 {
@@ -130,6 +131,43 @@ namespace GLFWInputHandling
 		// invert Y .. the up is UP .. not DOWN.
 		mouse->handleMouseMove( diffX , -diffY );
 	}
+
+	int windowCloseCallback()
+	{
+		OSInput* osinput = getSingleton<OSInput>();
+
+		if( osinput == NULL )
+		{
+			return GL_TRUE;
+		}
+
+		return osinput->handleClose() ? GL_TRUE : GL_FALSE;
+	}
+
+	void windowSizeCallback( int w , int h )
+	{
+		OSInput* osinput = getSingleton<OSInput>();
+
+		if( osinput == NULL )
+		{
+			return;
+		}
+
+		osinput->handleResize( w , h );
+	}
+
+	void windowRefreshCallback()
+	{
+		OSInput* osinput = getSingleton<OSInput>();
+
+		if( osinput == NULL )
+		{
+			return;
+		}
+
+		osinput->handleRefresh();
+	}
+
 }
 // GLFW INPUT HANDLING
 
@@ -242,6 +280,9 @@ void GLFWVideo::initialize()
 	glfwSetMousePosCallback( GLFWInputHandling::mouseMoveCallback );
 	glfwSetMouseButtonCallback( GLFWInputHandling::mouseButtonCallback );
 	glfwSetMouseWheelCallback( GLFWInputHandling::mouseWheelCallback );
+	glfwSetWindowCloseCallback( GLFWInputHandling::windowCloseCallback );
+	glfwSetWindowSizeCallback( GLFWInputHandling::windowSizeCallback );
+	glfwSetWindowRefreshCallback( GLFWInputHandling::windowRefreshCallback );
 
 	GL_TEST_ERROR("end");
 
