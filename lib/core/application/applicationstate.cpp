@@ -30,7 +30,7 @@ void ApplicationState::processArgs( int argc , char *argv[] )
 	}
 }
 
-void ApplicationState::initialize() throw (std::exception)
+void ApplicationState::initialize()
 {
 }
 

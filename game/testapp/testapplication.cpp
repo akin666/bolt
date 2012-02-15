@@ -28,7 +28,7 @@ void TestApplication::processArg( int index , std::string argument )
 {
 }
 
-void TestApplication::initialize() throw (std::exception)
+void TestApplication::initialize()
 {
 	if( initialized )
 	{

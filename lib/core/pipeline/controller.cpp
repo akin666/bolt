@@ -55,7 +55,7 @@ void Controller::setPriority( uint prio )
 	priority = prio;
 }
 
-void Controller::initialize() throw (std::exception)
+void Controller::initialize()
 {
 }
 

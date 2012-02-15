@@ -19,7 +19,7 @@ Worker::~Worker()
 	thread = NULL;
 }
 
-void Worker::init( WorkQue& wqueu )  throw (std::exception)
+void Worker::init( WorkQue& wqueu )
 {
 	if( thread == NULL )
 	{

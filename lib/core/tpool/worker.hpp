@@ -4,7 +4,6 @@
 
 #include <tque>
 #include <thread>
-#include <exception>
 #include <work>
 
 namespace bolt
@@ -23,7 +22,7 @@ public:
 	Worker();
 	~Worker();
 
-	void init( WorkQue& wqueu ) throw (std::exception);
+	void init( WorkQue& wqueu );
 
 	void operator()();
 

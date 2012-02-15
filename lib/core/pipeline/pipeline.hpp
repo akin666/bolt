@@ -9,7 +9,6 @@
 #define PIPELINE_HPP_
 
 #include <common>
-#include <exception>
 #include <thread>
 #include <tque>
 #include "tools/controllernode.hpp"
@@ -53,15 +52,15 @@ public:
 	// but, if you detach, you must make sure that the Controller* lives, at least till the run cycle finishes.
 	// IF you delete the controller before that.. No guarantees what happens.
 	// probably the safest pattern is to a) detach controller b) kill the controller in the next cycle.
-	void attach( Controller *controller ) throw (std::exception);
-	void detach( Controller *controller ) throw (std::exception);
+	void attach( Controller *controller );
+	void detach( Controller *controller );
 
 	void clear();
 
 	void removeEntity( Entity& entity );
 
 	// Run is the heart of the pipeline, it is essentially the main-loop.
-	void run() throw (std::exception);
+	void run();
 };
 
 } /* namespace bolt */

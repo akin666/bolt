@@ -28,7 +28,7 @@ public:
 	void attach( Controller *other );
 	void detach( Controller *other );
 
-	virtual void initialize() throw (std::exception);
+	virtual void initialize();
 
 	virtual void getDependencies( StringSet& dep );
 

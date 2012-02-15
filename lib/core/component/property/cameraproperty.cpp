@@ -23,7 +23,7 @@ CameraProperty::~CameraProperty()
 {
 }
 
-void CameraProperty::initialize() throw (std::exception)
+void CameraProperty::initialize()
 {
 }
 

@@ -20,7 +20,7 @@ NameProperty::~NameProperty()
 {
 }
 
-void NameProperty::initialize() throw (std::exception)
+void NameProperty::initialize()
 {
 }
 

@@ -41,7 +41,7 @@ void GraphicsBackgroundController::getDependencies(bolt::StringSet & dep)
 	dep = dependencies;
 }
 
-void GraphicsBackgroundController::initialize() throw (std::exception)
+void GraphicsBackgroundController::initialize()
 {
 	float screen_vertices[12] = {
 			-1.0f,	-1.0f,	0.0f,

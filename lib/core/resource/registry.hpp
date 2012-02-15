@@ -16,7 +16,6 @@ MeshAnimation *currentMuumi = getSingleton<Handle<MeshAnimation> >()->objectFor(
 #include "dictionary.hpp"
 #include <singleton>
 #include <thread>
-#include <exception>
 #include <stdexcept>
 #include <merge>
 
@@ -54,7 +53,7 @@ public:
 		}
 	}
 	
-	HType *getObject( uint key ) throw (std::exception)
+	HType *getObject( uint key )
 	{
 		std::lock_guard<std::mutex> lock(handles);
 
@@ -129,7 +128,7 @@ public:
 	}
 
 	// Convenience functions.
-	HType *getObject( std::string alias ) throw (std::exception)
+	HType *getObject( std::string alias )
 	{
 		uint key = getSingleton<Dictionary>()->resolveKey( alias );
 		return getObject( key );
@@ -172,42 +171,42 @@ public:
 
 // Sugar coating.
 template <class CType>
-void setObject( std::string alias , CType *object ) throw (std::exception)
+void setObject( std::string alias , CType *object )
 {
 	getSingleton<Registry<CType> >()->setObjectFor( alias , object );
 }
 template <class CType>
-void setObject( uint key , CType *object ) throw (std::exception)
+void setObject( uint key , CType *object )
 {
 	getSingleton<Registry<CType> >()->setObject( key , object );
 }
 template <class CType>
-CType *getObject( std::string alias ) throw (std::exception)
+CType *getObject( std::string alias )
 {
 	return getSingleton<Registry<CType> >()->getObject( alias );
 }
 template <class CType>
-CType *getObject( uint key ) throw (std::exception)
+CType *getObject( uint key )
 {
 	return getSingleton<Registry<CType> >()->objectFor( key );
 }
 template <class CType>
-bool hasObject( std::string alias ) throw (std::exception)
+bool hasObject( std::string alias )
 {
 	return getSingleton<Registry<CType> >()->hasObject( alias );
 }
 template <class CType>
-bool hasObject( uint key ) throw (std::exception)
+bool hasObject( uint key )
 {
 	return getSingleton<Registry<CType> >()->hasObject( key );
 }
 template <class CType>
-CType *resetObject( std::string alias ) throw (std::exception)
+CType *resetObject( std::string alias )
 {
 	return getSingleton<Registry<CType> >()->resetObject( alias );
 }
 template <class CType>
-CType *resetObject( uint key ) throw (std::exception)
+CType *resetObject( uint key )
 {
 	return getSingleton<Registry<CType> >()->resetObject( key );
 }

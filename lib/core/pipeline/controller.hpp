@@ -16,7 +16,6 @@
 #ifndef CONTROLLER_HPP_
 #define CONTROLLER_HPP_
 
-#include <exception>
 #include <set>
 #include <string>
 #include <common>
@@ -55,7 +54,7 @@ public:
 	virtual ~Controller();
 
 	// Create or initialize also the components Property'es
-	virtual void initialize() throw (std::exception);
+	virtual void initialize();
 
 	// Figure out what controllers should be before this controller.
 	virtual void getDependencies( StringSet& dep );

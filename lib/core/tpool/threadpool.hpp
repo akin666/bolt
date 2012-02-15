@@ -4,7 +4,6 @@
 
 #include <work>
 #include "worker.hpp"
-#include <exception>
 
 namespace bolt
 {
@@ -21,7 +20,7 @@ public:
 
 	static unsigned int getHardwareThreadCount();
 
-	void initialize( unsigned int count ) throw (std::exception);
+	void initialize( unsigned int count );
 
 	void schedule( Work *work );
 

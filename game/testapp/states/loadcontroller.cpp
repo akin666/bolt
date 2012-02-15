@@ -34,7 +34,7 @@ LoadController::~LoadController()
 {
 }
 
-void LoadController::initialize() throw (std::exception)
+void LoadController::initialize()
 {
 	bolt::resource::link( "config" , "resources/config/default.cfg" );
 	bolt::resource::link( "genericVertexShader" , "resources/shader/test/blank.vs" );

@@ -81,7 +81,7 @@ bool OpenALAudio::createDevice()
 	return true;
 }
 
-void OpenALAudio::initialize() throw (std::exception)
+void OpenALAudio::initialize()
 {
 	if( device != NULL && context != NULL )
 	{
@@ -140,7 +140,7 @@ void OpenALAudio::initialize() throw (std::exception)
 	AL_TEST_ERROR("end");
 }
 
-void OpenALAudio::suspend() throw (std::exception)
+void OpenALAudio::suspend()
 {
 	if( device == NULL || context == NULL )
 	{
@@ -160,7 +160,7 @@ void OpenALAudio::suspend() throw (std::exception)
 	killContext();
 }
 
-void OpenALAudio::resume() throw (std::exception)
+void OpenALAudio::resume()
 {
 
 	if( contextResumeSupported )

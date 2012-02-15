@@ -116,7 +116,7 @@ int FileConfig::get( std::string key , int def )
 	return def;
 }
 
-void FileConfig::load( std::string path ) throw (std::exception)
+void FileConfig::load( std::string path )
 {
 	/*
 	 * Load infested configuration that can contain comments etc. extra.
@@ -171,7 +171,7 @@ void FileConfig::load( std::string path ) throw (std::exception)
 	}
 }
 
-void FileConfig::save( std::string path ) throw (std::exception)
+void FileConfig::save( std::string path )
 {
 	/*
 	 * Save to pure configuration, no comments etc.

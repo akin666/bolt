@@ -196,7 +196,7 @@ void GLFWVideo::setCursorVisible( bool val )
 	}
 }
 
-void GLFWVideo::initialize() throw (std::exception)
+void GLFWVideo::initialize()
 {
 	if (glfwInit() != GL_TRUE)
 	{
@@ -263,7 +263,7 @@ std::string GLFWVideo::getTitle()
 	return title;
 }
 
-void GLFWVideo::apply(const VideoMode & mode) throw (std::exception)
+void GLFWVideo::apply(const VideoMode & mode)
 {
 	rendertarget.getVideoMode() = mode;
 }

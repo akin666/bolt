@@ -17,7 +17,7 @@ InputController::~InputController()
 {
 }
 
-void InputController::initialize() throw (std::exception)
+void InputController::initialize()
 {
 	LOG_OUT << "Input init" << std::endl;
 }

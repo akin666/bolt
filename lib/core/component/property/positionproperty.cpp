@@ -20,7 +20,7 @@ PositionProperty::~PositionProperty()
 {
 }
 
-void PositionProperty::initialize() throw (std::exception)
+void PositionProperty::initialize()
 {
 }
 

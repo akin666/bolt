@@ -14,7 +14,6 @@
 #ifndef MAIN_HPP_
 #define MAIN_HPP_
 
-#include <exception>
 #include <singleton>
 #include <application/application.hpp>
 #include "audio.hpp"
@@ -52,7 +51,7 @@ protected:
 public:
 	Main();
 	~Main();
-	void initialize( int argc , char *argv[] ) throw (std::exception);
+	void initialize( int argc , char *argv[] );
 	int run();
 };
 
@@ -67,7 +66,7 @@ Main< ApplicationPolicy, VideoPolicy, AudioPolicy , LogPolicy , ResourceLoader ,
 }
 
 template < class ApplicationPolicy , class VideoPolicy , class AudioPolicy , class LogPolicy , class ResourceLoader , class ResourceDictionary >
-void Main< ApplicationPolicy, VideoPolicy, AudioPolicy , LogPolicy , ResourceLoader , ResourceDictionary >::initialize( int argc , char *argv[] ) throw (std::exception)
+void Main< ApplicationPolicy, VideoPolicy, AudioPolicy , LogPolicy , ResourceLoader , ResourceDictionary >::initialize( int argc , char *argv[] )
 {
 	application.processArgs( argc , argv );
 

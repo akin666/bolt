@@ -26,7 +26,7 @@ FenceController::~FenceController()
 {
 }
 
-void FenceController::initialize() throw (std::exception)
+void FenceController::initialize()
 {
 }
 

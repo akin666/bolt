@@ -20,7 +20,7 @@ ThreadPool::~ThreadPool()
 {
 }
 
-void ThreadPool::initialize( unsigned int count ) throw (std::exception)
+void ThreadPool::initialize( unsigned int count )
 {
 	if( workers == NULL )
 	{

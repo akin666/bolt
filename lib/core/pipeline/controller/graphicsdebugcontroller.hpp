@@ -34,7 +34,7 @@ public:
 	GraphicsDebugController( std::string name , bolt::StringSet& dependencies );
 	virtual ~GraphicsDebugController();
 
-	virtual void initialize() throw (std::exception);
+	virtual void initialize();
 
 	virtual void getDependencies( bolt::StringSet& dep );
 

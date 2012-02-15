@@ -18,7 +18,7 @@ public:
 	InputController();
 	virtual ~InputController();
 
-	virtual void initialize() throw (std::exception);
+	virtual void initialize();
 
 	virtual void getDependencies( bolt::StringSet& dep );
 

@@ -24,7 +24,7 @@ public:
 	LoadController();
 	virtual ~LoadController();
 
-	virtual void initialize() throw (std::exception);
+	virtual void initialize();
 	virtual void start( bolt::ControllerNode& node );
 };
 

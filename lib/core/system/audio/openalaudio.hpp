@@ -31,9 +31,9 @@ public:
 	OpenALAudio();
 	virtual ~OpenALAudio();
 
-	virtual void initialize() throw (std::exception);
-	virtual void suspend() throw (std::exception);
-	virtual void resume() throw (std::exception);
+	virtual void initialize();
+	virtual void suspend();
+	virtual void resume();
 
 	virtual void setVolume( float vol );
 	virtual float getVolume();

@@ -40,7 +40,7 @@ public:
 
 	virtual void getDependencies( bolt::StringSet& dep );
 
-	virtual void initialize() throw (std::exception);
+	virtual void initialize();
 	virtual void start( bolt::ControllerNode& node );
 };
 

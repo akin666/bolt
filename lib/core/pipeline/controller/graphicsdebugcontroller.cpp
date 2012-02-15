@@ -75,7 +75,7 @@ GraphicsDebugController::~GraphicsDebugController()
 {
 }
 
-void GraphicsDebugController::initialize() throw (std::exception)
+void GraphicsDebugController::initialize()
 {
 	// already initialized?
 	if( initialized )

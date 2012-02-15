@@ -26,7 +26,7 @@ public:
 	// Workers initialized already.
 	// Set video mode & audio mode in initialize/process args.
 	void processArgs( int argc , char *argv[] );
-	virtual void initialize() throw (std::exception);
+	virtual void initialize();
 
 	// Commands.
 	virtual void suspend(); // suspend the application, going into background.

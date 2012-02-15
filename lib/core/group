@@ -12,7 +12,6 @@
 #include <thread>
 #include <list>
 #include <iterator>
-#include <exception>
 #include <stdexcept>
 
 namespace bolt
@@ -26,7 +25,7 @@ protected:
 	static std::mutex mutex;
 	static GroupList group;
 public:
-	static void add( CType *ct ) throw (std::exception)
+	static void add( CType *ct ) 
 	{
 		std::lock_guard<std::mutex> lock(mutex);
 		group.push_back( ct );

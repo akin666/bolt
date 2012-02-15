@@ -11,7 +11,6 @@
 #include "config.hpp"
 
 #include <map>
-#include <exception>
 
 namespace bolt
 {
@@ -27,8 +26,8 @@ public:
 	FileConfig( std::string path );
 	virtual ~FileConfig();
 
-	void load( std::string path ) throw (std::exception);
-	void save( std::string path ) throw (std::exception);
+	void load( std::string path );
+	void save( std::string path );
 
 	virtual void set( std::string key , std::string value );
 	virtual void remove( std::string key );

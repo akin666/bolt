@@ -38,7 +38,7 @@ TestApplicationGame::~TestApplicationGame()
 {
 }
 
-void TestApplicationGame::initialize() throw (std::exception)
+void TestApplicationGame::initialize()
 {
 	try
 	{

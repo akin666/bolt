@@ -10,7 +10,6 @@
 
 #include <iostream>
 #include <thread>
-#include <exception>
 #include <stdexcept>
 
 namespace bolt
@@ -78,25 +77,25 @@ std::mutex Singleton<CType>::mutex;
 // setSingleton<MyClass>( new MyOtherClass );
 // unsetSingleton<MyClass>();
 template <class CType>
-CType *getSingleton() throw (std::exception)
+CType *getSingleton() 
 {
 	return Singleton<CType>::get();
 }
 
 template <class CType>
-CType *createSingleton() throw (std::exception)
+CType *createSingleton()
 {
 	return Singleton<CType>::create();
 }
 
 template <class CType>
-void setSingleton( CType *ct ) throw (std::exception)
+void setSingleton( CType *ct ) 
 {
 	Singleton<CType>::set( ct );
 }
 
 template <class CType>
-void unsetSingleton() throw (std::exception)
+void unsetSingleton() 
 {
 	Singleton<CType>::unset();
 }

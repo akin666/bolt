@@ -87,7 +87,7 @@ void Pipeline::addToRoot( ControllerNode *node )
 	}
 }
 
-void Pipeline::attach( Controller *controller ) throw (std::exception)
+void Pipeline::attach( Controller *controller )
 {
 	if( controller == NULL )
 	{
@@ -99,7 +99,7 @@ void Pipeline::attach( Controller *controller ) throw (std::exception)
 	controller->clear();
 }
 
-void Pipeline::detach( Controller *controller ) throw (std::exception)
+void Pipeline::detach( Controller *controller )
 {
 	if( controller == NULL )
 	{
@@ -110,7 +110,7 @@ void Pipeline::detach( Controller *controller ) throw (std::exception)
 	removeSet.insert( controller );
 }
 
-void Pipeline::run() throw (std::exception)
+void Pipeline::run()
 {
 	std::lock_guard<std::mutex> lock( nameMap );
 	if( roots.size() < 1 )

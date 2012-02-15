@@ -19,17 +19,17 @@ Audio::~Audio()
 {
 }
 
-void Audio::initialize() throw (std::exception)
+void Audio::initialize()
 {
 	throw std::runtime_error("default audio initialize!.");
 }
 
-void Audio::suspend() throw (std::exception)
+void Audio::suspend()
 {
 	throw std::runtime_error("default audio suspend!.");
 }
 
-void Audio::resume() throw (std::exception)
+void Audio::resume()
 {
 	throw std::runtime_error("default audio resume!.");
 }

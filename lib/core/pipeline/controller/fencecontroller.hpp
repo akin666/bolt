@@ -27,7 +27,7 @@ public:
 	FenceController( std::string fencename , bolt::StringSet& dependencies );
 	virtual ~FenceController();
 
-	virtual void initialize() throw (std::exception);
+	virtual void initialize();
 
 	virtual void getDependencies( bolt::StringSet& dep );
 

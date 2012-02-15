@@ -16,7 +16,6 @@
 #include <graphics/rendertarget.hpp>
 #include <vector>
 #include <string>
-#include <exception>
 
 namespace bolt
 {
@@ -42,12 +41,12 @@ public:
 	virtual void setMajorVersion( int v );
 	virtual void setMinorVersion( int v );
 
-	virtual void initialize() throw (std::exception);
+	virtual void initialize();
 
 	virtual void setTitle( std::string head );
 	virtual std::string getTitle();
 
-	virtual void apply( const VideoMode& mode ) throw (std::exception);
+	virtual void apply( const VideoMode& mode );
 
 	virtual void listVideoModes( std::vector<VideoMode>& modes ) const;
 

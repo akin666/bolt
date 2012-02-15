@@ -42,21 +42,21 @@ uint AudioResource::getBitsPerChannel()
 	return bitsPerChannel;
 }
 
-void AudioResource::seek(uint position) throw (std::exception)
+void AudioResource::seek(uint position)
 {
 }
 
-uint AudioResource::read(void *data, uint byteLength) throw (std::exception)
-{
-	return 0;
-}
-
-uint AudioResource::position() throw (std::exception)
+uint AudioResource::read(void *data, uint byteLength)
 {
 	return 0;
 }
 
-uint AudioResource::remaining() throw (std::exception)
+uint AudioResource::position()
+{
+	return 0;
+}
+
+uint AudioResource::remaining()
 {
 	return 0;
 }

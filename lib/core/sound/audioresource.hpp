@@ -20,7 +20,6 @@
 #define AUDIORESOURCE_HPP_
 
 #include <common>
-#include <exception>
 
 namespace bolt
 {
@@ -41,10 +40,10 @@ public:
 	uint getChannels();
 	uint getBitsPerChannel();
 
-	virtual void seek( uint position ) throw (std::exception);
-	virtual uint read( void *data , uint byteLength ) throw (std::exception);
-	virtual uint position() throw (std::exception);
-	virtual uint remaining() throw (std::exception);
+	virtual void seek( uint position );
+	virtual uint read( void *data , uint byteLength );
+	virtual uint position();
+	virtual uint remaining();
 };
 
 } /* namespace bolt */

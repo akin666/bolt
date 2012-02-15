@@ -26,7 +26,7 @@ public:
 	NameProperty();
 	virtual ~NameProperty();
 
-	virtual void initialize() throw (std::exception);
+	virtual void initialize();
 
 	virtual void attach( bolt::Entity& entity );
 	virtual void detach( bolt::Entity& entity );

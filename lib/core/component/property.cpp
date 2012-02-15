@@ -27,7 +27,7 @@ Property::~Property()
 {
 }
 
-void Property::initialize() throw (std::exception)
+void Property::initialize()
 {
 }
 

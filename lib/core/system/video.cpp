@@ -64,7 +64,7 @@ void Video::setMinorVersion(int v)
 {
 }
 
-void Video::initialize() throw (std::exception)
+void Video::initialize()
 {
 	throw std::runtime_error("Default video initializer.");
 }
@@ -78,7 +78,7 @@ std::string Video::getTitle()
 	return "";
 }
 
-void Video::apply( const VideoMode& mode ) throw (std::exception)
+void Video::apply( const VideoMode& mode )
 {
 	throw std::runtime_error("Default video apply.");
 }

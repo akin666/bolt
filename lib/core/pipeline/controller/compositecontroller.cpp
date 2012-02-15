@@ -49,7 +49,7 @@ void CompositeController::detach(Controller *other)
 	}
 }
 
-void CompositeController::initialize() throw (std::exception)
+void CompositeController::initialize()
 {
 	for( ControllerVector::iterator iter = controllers.begin() ; iter != controllers.end() ; ++iter )
 	{

@@ -21,7 +21,6 @@
 #ifndef COMPONENT_PROPERTY_HPP_
 #define COMPONENT_PROPERTY_HPP_
 
-#include <exception>
 #include <string>
 #include <common>
 #include <entity.hpp>
@@ -40,7 +39,7 @@ namespace bolt
 		Property( std::string name );
 		virtual ~Property();
 
-		virtual void initialize() throw (std::exception);
+		virtual void initialize();
 
 		std::string getName() const;
 		uint getId() const;
