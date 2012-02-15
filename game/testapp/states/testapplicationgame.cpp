@@ -22,6 +22,7 @@
 
 #include <component/property/cameraproperty.hpp>
 #include <graphics/rendertarget.hpp>
+#include <application/application.hpp>
 
 #include <cmath>
 
@@ -106,6 +107,7 @@ void TestApplicationGame::initialize()
 	times = 1500;
 
 	bolt::setSingleton<bolt::Mouse>( this );
+	bolt::setSingleton<bolt::OSInput>( this );
 
 	initialized = true;
 	right = false;
@@ -232,4 +234,9 @@ void TestApplicationGame::handleMouseWheel( float val )
 	mouse.push( e );
 }
 
+bool TestApplicationGame::handleClose()
+{
+	bolt::getSingleton<bolt::Application>()->exit();
 
+	return false; // proper shutdown..
+}

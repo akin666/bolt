@@ -10,6 +10,7 @@
 
 #include <pipeline/controller.hpp>
 #include <input/mouse.hpp>
+#include <input/osinput.hpp>
 #include <tque>
 
 namespace bolt
@@ -17,7 +18,7 @@ namespace bolt
 class ShaderProgram;
 }
 
-class TestApplicationGame: public bolt::Controller, public bolt::Mouse
+class TestApplicationGame: public bolt::Controller, public bolt::Mouse , public bolt::OSInput
 {
 public:
 	const static std::string KEY;
@@ -66,6 +67,9 @@ public:
 	virtual void handleMouseMove( float x , float y );
 	virtual void handleMouseButton( bolt::Button button , float state );
 	virtual void handleMouseWheel( float val );
+
+	// OSInput
+	virtual bool handleClose();
 };
 
 #endif /* TESTAPPLICATIONGAME_HPP_ */
