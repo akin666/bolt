@@ -96,7 +96,6 @@ void GraphicsLandController::start(bolt::ControllerNode & node)
 		GL_TEST_ERROR("start");
 
 		glEnable(GL_DEPTH_TEST);
-		glClear( GL_DEPTH_BUFFER_BIT );
 		// Accept fragment if it closer to the camera than the former one
 		glDepthFunc(GL_LESS);
 

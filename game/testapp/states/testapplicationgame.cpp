@@ -123,7 +123,7 @@ void TestApplicationGame::initialize()
 			-aspectRatio,
 			 aspectRatio,
 			1.0f,
-			40.0f
+			1024.0f
 			);
 
 	times = 1500;
