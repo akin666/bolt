@@ -19,6 +19,7 @@
 #include <graphics/shader/shaderprogram.hpp>
 #include <pipeline/controller/fencecontroller.hpp>
 #include <pipeline/controller/graphicsbackgroundcontroller.hpp>
+#include <pipeline/controller/graphicslandcontroller.hpp>
 
 #include <component/property/cameraproperty.hpp>
 #include <graphics/rendertarget.hpp>
@@ -54,6 +55,7 @@ void TestApplicationGame::initialize()
 
 	bolt::Pipeline *pipeline = bolt::getSingleton<bolt::Pipeline>();
 
+	// Boxes
 	bolt::StringSet depSet;
 	depSet.insert( bolt::FenceController::LOGIC );
 	depSet.insert( bolt::GraphicsBackgroundController::KEY );
@@ -75,6 +77,26 @@ void TestApplicationGame::initialize()
 	box2Data.point.x = 10.0f;
 	box2Data.point.y = 5.0f;
 	box2Data.point.z = 10.0f;
+
+
+
+
+	// Land
+	bolt::StringSet ldepSet;
+	ldepSet.insert( bolt::GraphicsDebugController::KEY );
+
+	bolt::GraphicsLandController *landRenderer = new bolt::GraphicsLandController( bolt::GraphicsLandController::KEY , ldepSet );
+	landRenderer->initialize();
+	pipeline->attach( landRenderer );
+
+	landRenderer->attach( land );
+
+	bolt::Position& landData = bolt::getSingleton<bolt::PositionProperty>()->get( land.getId() );
+
+	landData.point.x = 0.0f;
+	landData.point.y = -10.0f;
+	landData.point.z = 0.0f;
+
 
 
 
@@ -138,18 +160,16 @@ void TestApplicationGame::start( bolt::ControllerNode& node )
 				if( right )
 				{
 					// 2
-					box2Data.point.x -= event->x *0.05f;
-					box2Data.point.y -= event->y *0.05f;
+					cameraPositionData.point.x += event->x * 0.05f;
+					cameraPositionData.point.y += event->y * 0.05f;
 				}
 				if( left )
 				{
-					cameraPositionData.orientation = glm::gtc::quaternion::rotate( cameraPositionData.orientation , 1.0f , glm::vec3( event->x,event->y,0 ) );
+					cameraPositionData.orientation = glm::gtc::quaternion::rotate( cameraPositionData.orientation , 1.0f , glm::vec3( event->y,event->x,0 ) );
 				}
 				if( mid )
 				{
 					// 1
-					cameraPositionData.point.x += event->x * 0.05f;
-					cameraPositionData.point.y += event->y * 0.05f;
 				}
 
 				break;
@@ -187,7 +207,7 @@ void TestApplicationGame::start( bolt::ControllerNode& node )
 	box2Data.orientation = glm::gtc::quaternion::rotate( box2Data.orientation , -2.5f , glm::vec3( 0,1,0 ) );
 
 
-	LOG_OUT << "CamPos: " << cameraPositionData.point.z << std::endl;
+	LOG_OUT << "CamPos: x:" << cameraPositionData.point.x << " y:" << cameraPositionData.point.y << " z:" << cameraPositionData.point.z << std::endl;
 	LOG_OUT << "boxData p: " << boxData.point.z << std::endl;
 	LOG_OUT << "box2Data p: " << box2Data.point.z << std::endl;
 }

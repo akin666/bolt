@@ -29,6 +29,7 @@ protected:
 
 	bolt::Entity box;
 	bolt::Entity box2;
+	bolt::Entity land;
 	bolt::Entity camera;
 
 	int times;
