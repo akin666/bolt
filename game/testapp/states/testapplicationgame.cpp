@@ -139,11 +139,14 @@ void TestApplicationGame::initialize()
 
 void TestApplicationGame::start( bolt::ControllerNode& node )
 {
+	/*
 	if( --times <= 0 )
 	{
 		LOG_OUT << "TestApplicationGame exit" << std::endl;
 		bolt::getSingleton<bolt::Application>()->exit();
 	}
+
+	*/
 
 	bolt::Position& boxData = bolt::getSingleton<bolt::PositionProperty>()->get( box.getId() );
 	bolt::Position& box2Data = bolt::getSingleton<bolt::PositionProperty>()->get( box2.getId() );
