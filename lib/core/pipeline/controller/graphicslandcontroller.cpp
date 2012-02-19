@@ -117,10 +117,13 @@ void GraphicsLandController::start(bolt::ControllerNode & node)
 	    bolt::Uniform *umodel = program->getUniform( "model" );
 	    bolt::Uniform *ulense = program->getUniform( "lense" );
 
+		GL_TEST_ERROR("tt");
 	    ulense->set( tMatrix );
+		GL_TEST_ERROR("tt2");
 
 		vertexBuffer.bind( bolt::Graphics::arrayBuffer );
 		glVertexPointer( 3, GL_FLOAT , 3*sizeof(float) , 0 );
+		GL_TEST_ERROR("tt3");
 
 	    indexBuffer.bind( bolt::Graphics::elementArrayBuffer );
 

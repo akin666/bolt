@@ -20,6 +20,7 @@ protected:
 
 	bool loadComplete;
 	bool loadBGComplete;
+	bool loadDebugComplete;
 public:
 	LoadController();
 	virtual ~LoadController();

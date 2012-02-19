@@ -116,7 +116,7 @@ void GraphicsDebugController::detach(bolt::Entity& entity)
 void GraphicsDebugController::start(bolt::ControllerNode& node)
 {
 	// do the rendering here.
-	if( entities.size() > 0 && bolt::resource::hasObject<bolt::ShaderProgram>( "GenericShader" ) )
+	if( entities.size() > 0 && bolt::resource::hasObject<bolt::ShaderProgram>( "DebugShader" ) )
 	{
 		GL_TEST_ERROR("start");
 
@@ -129,7 +129,7 @@ void GraphicsDebugController::start(bolt::ControllerNode& node)
 	    glEnableClientState( GL_INDEX_ARRAY );
 
 	    // Bind program & set node there..
-	    bolt::ShaderProgram *program = bolt::resource::getObject<bolt::ShaderProgram>( "GenericShader" );
+	    bolt::ShaderProgram *program = bolt::resource::getObject<bolt::ShaderProgram>( "DebugShader" );
 
 	    // get current camera data.
 		bolt::Entity currentCamera = bolt::createSingleton<bolt::CameraProperty>()->getCurrent();

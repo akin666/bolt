@@ -88,7 +88,7 @@ void Main< ApplicationPolicy, VideoPolicy, AudioPolicy , LogPolicy , ResourceLoa
 	setSingleton<Pipeline>( &pipeline );
 
 	// plenty of slaves to do my bidding.
-	int workers = ThreadPool::getHardwareThreadCount() * 2 + 1.0;
+	int workers = ThreadPool::getHardwareThreadCount() + 1.0;
 
 	// Workers initialize first, so, that everyone, and everything can use them, right from the start.
 	pool.initialize( workers );

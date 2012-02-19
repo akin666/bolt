@@ -37,26 +37,33 @@ LoadController::~LoadController()
 void LoadController::initialize()
 {
 	bolt::resource::link( "config" , "resources/config/default.cfg" );
-	bolt::resource::link( "genericVertexShader" , "resources/shader/test/blank.vs" );
-	bolt::resource::link( "genericFragmentShader" , "resources/shader/test/blank.fs" );
+
+	initialized = true;
 
 	// create shaderprogram registry.
 	bolt::createSingleton<bolt::resource::Registry<bolt::ShaderProgram> >();
 
 	// instruct to load
 	bolt::resource::load( "config" );
+
+	bolt::resource::link( "genericVertexShader" , "resources/shader/test/blank.vs" );
+	bolt::resource::link( "genericFragmentShader" , "resources/shader/test/blank.fs" );
 	bolt::resource::load( "genericVertexShader" );
 	bolt::resource::load( "genericFragmentShader" );
-
-	initialized = true;
 	loadComplete = false;
+
+	// Load debugcube shaders
+	bolt::resource::link( "debugVertexShader" , "resources/shader/debug/blank.vs" );
+	bolt::resource::link( "debugFragmentShader" , "resources/shader/debug/blank.fs" );
+	bolt::resource::load( "debugVertexShader" );
+	bolt::resource::load( "debugFragmentShader" );
+	loadDebugComplete = false;
 
 	// Load the BGRenderer & shaders to it..
 	bolt::resource::link( "backgroundVS" , "resources/shader/background/screen.vs" );
 	bolt::resource::link( "backgroundFS" , "resources/shader/background/starfield.fs" );
 	bolt::resource::load( "backgroundVS" );
 	bolt::resource::load( "backgroundFS" );
-
 	loadBGComplete = false;
 }
 
@@ -92,6 +99,44 @@ void LoadController::start( bolt::ControllerNode& node )
 				loadComplete = true;
 
 				LOG_OUT << "Shader program is loaded! " << std::endl;
+			}
+			else
+			{
+				delete program;
+			}
+		}
+	}
+
+	if( !loadDebugComplete )
+	{
+		if( bolt::resource::hasObject<bolt::Shader>( "debugVertexShader" ) &&
+			bolt::resource::hasObject<bolt::Shader>( "debugFragmentShader" )  )
+		{
+			// It has both Shaders.. Create em, Link em and create program!
+			bolt::ShaderProgram *program = new bolt::ShaderProgram;
+
+			bolt::Shader *vertex = bolt::resource::getObject<bolt::Shader>( "debugVertexShader" );
+			bolt::Shader *fragment = bolt::resource::getObject<bolt::Shader>( "debugFragmentShader" );
+
+			vertex->load();
+			fragment->load();
+
+			vertex->compile();
+			fragment->compile();
+
+			program->attach( vertex );
+			program->attach( fragment );
+
+			program->link();
+
+			if( program->linked() )
+			{
+				bolt::resource::link( "DebugShader" );
+				bolt::resource::setObject<bolt::ShaderProgram>( "DebugShader" , program );
+
+				loadDebugComplete = true;
+
+				LOG_OUT << "DebugShader program is loaded! " << std::endl;
 			}
 			else
 			{
@@ -163,7 +208,7 @@ void LoadController::start( bolt::ControllerNode& node )
 	}
 	*/
 
-	if( loadComplete && loadBGComplete )
+	if( loadComplete && loadBGComplete && loadDebugComplete )
 	{
 		LOG_OUT << "Load phase Completed." << std::endl;
 		// TestApplication!

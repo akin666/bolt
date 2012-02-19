@@ -7,12 +7,11 @@ in vec3 vertex;
 
 void main(void)
 {
-	vec3 normalizedColor = (vertex + 1.0) / 2.0;
-	
-    //vec4 color = vec4( smoothstep( 1.0 , 0.0 , normalizedColor ) , 1.0 );
+	color = vec4( 0.0 );
     
-    vec4 color = vec4( normalizedColor , 1.0 );
-    
-    //Blend the original color with the averaged pixels
-    gl_FragColor = color;
+	if( mod( vertex.x , 16.0 ) > 15.0 || mod( vertex.z , 16.0 ) > 15.0 ) 
+	{
+		color = vec4( 1.0 );
+//		color = vec4( 1.0 , 1.0 , 1.0 , 1.0 );
+	}
 }
