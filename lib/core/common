@@ -8,53 +8,110 @@
 #ifndef BOLT_COMMON_H_
 #define BOLT_COMMON_H_
 
+#include <glm/glm>
+#include <glm/ext.hpp>
+
 #define DELTA 0.0001f
 #define PI 3.141593f
 #define PI2 6.283185f
 #define DEG2RAD 0.017453292519943
+#define RAD2DEG 57.295779513082320
  // PI/360.0f =
 #define PI_OVER_360 0.0087266462599716478846184538424431
 
 namespace bolt
 {
-    typedef unsigned int uint;
+	typedef unsigned char 	uchar;
+	typedef signed char 	schar;
+	typedef unsigned int 	uint;
+	typedef signed int 		sint;
+	typedef unsigned short 	ushort;
+	typedef signed short 	sshort;
     typedef float vec;
 
-    typedef unsigned int UNICODE;
-    typedef unsigned int UTF32;
-    typedef unsigned short UNICODE16;
-    typedef unsigned short UTF16;
-    typedef unsigned char UTF8;
-    typedef unsigned int Time;
-    typedef unsigned int BufferIndex;
-    typedef unsigned int MicroSeconds;
-    typedef unsigned int Seconds;
+    typedef unsigned int 	UNICODE;
+    typedef unsigned int 	UTF32;
+    typedef unsigned short 	UNICODE16;
+    typedef unsigned short 	UTF16;
+    typedef unsigned char 	UTF8;
+    typedef unsigned int 	Time;
+    typedef unsigned int 	BufferIndex;
+    typedef unsigned int 	MicroSeconds;
+    typedef unsigned int 	MilliSeconds;
+    typedef unsigned int 	Seconds;
+    typedef unsigned int 	Button;
 
+    enum Common
+    {
+    	NONE = 0,
+    	FALSE = 0,
+    	FAIL = 0,
+    	TRUE = 1,
+    };
+    
 	enum ColorMode
 	{
-		RGB = 1,
-		RGBA = 2,
-		ARGB = 3,
-		ALPHA = 4,
+		RGB = 		1,
+		RGBA = 		2,
+		ARGB = 		3,
+		ALPHA = 	4,
 		LUMINANCE = 5,
 		INTENSITY = 6,
-		RGBA12 = 7,
-		RGBA16 = 8,
-		RGBA32 = 9
+		RGBA12 = 	7,
+		RGBA16 = 	8,
+		RGBA32 = 	9
 	};
 
-	enum Button
+	enum Direction
 	{
-		LEFT,
-		RIGHT,
-		MIDDLE,
-		ADDON_1,
-		ADDON_2,
-		ADDON_3,
-		ADDON_4,
-		ADDON_5,
-		ADDON_6,
-		ADDON_LAST
+		LEFT =		0x0001,
+		RIGHT =		0x0002,
+		TOP =		0x0004,
+		BOTTOM =	0x0008,
+		MIDDLE =	0x0010,
+		ADDON_1 =	0x0020,
+		ADDON_2 =	0x0040,
+		ADDON_3 =	0x0080,
+		ADDON_4 =	0x0100,
+		ADDON_5 =	0x0200,
+		ADDON_6 =	0x0400,
+	};
+
+	enum SurfaceType {
+		POINT =			0,
+		LINE =			1,
+		LINESTRIP =		2,
+		TRIANGLE =		3,
+		TRIANGLESTRIP =	4,
+		QUAD =			5,
+		QUADSTRIP =		6,
+		TRIANGLEFAN =	7,
+		POLYGON =		8,
+		UNKNOWN = 		9,
+	};
+
+	enum ContentType {
+		VertexArray2D = 0,
+		VertexArray3D = 1,
+		VertexArray4D = 2,
+		TextureCoordinateArray1D = 3,
+		TextureCoordinateArray2D = 4,
+		TextureCoordinateArray3D = 5,
+		NormalArray = 6,
+		ColorArray1D = 7,
+		ColorArray3D = 8,
+		ColorArray4D = 9,
+		IndexArray = 10,
+	};
+
+	enum DataType {
+		Float16 	= 0,
+		Float32 	= 1,
+		Float64 	= 2,
+		int8 		= 3,
+		int16 		= 4,
+		int32 		= 5,
+		int64 		= 6,
 	};
 }
 

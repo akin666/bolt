@@ -27,9 +27,9 @@
 #define min(a,b) (a)<(b)?(a):(b)
 
 	Atlas::Atlas()
-	: padding( 0 ),
-	  dimensionX( 0 ),
+	: dimensionX( 0 ),
 	  dimensionY( 0 ),
+	  padding( 0 ),
 	  init(false)
 	{
 	}
@@ -191,8 +191,6 @@
 
 	bool Atlas::proxyRequest( const int req_width , const int req_height )
 	{
-		int position_x , position_y;
-
 		int y;
 		int best_height = INT_MAX;
 		int best_width = INT_MAX;
@@ -212,8 +210,8 @@
 					best_height = y + req_height;
 					best_width = iter->width;
 
-					position_x = iter->x;
-					position_y = y;
+//					position_x = iter->x;
+//					position_y = y;
 
 					tmp = iter;
 				}

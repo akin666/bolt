@@ -51,7 +51,7 @@ protected:
 		float state;
 		bolt::Button button;
 
-		MouseEvent():x(0),y(0),wheel(0),state(0),button(bolt::ADDON_LAST){}
+		MouseEvent():x(0),y(0),wheel(0),state(0),button(bolt::NONE){}
 	};
 
 	bolt::TQue<MouseEvent*> mouse;
